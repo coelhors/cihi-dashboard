@@ -30,7 +30,7 @@ The interactive visualizations guide users through a comprehensive analysis, fro
 
 ```
 cihi-mental-health-dashboard/
-├── 📄 app.py                          # Main Dash application (multi-page with working provincial chart)
+├── 📄 app.py                          # Main application entry point (modular, clean)
 ├── 📄 requirements.txt                # Python dependencies (dash, plotly, pandas)
 ├── 📄 README.md                       # Project documentation (this file)
 ├── 📄 dashboard_overview.md           # Detailed visualization specifications
@@ -40,8 +40,20 @@ cihi-mental-health-dashboard/
 │   └── 📄 style.css                  # Basic CSS styling for dashboard
 ├── 📂 data/                           # Raw data files (JSON format)
 │   └── 📄 table_03.json              # Provincial hospitalization data (2018-2024)
-├── 📂 components/                     # Dashboard visualization components - empty
-├── 📂 utils/                          # Helper functions and data processing - empty
+├── 📂 utils/                          # Utility functions and configuration
+│   ├── 📄 __init__.py                # Package initialization
+│   ├── 📄 config.py                  # Colors, styles, constants, and configuration
+│   ├── 📄 data_loader.py             # Data loading and processing functions
+│   └── 📄 chart_helpers.py           # Chart creation and visualization functions
+├── 📂 components/                     # UI components and page layouts
+│   ├── 📄 __init__.py                # Package initialization
+│   ├── 📄 sidebar.py                 # Navigation sidebar component
+│   └── 📂 pages/                     # Individual page modules
+│       ├── 📄 __init__.py            # Package initialization
+│       ├── 📄 provincial_overview.py # Provincial trends page (with working chart)
+│       ├── 📄 demographics.py        # Demographics analysis page (placeholder)
+│       ├── 📄 health_equity.py       # Health equity analysis page (placeholder)
+│       └── 📄 clinical_patterns.py   # Clinical patterns page (placeholder)
 └── 📂 docs/                           # Documentation and methodology - empty
 ```
 
