@@ -79,17 +79,11 @@ def get_default_provinces(df):
     if df.empty:
         return ['none']
     
-    # Prefer Canada, Ontario, Alberta if available
-    preferred = ['Canada', 'Ontario', 'Alberta']
+    # Default to only Alberta
     available_provinces = df['Province'].unique()
     
-    defaults = []
-    for prov in preferred:
-        if prov in available_provinces:
-            defaults.append(prov)
-    
-    # If none of the preferred are available, use first 3
-    if not defaults:
-        defaults = list(available_provinces)[:3]
-    
-    return defaults
+    if 'Alberta' in available_provinces:
+        return ['Alberta']
+    else:
+        # If Alberta not available, use first province
+        return [list(available_provinces)[0]]

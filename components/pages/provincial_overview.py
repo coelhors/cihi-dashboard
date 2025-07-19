@@ -13,9 +13,6 @@ def create_layout(table3_df):
     return html.Div([
         html.H2("📊 Provincial Overview", style={'color': COLORS['primary'], 'marginBottom': '30px'}),
         
-        html.P("Explore mental health hospitalization trends across Canadian provinces and territories.", 
-               style={'fontSize': '18px', 'marginBottom': '30px'}),
-        
         # Visual Element 1: Provincial Trends
         html.Div([
             html.H3("Provincial Hospitalization Trends"),
