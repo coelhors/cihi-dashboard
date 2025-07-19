@@ -16,7 +16,7 @@ The interactive visualizations guide users through a comprehensive analysis, fro
 
 ### 🏠 Multi-Page Navigation
 - **Provincial Overview** - Interactive provincial trends and comparison charts
-- **Demographics** - Age and gender analysis (placeholder)
+- **Demographics** - Age and gender analysis with interactive year selection
 - **Health Equity** - Urban/rural and income disparities (placeholder)
 - **Clinical Patterns** - Diagnostic pattern analysis (placeholder)
 
@@ -44,7 +44,13 @@ The interactive visualizations guide users through a comprehensive analysis, fro
 - **Visual Emphasis** - Alberta slice highlighted with pull-out effect
 - **Rich Tooltips** - Province details with cases, rates, and percentages
 - **Colorblind-friendly** - Distinct colors for all provinces/territories
-- **Excludes Canada Total** - Shows only provincial/territorial breakdowns
+#### **Visual Element 4: Age and Gender Demographics**
+- **Interactive grouped bar chart** showing hospitalization rates by age and gender
+- **Year Selection** - Dropdown to explore patterns across 2018-2024
+- **Display Modes** - Switch between absolute rates and female-to-male ratios
+- **Age Progression** - Clear visualization of increasing rates from childhood to adolescence
+- **Gender Differences** - Side-by-side comparison of female (pink) vs male (blue) rates
+- **Streamlined Controls** - Simplified interface focusing on essential features
 
 ## 📁 Project Structure
 
@@ -60,7 +66,8 @@ cihi-dashboard/
 │   └── 📄 style.css                  # Basic CSS styling for dashboard
 ├── 📂 data/                           # Raw data files (JSON format)
 │   ├── 📄 table_03.json              # Provincial mental health hospitalization data (2018-2024)
-│   └── 📄 table_04.json              # Provincial other conditions hospitalization data (2018-2024)
+│   ├── 📄 table_04.json              # Provincial other conditions hospitalization data (2018-2024)
+│   └── 📄 table_10.json              # Age and gender demographics data (2018-2024)
 ├── 📂 utils/                          # Utility functions and configuration
 │   ├── 📄 __init__.py                # Package initialization
 │   ├── 📄 config.py                  # Colors, styles, constants, and configuration
@@ -72,7 +79,7 @@ cihi-dashboard/
 │   └── 📂 pages/                     # Individual page modules
 │       ├── 📄 __init__.py            # Package initialization
 │       ├── 📄 provincial_overview.py # Provincial trends and comparison charts (3 working visualizations)
-│       ├── 📄 demographics.py        # Demographics analysis page (placeholder)
+│       ├── 📄 demographics.py        # Age and gender demographics analysis (1 working visualization)
 │       ├── 📄 health_equity.py       # Health equity analysis page (placeholder)
 │       └── 📄 clinical_patterns.py   # Clinical patterns page (placeholder)
 └── 📂 docs/                           # Documentation and methodology - empty
