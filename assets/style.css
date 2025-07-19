@@ -1,0 +1,25 @@
+/* CIHI Mental Health Dashboard - Minimal Styles */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+}
+
+/* Basic styling for better appearance */
+h1 {
+    color: #2E86AB;
+}
+
+h3 {
+    color: #333;
+}
+
+/* Simple card styling */
+div {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 10px 0;
+}
