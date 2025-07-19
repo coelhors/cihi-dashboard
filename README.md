@@ -40,7 +40,7 @@ The interactive visualizations guide users through a comprehensive analysis, fro
 ## 📁 Project Structure
 
 ```
-cihi-mental-health-dashboard/
+cihi-dashboard/
 ├── 📄 app.py                          # Main application entry point (modular, clean)
 ├── 📄 requirements.txt                # Python dependencies (dash, plotly, pandas)
 ├── 📄 README.md                       # Project documentation (this file)
