@@ -1,0 +1,223 @@
+{
+  "metadata": {
+    "title": "Children and youth hospitalized for mental disorders, by diagnosis, sex and age group, Canada, 2021–2022",
+    "description": "Hospitalizations for mental disorders among children and youth aged 5-24, stratified by diagnosis category, sex, and age group",
+    "fiscal_year": "2021-2022",
+    "source": "CIHI - Canadian Institute for Health Information",
+    "age_groups": ["5-9 years", "10-14 years", "15-17 years", "18-24 years", "5-24 years"],
+    "diagnosis_categories": [
+      "Neurocognitive disorders",
+      "Substance-related disorders", 
+      "Schizophrenic and psychotic disorders",
+      "Mood disorders",
+      "Anxiety disorders",
+      "Personality disorders",
+      "Other disorders"
+    ],
+    "metrics": ["Rate", "95% CI"],
+    "notes": {
+      "rate_definition": "Rate: Crude rate per 100,000 children and youth age 5 to 24",
+      "confidence_interval": "95% CI: 95% confidence interval",
+      "covid_context": "2021-2022 represents the second year of COVID-19 pandemic, showing potential recovery and surge patterns",
+      "selection_criteria": "Inpatient hospitalizations were selected if the most responsible diagnosis (MRDx) was defined as mental health–related based on a list of ICD-10-CA codes (refer to the Methodology tab)",
+      "diagnosis_basis": "Diagnosis category is based on most responsible diagnosis",
+      "counting_method": "Children and youth who had multiple hospitalizations in a fiscal year may be included in more than one diagnosis category. Those with multiple hospitalizations for the same diagnosis category will be counted only once",
+      "other_disorders": "Other disorders includes conduct disorders, eating disorders, and other behavioural and emotional disorders"
+    },
+    "sources": {
+      "primary": "Discharge Abstract Database and Ontario Mental Health Reporting System, 2021–2022, Canadian Institute for Health Information",
+      "population_data": "Population estimates: Statistics Canada, Demography Division"
+    }
+  },
+  "data": [
+    {
+      "diagnosis": "Neurocognitive disorders",
+      "sex": "Female",
+      "age_5_9": { "Rate": 0, "CI_lower": 0, "CI_upper": 0 },
+      "age_10_14": { "Rate": 1, "CI_lower": 0, "CI_upper": 1 },
+      "age_15_17": { "Rate": 1, "CI_lower": 0, "CI_upper": 2 },
+      "age_18_24": { "Rate": 2, "CI_lower": 1, "CI_upper": 2 },
+      "age_5_24": { "Rate": 1, "CI_lower": 1, "CI_upper": 1 }
+    },
+    {
+      "diagnosis": "Neurocognitive disorders",
+      "sex": "Male",
+      "age_5_9": { "Rate": 0, "CI_lower": 0, "CI_upper": 0 },
+      "age_10_14": { "Rate": 1, "CI_lower": 0, "CI_upper": 2 },
+      "age_15_17": { "Rate": 2, "CI_lower": 1, "CI_upper": 3 },
+      "age_18_24": { "Rate": 2, "CI_lower": 2, "CI_upper": 3 },
+      "age_5_24": { "Rate": 2, "CI_lower": 1, "CI_upper": 2 }
+    },
+    {
+      "diagnosis": "Neurocognitive disorders",
+      "sex": "Total",
+      "age_5_9": { "Rate": 0, "CI_lower": 0, "CI_upper": 0 },
+      "age_10_14": { "Rate": 1, "CI_lower": 0, "CI_upper": 1 },
+      "age_15_17": { "Rate": 2, "CI_lower": 1, "CI_upper": 2 },
+      "age_18_24": { "Rate": 2, "CI_lower": 2, "CI_upper": 3 },
+      "age_5_24": { "Rate": 1, "CI_lower": 1, "CI_upper": 2 }
+    },
+    {
+      "diagnosis": "Substance-related disorders",
+      "sex": "Female",
+      "age_5_9": { "Rate": 0, "CI_lower": 0, "CI_upper": 1 },
+      "age_10_14": { "Rate": 11, "CI_lower": 9, "CI_upper": 13 },
+      "age_15_17": { "Rate": 57, "CI_lower": 51, "CI_upper": 63 },
+      "age_18_24": { "Rate": 113, "CI_lower": 108, "CI_upper": 119 },
+      "age_5_24": { "Rate": 53, "CI_lower": 51, "CI_upper": 55 }
+    },
+    {
+      "diagnosis": "Substance-related disorders",
+      "sex": "Male",
+      "age_5_9": { "Rate": 0, "CI_lower": 0, "CI_upper": 0 },
+      "age_10_14": { "Rate": 6, "CI_lower": 4, "CI_upper": 7 },
+      "age_15_17": { "Rate": 60, "CI_lower": 54, "CI_upper": 66 },
+      "age_18_24": { "Rate": 164, "CI_lower": 158, "CI_upper": 170 },
+      "age_5_24": { "Rate": 72, "CI_lower": 69, "CI_upper": 74 }
+    },
+    {
+      "diagnosis": "Substance-related disorders",
+      "sex": "Total",
+      "age_5_9": { "Rate": 0, "CI_lower": 0, "CI_upper": 0 },
+      "age_10_14": { "Rate": 8, "CI_lower": 7, "CI_upper": 10 },
+      "age_15_17": { "Rate": 58, "CI_lower": 54, "CI_upper": 63 },
+      "age_18_24": { "Rate": 140, "CI_lower": 136, "CI_upper": 144 },
+      "age_5_24": { "Rate": 63, "CI_lower": 61, "CI_upper": 64 }
+    },
+    {
+      "diagnosis": "Schizophrenic and psychotic disorders",
+      "sex": "Female",
+      "age_5_9": { "Rate": 0, "CI_lower": 0, "CI_upper": 0 },
+      "age_10_14": { "Rate": 10, "CI_lower": 8, "CI_upper": 12 },
+      "age_15_17": { "Rate": 43, "CI_lower": 37, "CI_upper": 48 },
+      "age_18_24": { "Rate": 100, "CI_lower": 95, "CI_upper": 105 },
+      "age_5_24": { "Rate": 46, "CI_lower": 44, "CI_upper": 48 }
+    },
+    {
+      "diagnosis": "Schizophrenic and psychotic disorders",
+      "sex": "Male",
+      "age_5_9": { "Rate": 0, "CI_lower": 0, "CI_upper": 1 },
+      "age_10_14": { "Rate": 8, "CI_lower": 6, "CI_upper": 10 },
+      "age_15_17": { "Rate": 69, "CI_lower": 63, "CI_upper": 76 },
+      "age_18_24": { "Rate": 219, "CI_lower": 212, "CI_upper": 226 },
+      "age_5_24": { "Rate": 94, "CI_lower": 91, "CI_upper": 97 }
+    },
+    {
+      "diagnosis": "Schizophrenic and psychotic disorders",
+      "sex": "Total",
+      "age_5_9": { "Rate": 0, "CI_lower": 0, "CI_upper": 0 },
+      "age_10_14": { "Rate": 9, "CI_lower": 8, "CI_upper": 10 },
+      "age_15_17": { "Rate": 56, "CI_lower": 52, "CI_upper": 61 },
+      "age_18_24": { "Rate": 161, "CI_lower": 157, "CI_upper": 166 },
+      "age_5_24": { "Rate": 71, "CI_lower": 69, "CI_upper": 72 }
+    },
+    {
+      "diagnosis": "Mood disorders",
+      "sex": "Female",
+      "age_5_9": { "Rate": 1, "CI_lower": 0, "CI_upper": 1 },
+      "age_10_14": { "Rate": 188, "CI_lower": 179, "CI_upper": 196 },
+      "age_15_17": { "Rate": 454, "CI_lower": 437, "CI_upper": 471 },
+      "age_18_24": { "Rate": 255, "CI_lower": 247, "CI_upper": 262 },
+      "age_5_24": { "Rate": 205, "CI_lower": 201, "CI_upper": 210 }
+    },
+    {
+      "diagnosis": "Mood disorders",
+      "sex": "Male",
+      "age_5_9": { "Rate": 2, "CI_lower": 1, "CI_upper": 2 },
+      "age_10_14": { "Rate": 31, "CI_lower": 28, "CI_upper": 34 },
+      "age_15_17": { "Rate": 152, "CI_lower": 143, "CI_upper": 162 },
+      "age_18_24": { "Rate": 151, "CI_lower": 145, "CI_upper": 157 },
+      "age_5_24": { "Rate": 86, "CI_lower": 83, "CI_upper": 89 }
+    },
+    {
+      "diagnosis": "Mood disorders",
+      "sex": "Total",
+      "age_5_9": { "Rate": 1, "CI_lower": 1, "CI_upper": 2 },
+      "age_10_14": { "Rate": 107, "CI_lower": 103, "CI_upper": 112 },
+      "age_15_17": { "Rate": 298, "CI_lower": 289, "CI_upper": 308 },
+      "age_18_24": { "Rate": 201, "CI_lower": 196, "CI_upper": 206 },
+      "age_5_24": { "Rate": 144, "CI_lower": 141, "CI_upper": 146 }
+    },
+    {
+      "diagnosis": "Anxiety disorders",
+      "sex": "Female",
+      "age_5_9": { "Rate": 2, "CI_lower": 1, "CI_upper": 2 },
+      "age_10_14": { "Rate": 93, "CI_lower": 87, "CI_upper": 99 },
+      "age_15_17": { "Rate": 160, "CI_lower": 149, "CI_upper": 170 },
+      "age_18_24": { "Rate": 49, "CI_lower": 46, "CI_upper": 52 },
+      "age_5_24": { "Rate": 64, "CI_lower": 62, "CI_upper": 66 }
+    },
+    {
+      "diagnosis": "Anxiety disorders",
+      "sex": "Male",
+      "age_5_9": { "Rate": 2, "CI_lower": 1, "CI_upper": 2 },
+      "age_10_14": { "Rate": 15, "CI_lower": 13, "CI_upper": 18 },
+      "age_15_17": { "Rate": 46, "CI_lower": 40, "CI_upper": 51 },
+      "age_18_24": { "Rate": 25, "CI_lower": 22, "CI_upper": 27 },
+      "age_5_24": { "Rate": 20, "CI_lower": 19, "CI_upper": 21 }
+    },
+    {
+      "diagnosis": "Anxiety disorders",
+      "sex": "Total",
+      "age_5_9": { "Rate": 2, "CI_lower": 1, "CI_upper": 2 },
+      "age_10_14": { "Rate": 53, "CI_lower": 50, "CI_upper": 56 },
+      "age_15_17": { "Rate": 101, "CI_lower": 95, "CI_upper": 106 },
+      "age_18_24": { "Rate": 36, "CI_lower": 34, "CI_upper": 39 },
+      "age_5_24": { "Rate": 41, "CI_lower": 40, "CI_upper": 43 }
+    },
+    {
+      "diagnosis": "Personality disorders",
+      "sex": "Female",
+      "age_5_9": { "Rate": 0, "CI_lower": 0, "CI_upper": 1 },
+      "age_10_14": { "Rate": 31, "CI_lower": 28, "CI_upper": 35 },
+      "age_15_17": { "Rate": 116, "CI_lower": 107, "CI_upper": 124 },
+      "age_18_24": { "Rate": 144, "CI_lower": 138, "CI_upper": 150 },
+      "age_5_24": { "Rate": 78, "CI_lower": 75, "CI_upper": 80 }
+    },
+    {
+      "diagnosis": "Personality disorders",
+      "sex": "Male",
+      "age_5_9": { "Rate": 0, "CI_lower": 0, "CI_upper": 0 },
+      "age_10_14": { "Rate": 2, "CI_lower": 1, "CI_upper": 3 },
+      "age_15_17": { "Rate": 16, "CI_lower": 12, "CI_upper": 19 },
+      "age_18_24": { "Rate": 42, "CI_lower": 39, "CI_upper": 45 },
+      "age_5_24": { "Rate": 18, "CI_lower": 17, "CI_upper": 20 }
+    },
+    {
+      "diagnosis": "Personality disorders",
+      "sex": "Total",
+      "age_5_9": { "Rate": 0, "CI_lower": 0, "CI_upper": 0 },
+      "age_10_14": { "Rate": 16, "CI_lower": 15, "CI_upper": 18 },
+      "age_15_17": { "Rate": 64, "CI_lower": 59, "CI_upper": 68 },
+      "age_18_24": { "Rate": 91, "CI_lower": 88, "CI_upper": 94 },
+      "age_5_24": { "Rate": 47, "CI_lower": 46, "CI_upper": 49 }
+    },
+    {
+      "diagnosis": "Other disorders",
+      "sex": "Female",
+      "age_5_9": { "Rate": 12, "CI_lower": 10, "CI_upper": 15 },
+      "age_10_14": { "Rate": 329, "CI_lower": 318, "CI_upper": 341 },
+      "age_15_17": { "Rate": 548, "CI_lower": 529, "CI_upper": 566 },
+      "age_18_24": { "Rate": 192, "CI_lower": 185, "CI_upper": 199 },
+      "age_5_24": { "Rate": 233, "CI_lower": 228, "CI_upper": 237 }
+    },
+    {
+      "diagnosis": "Other disorders",
+      "sex": "Male",
+      "age_5_9": { "Rate": 28, "CI_lower": 25, "CI_upper": 31 },
+      "age_10_14": { "Rate": 112, "CI_lower": 106, "CI_upper": 118 },
+      "age_15_17": { "Rate": 199, "CI_lower": 188, "CI_upper": 210 },
+      "age_18_24": { "Rate": 105, "CI_lower": 100, "CI_upper": 110 },
+      "age_5_24": { "Rate": 102, "CI_lower": 99, "CI_upper": 105 }
+    },
+    {
+      "diagnosis": "Other disorders",
+      "sex": "Total",
+      "age_5_9": { "Rate": 20, "CI_lower": 18, "CI_upper": 22 },
+      "age_10_14": { "Rate": 218, "CI_lower": 211, "CI_upper": 224 },
+      "age_15_17": { "Rate": 368, "CI_lower": 357, "CI_upper": 379 },
+      "age_18_24": { "Rate": 147, "CI_lower": 143, "CI_upper": 151 },
+      "age_5_24": { "Rate": 165, "CI_lower": 162, "CI_upper": 168 }
+    }
+  ]
+}

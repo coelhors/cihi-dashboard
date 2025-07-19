@@ -313,6 +313,69 @@ def load_table12_data():
         traceback.print_exc()
         return pd.DataFrame()
 
+def load_table13_data():
+    """Load and process Table 13 data for clinical diagnostic patterns"""
+    print("🔄 Attempting to load Table 13 data...")
+    
+    try:
+        # Load data from multiple years (we have 2021-22, 2022-23, 2023-24)
+        years_data = {}
+        year_files = {
+            '2021-22': 'data/table_13-2021-2022.json',
+            '2022-23': 'data/table_13-2022-2023.json', 
+            '2023-24': 'data/table_13-2023-2024.json'
+        }
+        
+        all_records = []
+        
+        for year_display, file_path in year_files.items():
+            if not os.path.exists(file_path):
+                print(f"⚠️ WARNING: File not found: {file_path}")
+                continue
+                
+            print(f"✅ Loading {file_path}")
+            
+            with open(file_path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            
+            # Extract data and create records
+            for entry in data['data']:
+                diagnosis = entry['diagnosis']
+                sex = entry['sex']
+                
+                # Process each age group
+                age_groups = ['age_5_9', 'age_10_14', 'age_15_17', 'age_18_24', 'age_5_24']
+                age_labels = ['5-9', '10-14', '15-17', '18-24', '5-24']
+                
+                for age_key, age_label in zip(age_groups, age_labels):
+                    if age_key in entry:
+                        age_data = entry[age_key]
+                        all_records.append({
+                            'Year': year_display,
+                            'Diagnosis': diagnosis,
+                            'Sex': sex,
+                            'Age_Group': age_label,
+                            'Rate': age_data['Rate'],
+                            'CI_Lower': age_data['CI_lower'],
+                            'CI_Upper': age_data['CI_upper']
+                        })
+        
+        df = pd.DataFrame(all_records)
+        print(f"✅ Table 13 DataFrame created successfully")
+        print(f"📊 Shape: {df.shape}")
+        print(f"📊 Years: {sorted(df['Year'].unique())}")
+        print(f"📊 Diagnoses: {sorted(df['Diagnosis'].unique())}")
+        print(f"📊 Age groups: {sorted(df['Age_Group'].unique())}")
+        print(f"📊 Sex categories: {sorted(df['Sex'].unique())}")
+        
+        return df
+    
+    except Exception as e:
+        print(f"❌ ERROR loading Table 13 data: {str(e)}")
+        print(f"🔍 Full error traceback:")
+        traceback.print_exc()
+        return pd.DataFrame()
+
 def get_default_provinces(df):
     """Get default province selection"""
     if df.empty:

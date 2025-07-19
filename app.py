@@ -9,7 +9,7 @@ import sys
 
 # Import our modular components
 from utils.config import STYLE_CONTENT, STYLE_NAV_BUTTON, COLORS
-from utils.data_loader import load_table3_data, load_table4_data, load_table10_data, load_table11_data, load_table12_data, combine_mental_health_other_data
+from utils.data_loader import load_table3_data, load_table4_data, load_table10_data, load_table11_data, load_table12_data, load_table13_data, combine_mental_health_other_data
 from components.sidebar import create_sidebar
 # Import page modules directly to avoid circular imports
 from components.pages.provincial_overview import create_layout as provincial_layout, register_callbacks as provincial_callbacks
@@ -43,6 +43,7 @@ TABLE4_DF = load_table4_data()
 TABLE10_DF = load_table10_data()
 TABLE11_DF = load_table11_data()
 TABLE12_DF = load_table12_data()
+TABLE13_DF = load_table13_data()
 
 if not TABLE3_DF.empty:
     print(f"✅ Loaded Table 3: {len(TABLE3_DF)} records")
@@ -70,8 +71,11 @@ else:
 if not TABLE12_DF.empty:
     print(f"✅ Loaded Table 12: {len(TABLE12_DF)} records")
     print(f"✅ Income quintiles available: {sorted(TABLE12_DF['Income_Quintile'].unique())}")
+if not TABLE13_DF.empty:
+    print(f"✅ Loaded Table 13: {len(TABLE13_DF)} records")
+    print(f"✅ Diagnoses available: {sorted(TABLE13_DF['Diagnosis'].unique())}")
 else:
-    print("⚠️ WARNING: Table 12 data not loaded")
+    print("⚠️ WARNING: Table 13 data not loaded")
 
 # Combine datasets for comparison
 COMBINED_DF = combine_mental_health_other_data(TABLE3_DF, TABLE4_DF)
@@ -97,7 +101,7 @@ app.layout = html.Div([
 provincial_callbacks(app, TABLE3_DF, COMBINED_DF)
 demographics_callbacks(app, TABLE10_DF)
 health_equity_callbacks(app, TABLE11_DF, TABLE12_DF)
-clinical_patterns_callbacks(app)
+clinical_patterns_callbacks(app, TABLE13_DF)
 
 # Main page routing callback
 @app.callback(
@@ -111,7 +115,7 @@ def display_page(pathname):
     elif pathname == '/equity':
         return health_equity_layout(TABLE11_DF, TABLE12_DF)
     elif pathname == '/clinical':
-        return clinical_patterns_layout()
+        return clinical_patterns_layout(TABLE13_DF)
     else:  # Default to provincial overview
         return provincial_layout(TABLE3_DF, COMBINED_DF)
 

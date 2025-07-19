@@ -388,10 +388,10 @@
 
 ### **Data Source**
 - **Table**: Table 13 series - Children and youth hospitalized for mental disorders, by diagnosis, sex and age group, Canada, 2018–2019 to 2023–2024
-- **Metrics**: Rate per 100,000 population with 95% confidence intervals
+- **Metrics**: Rate per 100,000 population
 - **Geographic Coverage**: Canada (national aggregate)
 - **Dimensions**: 
-  - **Diagnosis Categories**: 7 main categories + 4 subcategories (Neurocognitive, Substance-related, Schizophrenic/psychotic, Mood, Anxiety, Personality, Other disorders, plus Trauma/stressor, Conduct, Eating, etc.)
+  - **Diagnosis Categories**: 7 main categories (Neurocognitive, Substance-related, Schizophrenic/psychotic, Mood, Anxiety, Personality, Other disorders)
   - **Age Groups**: 5-9, 10-14, 15-17, 18-24 years
   - **Sex**: Female, Male, Total
 - **Time Period**: Focus on 2023-2024 (most recent year) with option to compare across years
@@ -401,8 +401,8 @@
 #### **Chart Specifications**
 - **Chart Type**: `plotly.express.imshow` with custom annotations
 - **X-axis**: Age groups ["5-9", "10-14", "15-17", "18-24"]
-- **Y-axis**: Diagnosis categories (main categories + key subcategories)
-- **Color Scale**: Rate per 100,000 population with custom colorscale:
+- **Y-axis**: Diagnosis categories (7 main categories)
+- **Color Scale**: Rate per 100,000 population with custom color scale:
   - **Low rates (0-20)**: Light blue
   - **Medium rates (20-100)**: Yellow to orange
   - **High rates (100+)**: Red to dark red
@@ -411,7 +411,7 @@
 #### **Interactive Controls**
 1. **Sex Selector**:
    - **Type**: Radio buttons (`dcc.RadioItems`)
-   - **Options**: ["Female", "Male", "Both Combined", "Gender Comparison (F:M Ratio)"]
+   - **Options**: ["Female", "Male", "Both Combined"]
    - **Default**: "Female"
    - **Purpose**: Reveal dramatic gender differences across diagnostic categories
 
@@ -429,8 +429,8 @@
 
 4. **Year Comparison** (Advanced):
    - **Type**: Dropdown (`dcc.Dropdown`)
-   - **Options**: ["2023-24 Only", "Compare with 2018-19", "Show COVID Impact (2020-21)", "6-Year Average"]
-   - **Default**: "2023-24 Only"
+   - **Options**: ["2023-24", "2022-23", "2021-22"]
+   - **Default**: "2023-24"
    - **Purpose**: Temporal analysis of diagnostic patterns
 
 #### **Visual Features**

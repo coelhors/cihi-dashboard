@@ -5,6 +5,7 @@ Chart helper functions for CIHI Mental Health Dashboard
 import plotly.express as px
 import plotly.graph_objects as go
 import pandas as pd
+import numpy as np
 from utils.config import COLORS
 
 def create_placeholder_chart(title, height=400):
@@ -680,7 +681,131 @@ def create_income_quintile_contribution_pie(selected_year, table12_df):
         import traceback
         print(f"🔍 Full error traceback:")
         traceback.print_exc()
-        return create_placeholder_chart(f"Error creating chart: {str(e)}")
+def create_clinical_diagnostic_heatmap(selected_year, selected_sex, selected_diagnoses, color_scale, table13_df):
+    """Create clinical diagnostic patterns heat map"""
+    print(f"🔄 Creating clinical diagnostic heatmap for year: {selected_year}, sex: {selected_sex}, scale: {color_scale}")
+    
+    try:
+        if table13_df.empty:
+            print("❌ Table 13 DataFrame is empty")
+            return create_placeholder_chart("Clinical Diagnostic Patterns - Data not available")
+        
+        # Filter data for selected year, sex, and diagnoses
+        filtered_df = table13_df[
+            (table13_df['Year'] == selected_year) & 
+            (table13_df['Sex'] == selected_sex) &
+            (table13_df['Diagnosis'].isin(selected_diagnoses)) &
+            (table13_df['Age_Group'] != '5-24')  # Exclude total age group for cleaner heat map
+        ].copy()
+        
+        print(f"🔍 Filtered to {len(filtered_df)} records")
+        
+        if filtered_df.empty:
+            print("❌ No data after filtering")
+            return create_placeholder_chart(f"No clinical data available for {selected_year}, {selected_sex}")
+        
+        # Create pivot table for heat map
+        heatmap_data = filtered_df.pivot(index='Diagnosis', columns='Age_Group', values='Rate')
+        
+        # Ensure consistent column order
+        age_order = ['5-9', '10-14', '15-17', '18-24']
+        heatmap_data = heatmap_data.reindex(columns=age_order)
+        
+        # Apply color scale transformation if needed
+        display_values = heatmap_data.copy()
+        if color_scale == "Log Scale":
+            # Add small value to avoid log(0)
+            display_values = np.log(heatmap_data + 1)
+            scale_title = "Log(Rate + 1)"
+        elif color_scale == "Percentile Ranking":
+            # Convert to percentile rankings
+            display_values = heatmap_data.rank(pct=True) * 100
+            scale_title = "Percentile Rank"
+        elif color_scale == "Z-Score Normalization":
+            # Standardize across all values
+            flat_values = heatmap_data.values.flatten()
+            flat_values = flat_values[~np.isnan(flat_values)]
+            mean_val = np.mean(flat_values)
+            std_val = np.std(flat_values)
+            display_values = (heatmap_data - mean_val) / std_val
+            scale_title = "Z-Score"
+        else:  # Linear Scale
+            scale_title = "Rate per 100,000"
+        
+        # Create custom color scale
+        if color_scale == "Z-Score Normalization":
+            colorscale = 'RdBu_r'  # Diverging scale for z-scores
+        else:
+            colorscale = [[0, '#E3F2FD'],    # Light blue (low)
+                         [0.2, '#81D4FA'],   # Blue
+                         [0.4, '#FFF59D'],   # Yellow
+                         [0.6, '#FFB74D'],   # Orange
+                         [0.8, '#FF7043'],   # Red-orange
+                         [1.0, '#D32F2F']]   # Dark red (high)
+        
+        # Create heat map
+        fig = go.Figure(data=go.Heatmap(
+            z=display_values.values,
+            x=display_values.columns,
+            y=display_values.index,
+            colorscale=colorscale,
+            hovertemplate='<b>%{y}</b><br>' +
+                         'Age Group: %{x}<br>' +
+                         f'Sex: {selected_sex}<br>' +
+                         'Rate: %{customdata:.0f} per 100k<br>' +
+                         '<extra></extra>',
+            customdata=heatmap_data.values,  # Use original values for hover
+            colorbar=dict(
+                title=scale_title,
+                thickness=15,
+                len=0.9
+            )
+        ))
+        
+        # Add text annotations with actual rates
+        annotations = []
+        for i, diagnosis in enumerate(display_values.index):
+            for j, age_group in enumerate(display_values.columns):
+                rate = heatmap_data.iloc[i, j]
+                if not pd.isna(rate):
+                    # Choose text color based on background intensity
+                    text_color = 'white' if rate > 150 else 'black'
+                    annotations.append(
+                        dict(
+                            x=age_group,
+                            y=diagnosis,
+                            text=f'{rate:.0f}',
+                            showarrow=False,
+                            font=dict(color=text_color, size=11, family="Arial Black")
+                        )
+                    )
+        
+        # Update layout
+        fig.update_layout(
+            title=f'Clinical Diagnostic Patterns by Age Group - {selected_sex}, {selected_year}<br><sub>Mental Health Hospitalization Rates per 100,000</sub>',
+            xaxis_title='Age Group',
+            yaxis_title='Diagnosis Category',
+            font=dict(size=12),
+            height=600,
+            width=900,
+            annotations=annotations,
+            plot_bgcolor='white',
+            paper_bgcolor='white'
+        )
+        
+        # Style axes
+        fig.update_xaxes(side='bottom')
+        fig.update_yaxes(tickmode='linear')
+        
+        print("✅ Clinical diagnostic heatmap created successfully")
+        return fig
+        
+    except Exception as e:
+        print(f"❌ ERROR creating clinical diagnostic heatmap: {str(e)}")
+        import traceback
+        print(f"🔍 Full error traceback:")
+        traceback.print_exc()
+        return create_placeholder_chart(f"Error creating heatmap: {str(e)}")
 
 def create_income_gradient_chart(table12_df):
     """Create simplified income gradient multi-line chart"""
