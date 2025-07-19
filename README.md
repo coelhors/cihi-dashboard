@@ -17,7 +17,7 @@ The interactive visualizations guide users through a comprehensive analysis, fro
 ### 🏠 Multi-Page Navigation
 - **Provincial Overview** - Interactive provincial trends and comparison charts
 - **Demographics** - Age and gender analysis with interactive year selection
-- **Health Equity** - Urban/rural disparity analysis with gap visualization
+- **Health Equity** - Urban/rural disparity and income gradient analysis
 - **Clinical Patterns** - Diagnostic pattern analysis (placeholder)
 
 ### 📈 Interactive Visualizations
@@ -44,18 +44,29 @@ The interactive visualizations guide users through a comprehensive analysis, fro
 - **Visual Emphasis** - Alberta slice highlighted with pull-out effect
 - **Rich Tooltips** - Province details with cases, rates, and percentages
 - **Colorblind-friendly** - Distinct colors for all provinces/territories
+
 #### **Visual Element 4: Age and Gender Demographics**
 - **Interactive grouped bar chart** showing hospitalization rates by age and gender
 - **Year Selection** - Dropdown to explore patterns across 2018-2024
 - **Display Modes** - Switch between absolute rates and female-to-male ratios
 - **Age Progression** - Clear visualization of increasing rates from childhood to adolescence
-- **Gender Differences** - Side-by-side comparison of female (pink) vs male (blue) rates
+- **Gender Differences** - Side-by-side comparison of female (green) vs male (blue) rates
+- **Non-stereotypical Colors** - Green for females, blue for males
+
 #### **Visual Element 5: Urban vs Rural Health Equity**
 - **Static dual-line disparity chart** showing persistent rural disadvantage in mental health
 - **Gap Visualization** - Highlighted area between lines showing equity disparity
 - **Clean Interface** - Streamlined presentation focusing on core equity insights
 - **Equity Insights** - Rural youth consistently 20-30% higher hospitalization rates
 - **Temporal Analysis** - Shows disparity persistence even through COVID disruption
+
+#### **Visual Element 6: Income Gradient Analysis**
+- **Multi-line chart** showing mental health hospitalization rates across income quintiles (Q1-Q5)
+- **Color Gradient** - Red (Q1, lowest income, highest rates) to green (Q5, highest income, lowest rates)
+- **Display Modes** - Switch between absolute rates, relative to Q5, and percentage above national average
+- **Interactive Options** - Toggle confidence intervals, Q1:Q5 ratio annotations, gradient shading
+- **Socioeconomic Insights** - Clear visualization of income inequality in mental health outcomes
+- **Teaching Focus** - Shows Q1 consistently 1.6-2.0x higher rates than Q5 across all years
 
 ## 📁 Project Structure
 
@@ -73,7 +84,8 @@ cihi-dashboard/
 │   ├── 📄 table_03.json              # Provincial mental health hospitalization data (2018-2024)
 │   ├── 📄 table_04.json              # Provincial other conditions hospitalization data (2018-2024)
 │   ├── 📄 table_10.json              # Age and gender demographics data (2018-2024)
-│   └── 📄 table_11.json              # Urban vs rural residence data (2018-2024)
+│   ├── 📄 table_11.json              # Urban vs rural residence data (2018-2024)
+│   └── 📄 table_12.json              # Income quintile data (2018-2024)
 ├── 📂 utils/                          # Utility functions and configuration
 │   ├── 📄 __init__.py                # Package initialization
 │   ├── 📄 config.py                  # Colors, styles, constants, and configuration
@@ -86,12 +98,10 @@ cihi-dashboard/
 │       ├── 📄 __init__.py            # Package initialization
 │       ├── 📄 provincial_overview.py # Provincial trends and comparison charts (3 working visualizations)
 │       ├── 📄 demographics.py        # Age and gender demographics analysis (1 working visualization)
-│       ├── 📄 health_equity.py       # Urban/rural disparity analysis (1 working visualization)
+│       ├── 📄 health_equity.py       # Urban/rural and income disparity analysis (2 working visualizations)
 │       └── 📄 clinical_patterns.py   # Clinical patterns page (placeholder)
 └── 📂 docs/                           # Documentation and methodology - empty
 ```
-
-
 
 ## 📚 Data Source
 
@@ -108,6 +118,7 @@ This dashboard demonstrates:
 3. **Health equity analysis** methods and interpretation
 4. **Evidence-based insights** for public health decision making
 5. **Full-stack development** with Python and modern web technologies
+6. **Socioeconomic health disparities** visualization and analysis
 
 ## 🛠️ Technical Stack
 
@@ -118,7 +129,26 @@ This dashboard demonstrates:
 - **Styling**: CSS3, Dash Bootstrap Components
 - **Version Control**: Git & GitHub
 
+## 📈 Implementation Status
 
+**Current Progress: 6/8 Visualizations Complete (75%)**
+
+### ✅ **Completed Visualizations**
+- **Provincial Overview Page**: 3 visualizations
+  - Provincial Hospitalization Trends
+  - Mental Health vs Other Conditions
+  - Provincial Contribution Analysis
+- **Demographics Page**: 1 visualization
+  - Age and Gender Patterns
+- **Health Equity Page**: 2 visualizations
+  - Urban vs Rural Disparities
+  - Income Gradient Analysis
+
+### ⏳ **Remaining Visualizations**
+- **Health Equity Page**: 1 remaining
+  - Income Quintile Contributions (pie chart)
+- **Clinical Patterns Page**: 1 remaining
+  - Clinical Diagnostic Heat Map
 
 ---
 
