@@ -5,7 +5,7 @@ Provincial Overview page layout and callbacks
 from dash import dcc, html, callback, Input, Output
 import traceback
 from utils.config import COLORS, STYLE_CARD
-from utils.chart_helpers import create_placeholder_chart, create_provincial_trends_chart, create_mental_health_vs_other_chart
+from utils.chart_helpers import create_placeholder_chart, create_provincial_trends_chart, create_mental_health_vs_other_chart, create_provincial_contribution_pie_chart
 from utils.data_loader import get_province_options, get_default_provinces
 
 def create_layout(table3_df, combined_df=None):
@@ -95,9 +95,45 @@ def create_layout(table3_df, combined_df=None):
         html.Div([
             html.H3("Provincial Contribution Analysis"),
             html.P("Each province's share of total mental health hospitalizations."),
+            
+            # Controls for pie chart
+            html.Div([
+                html.Div([
+                    html.Label("Select Fiscal Year:", style={'fontWeight': 'bold', 'marginBottom': '5px'}),
+                    dcc.Dropdown(
+                        id='pie-year-selector',
+                        options=[
+                            {'label': '2018-19', 'value': '2018-19'},
+                            {'label': '2019-20', 'value': '2019-20'},
+                            {'label': '2020-21', 'value': '2020-21'},
+                            {'label': '2021-22', 'value': '2021-22'},
+                            {'label': '2022-23', 'value': '2022-23'},
+                            {'label': '2023-24', 'value': '2023-24'}
+                        ],
+                        value='2023-24',
+                        clearable=False,
+                        placeholder="Select year"
+                    )
+                ], style={'width': '60%', 'display': 'inline-block', 'marginRight': '5%'}),
+                
+                html.Div([
+                    html.Label("Metric:", style={'fontWeight': 'bold', 'marginBottom': '5px'}),
+                    dcc.RadioItems(
+                        id='pie-metric-selector',
+                        options=[
+                            {'label': 'Number of Cases (N)', 'value': 'Number of Cases (N)'},
+                            {'label': 'Rate per 100,000', 'value': 'Rate per 100,000'}
+                        ],
+                        value='Number of Cases (N)',
+                        inline=True
+                    )
+                ], style={'width': '35%', 'display': 'inline-block'})
+                
+            ], style={'marginBottom': '20px'}),
+            
             dcc.Graph(
                 id='provincial-pie-chart',
-                figure=create_placeholder_chart("Provincial Contribution Pie Chart")
+                figure=create_provincial_contribution_pie_chart('2023-24', 'Number of Cases (N)', table3_df) if not table3_df.empty else create_placeholder_chart("Provincial Contribution Pie Chart - Data not available")
             )
         ], style=STYLE_CARD)
     ])
@@ -161,3 +197,32 @@ def register_callbacks(app, table3_df, combined_df=None):
             print(f"🔍 Full error traceback:")
             traceback.print_exc()
             return create_placeholder_chart(f"Comparison callback error: {str(e)}")
+    
+    # Callback for provincial contribution pie chart
+    @app.callback(
+        Output('provincial-pie-chart', 'figure'),
+        [Input('pie-year-selector', 'value'),
+         Input('pie-metric-selector', 'value')]
+    )
+    def update_pie_chart(selected_year, selected_metric):
+        """Update pie chart based on selections"""
+        print(f"🔄 Pie chart callback triggered with year: {selected_year}, metric: {selected_metric}")
+        
+        try:
+            if not selected_year:
+                selected_year = '2023-24'
+                print(f"⚠️ No year selected, defaulting to: {selected_year}")
+            
+            if table3_df.empty:
+                print("⚠️ Table 3 DataFrame is empty, showing placeholder")
+                return create_placeholder_chart("Provincial data not available - please check data files")
+            
+            result = create_provincial_contribution_pie_chart(selected_year, selected_metric, table3_df)
+            print("✅ Pie chart callback completed successfully")
+            return result
+            
+        except Exception as e:
+            print(f"❌ ERROR in pie chart callback: {str(e)}")
+            print(f"🔍 Full error traceback:")
+            traceback.print_exc()
+            return create_placeholder_chart(f"Pie chart callback error: {str(e)}")

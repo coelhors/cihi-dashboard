@@ -93,7 +93,6 @@ def create_provincial_trends_chart(selected_provinces, selected_metric, df):
         import traceback
         print(f"🔍 Full error traceback:")
         traceback.print_exc()
-
 def create_mental_health_vs_other_chart(selected_province, selected_metric, combined_df):
     """Create mental health vs other conditions stacked area chart"""
     print(f"🔄 Creating comparison chart for province: {selected_province}, metric: {selected_metric}")
@@ -195,4 +194,96 @@ def create_mental_health_vs_other_chart(selected_province, selected_metric, comb
         import traceback
         print(f"🔍 Full error traceback:")
         traceback.print_exc()
-        return create_placeholder_chart(f"Error creating chart: {str(e)}")
+def create_provincial_contribution_pie_chart(selected_year, selected_metric, table3_df):
+    """Create provincial contribution pie chart"""
+    print(f"🔄 Creating pie chart for year: {selected_year}, metric: {selected_metric}")
+    
+    try:
+        if table3_df.empty:
+            print("❌ Table 3 DataFrame is empty")
+            return create_placeholder_chart("Provincial Contribution - Data not available")
+        
+        # Filter data for selected year and exclude Canada total
+        filtered_df = table3_df[
+            (table3_df['Year'] == selected_year) & 
+            (table3_df['Province'] != 'Canada')
+        ].copy()
+        
+        print(f"🔍 Filtered to {len(filtered_df)} provinces for year {selected_year}")
+        
+        if filtered_df.empty:
+            print("❌ No data after filtering")
+            return create_placeholder_chart(f"No provincial data available for {selected_year}")
+        
+        # Determine which column to use based on metric selection
+        if selected_metric == 'Number of Cases (N)':
+            value_col = 'N'
+            title_suffix = 'by Number of Cases'
+            hover_template = (
+                "<b>%{label}</b><br>"
+                "Year: " + selected_year + "<br>"
+                "Cases: %{value:,.0f}<br>"
+                "Percentage: %{percent}<br>"
+                "Rate per 100k: %{customdata:.0f}"
+                "<extra></extra>"
+            )
+        else:
+            value_col = 'Rate'
+            title_suffix = 'by Rate per 100,000'
+            hover_template = (
+                "<b>%{label}</b><br>"
+                "Year: " + selected_year + "<br>"
+                "Rate per 100k: %{value:.0f}<br>"
+                "Percentage: %{percent}<br>"
+                "Cases: %{customdata:,.0f}"
+                "<extra></extra>"
+            )
+        
+        print(f"📊 Using column: {value_col} for {title_suffix}")
+        
+        # Sort by value for better visual presentation
+        filtered_df = filtered_df.sort_values(value_col, ascending=False)
+        
+        # Create pie chart
+        fig = px.pie(
+            filtered_df,
+            values=value_col,
+            names='Province',
+            title=f'Provincial Mental Health Hospitalization Contributions - {selected_year}<br><sub>{title_suffix}</sub>',
+            color_discrete_sequence=px.colors.qualitative.Set3
+        )
+        
+        # Customize the pie chart
+        fig.update_traces(
+            textposition='inside',
+            textinfo='percent+label',
+            hovertemplate=hover_template,
+            customdata=filtered_df['Rate'] if selected_metric == 'Number of Cases (N)' else filtered_df['N'],
+            pull=[0.1 if province == 'Alberta' else 0 for province in filtered_df['Province']]
+        )
+        
+        # Update layout
+        fig.update_layout(
+            font=dict(size=12),
+            legend=dict(
+                orientation="v",
+                yanchor="middle",
+                y=0.5,
+                xanchor="left",
+                x=1.02
+            ),
+            margin=dict(r=150, l=50, t=80, b=50),
+            showlegend=True,
+            height=600,
+            width=1000
+        )
+        
+        print("✅ Pie chart created successfully")
+        return fig
+        
+    except Exception as e:
+        print(f"❌ ERROR creating pie chart: {str(e)}")
+        import traceback
+        print(f"🔍 Full error traceback:")
+        traceback.print_exc()
+        return create_placeholder_chart(f"Error creating pie chart: {str(e)}")
