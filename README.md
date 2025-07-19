@@ -15,16 +15,27 @@ The interactive visualizations guide users through a comprehensive analysis, fro
 ## 📊 Current Features
 
 ### 🏠 Multi-Page Navigation
-- **Provincial Overview** - Interactive provincial hospitalization trends line chart
+- **Provincial Overview** - Interactive provincial trends and comparison charts
 - **Demographics** - Age and gender analysis (placeholder)
 - **Health Equity** - Urban/rural and income disparities (placeholder)
 - **Clinical Patterns** - Diagnostic pattern analysis (placeholder)
 
 ### 📈 Interactive Visualizations
-- **Provincial Trends Chart** - Multi-province comparison with metric toggle
+
+#### **Visual Element 1: Provincial Hospitalization Trends**
+- **Multi-province comparison** with line chart visualization
 - **Province Selection** - Multi-select dropdown for comparing 2-4 provinces
 - **Metric Toggle** - Switch between rates per 100,000 and absolute case numbers
+- **Default Selection** - Alberta (configurable)
 - **Real-time Updates** - Chart updates based on user selections
+
+#### **Visual Element 2: Mental Health vs Other Conditions**
+- **Stacked area chart** comparing mental health and other medical conditions
+- **Province Selection** - Single-select dropdown (default: Canada)
+- **Metric Toggle** - Switch between rates per 100,000 and absolute numbers
+- **Visual Layers** - Mental health (red), other conditions (blue), total line (gray)
+- **Interactive Tooltips** - Show detailed breakdown with percentages
+- **Data Integration** - Combines Table 3 and Table 4 datasets
 
 ## 📁 Project Structure
 
@@ -39,18 +50,19 @@ cihi-mental-health-dashboard/
 ├── 📂 assets/                         # Static files and styling
 │   └── 📄 style.css                  # Basic CSS styling for dashboard
 ├── 📂 data/                           # Raw data files (JSON format)
-│   └── 📄 table_03.json              # Provincial hospitalization data (2018-2024)
+│   ├── 📄 table_03.json              # Provincial mental health hospitalization data (2018-2024)
+│   └── 📄 table_04.json              # Provincial other conditions hospitalization data (2018-2024)
 ├── 📂 utils/                          # Utility functions and configuration
 │   ├── 📄 __init__.py                # Package initialization
 │   ├── 📄 config.py                  # Colors, styles, constants, and configuration
-│   ├── 📄 data_loader.py             # Data loading and processing functions
+│   ├── 📄 data_loader.py             # Data loading, processing, and merging functions
 │   └── 📄 chart_helpers.py           # Chart creation and visualization functions
 ├── 📂 components/                     # UI components and page layouts
 │   ├── 📄 __init__.py                # Package initialization
 │   ├── 📄 sidebar.py                 # Navigation sidebar component
 │   └── 📂 pages/                     # Individual page modules
 │       ├── 📄 __init__.py            # Package initialization
-│       ├── 📄 provincial_overview.py # Provincial trends page (with working chart)
+│       ├── 📄 provincial_overview.py # Provincial trends and comparison charts (2 working visualizations)
 │       ├── 📄 demographics.py        # Demographics analysis page (placeholder)
 │       ├── 📄 health_equity.py       # Health equity analysis page (placeholder)
 │       └── 📄 clinical_patterns.py   # Clinical patterns page (placeholder)
