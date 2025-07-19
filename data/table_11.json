@@ -1,0 +1,99 @@
+{
+  "metadata": {
+    "title": "Children and youth hospitalized for mental disorders, by urban versus rural/remote residence, Canada, 2018–2019 to 2023–2024",
+    "description": "Hospitalizations for mental disorders among children and youth aged 5-24, stratified by place of residence",
+    "source": "CIHI - Canadian Institute for Health Information",
+    "years": [
+      "2018-2019",
+      "2019-2020",
+      "2020-2021",
+      "2021-2022",
+      "2022-2023",
+      "2023-2024"
+    ],
+    "metrics": [
+      "Rate",
+      "95% CI"
+    ],
+    "notes": {
+      "rate_definition": "Rate: Crude rate per 100,000 children and youth age 5 to 24",
+      "confidence_interval": "95% CI: 95% confidence interval",
+      "classification": "Urban versus rural/remote area was assigned based on the patient's residential postal code and Statistics Canada's Statistical Area Classification type (SACtype): SACtypes 1, 2 and 3 are urban, and SACtypes 4, 5, 6, 7 and 8 are rural/remote",
+      "exclusions": "Patients with invalid or missing postal codes were excluded",
+      "selection_criteria": "Inpatient hospitalizations were selected if the most responsible diagnosis (MRDx) was defined as mental health–related based on a list of ICD-10-CA codes (refer to the Methodology tab)",
+      "counting_method": "Patients with more than one mental health–related hospitalization were counted once per fiscal year"
+    },
+    "sources": {
+      "primary": "Discharge Abstract Database and Ontario Mental Health Reporting System, 2018–2019 to 2023–2024, Canadian Institute for Health Information",
+      "population_data": "Population estimates: Statistics Canada, Demography Division"
+    }
+  },
+  "data": [
+    {
+      "residence_type": "Urban",
+      "2018-2019": {
+        "Rate": 446,
+        "CI_lower": 441,
+        "CI_upper": 451
+      },
+      "2019-2020": {
+        "Rate": 427,
+        "CI_lower": 423,
+        "CI_upper": 432
+      },
+      "2020-2021": {
+        "Rate": 398,
+        "CI_lower": 393,
+        "CI_upper": 402
+      },
+      "2021-2022": {
+        "Rate": 438,
+        "CI_lower": 434,
+        "CI_upper": 443
+      },
+      "2022-2023": {
+        "Rate": 363,
+        "CI_lower": 378,
+        "CI_upper": 367
+      },
+      "2023-2024": {
+        "Rate": 345,
+        "CI_lower": 341,
+        "CI_upper": 349
+      }
+    },
+    {
+      "residence_type": "Rural/remote",
+      "2018-2019": {
+        "Rate": 567,
+        "CI_lower": 554,
+        "CI_upper": 579
+      },
+      "2019-2020": {
+        "Rate": 561,
+        "CI_lower": 548,
+        "CI_upper": 574
+      },
+      "2020-2021": {
+        "Rate": 494,
+        "CI_lower": 482,
+        "CI_upper": 506
+      },
+      "2021-2022": {
+        "Rate": 533,
+        "CI_lower": 521,
+        "CI_upper": 546
+      },
+      "2022-2023": {
+        "Rate": 480,
+        "CI_lower": 468,
+        "CI_upper": 492
+      },
+      "2023-2024": {
+        "Rate": 444,
+        "CI_lower": 433,
+        "CI_upper": 455
+      }
+    }
+  ]
+}

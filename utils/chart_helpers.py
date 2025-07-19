@@ -414,4 +414,173 @@ def create_age_gender_chart(selected_year, display_option, show_ci, table10_df):
         import traceback
         print(f"🔍 Full error traceback:")
         traceback.print_exc()
+def create_urban_rural_disparity_chart(display_mode, show_ci, highlight_gap, show_percentage, table11_df):
+    """Create urban vs rural disparity line chart"""
+    print(f"🔄 Creating urban/rural chart - mode: {display_mode}, CI: {show_ci}, gap: {highlight_gap}, %: {show_percentage}")
+    
+    try:
+        if table11_df.empty:
+            print("❌ Table 11 DataFrame is empty")
+            return create_placeholder_chart("Urban vs Rural Analysis - Data not available")
+        
+        print(f"✅ Table 11 has {len(table11_df)} records")
+        
+        if display_mode == "Absolute Rates":
+            # Create dual-line chart
+            fig = go.Figure()
+            
+            # Get data for each residence type
+            urban_data = table11_df[table11_df['Residence_Type'] == 'Urban'].sort_values('Year')
+            rural_data = table11_df[table11_df['Residence_Type'] == 'Rural/remote'].sort_values('Year')
+            
+            # Add Urban line
+            fig.add_trace(go.Scatter(
+                x=urban_data['Year'],
+                y=urban_data['Rate'],
+                mode='lines+markers',
+                name='Urban',
+                line=dict(color='#2196F3', width=3),
+                marker=dict(size=8),
+                hovertemplate='<b>Urban</b><br>Year: %{x}<br>Rate: %{y:.0f} per 100k<br>95% CI: [%{customdata[0]:.0f}-%{customdata[1]:.0f}]<extra></extra>',
+                customdata=urban_data[['CI_Lower', 'CI_Upper']].values
+            ))
+            
+            # Add Rural line
+            fig.add_trace(go.Scatter(
+                x=rural_data['Year'],
+                y=rural_data['Rate'],
+                mode='lines+markers',
+                name='Rural/Remote',
+                line=dict(color='#F44336', width=3),
+                marker=dict(size=8),
+                hovertemplate='<b>Rural/Remote</b><br>Year: %{x}<br>Rate: %{y:.0f} per 100k<br>95% CI: [%{customdata[0]:.0f}-%{customdata[1]:.0f}]<extra></extra>',
+                customdata=rural_data[['CI_Lower', 'CI_Upper']].values
+            ))
+            
+            # Add gap fill if requested
+            if highlight_gap:
+                fig.add_trace(go.Scatter(
+                    x=urban_data['Year'].tolist() + rural_data['Year'].tolist()[::-1],
+                    y=urban_data['Rate'].tolist() + rural_data['Rate'].tolist()[::-1],
+                    fill='toself',
+                    fillcolor='rgba(244, 67, 54, 0.2)',
+                    line=dict(color='rgba(255,255,255,0)'),
+                    name='Rural-Urban Gap',
+                    showlegend=True,
+                    hoverinfo='skip'
+                ))
+            
+            # Add confidence intervals if requested
+            if show_ci:
+                # Urban CI
+                fig.add_trace(go.Scatter(
+                    x=urban_data['Year'].tolist() + urban_data['Year'].tolist()[::-1],
+                    y=urban_data['CI_Upper'].tolist() + urban_data['CI_Lower'].tolist()[::-1],
+                    fill='toself',
+                    fillcolor='rgba(33, 150, 243, 0.2)',
+                    line=dict(color='rgba(255,255,255,0)'),
+                    name='Urban 95% CI',
+                    showlegend=False,
+                    hoverinfo='skip'
+                ))
+                
+                # Rural CI
+                fig.add_trace(go.Scatter(
+                    x=rural_data['Year'].tolist() + rural_data['Year'].tolist()[::-1],
+                    y=rural_data['CI_Upper'].tolist() + rural_data['CI_Lower'].tolist()[::-1],
+                    fill='toself',
+                    fillcolor='rgba(244, 67, 54, 0.2)',
+                    line=dict(color='rgba(255,255,255,0)'),
+                    name='Rural 95% CI',
+                    showlegend=False,
+                    hoverinfo='skip'
+                ))
+            
+            title = 'Urban vs Rural Mental Health Hospitalization Rates'
+            y_title = 'Rate per 100,000 population'
+            
+        elif display_mode == "Ratio View (Rural:Urban)":
+            # Calculate ratios
+            urban_data = table11_df[table11_df['Residence_Type'] == 'Urban'].sort_values('Year')
+            rural_data = table11_df[table11_df['Residence_Type'] == 'Rural/remote'].sort_values('Year')
+            
+            # Merge data to calculate ratios
+            merged = pd.merge(urban_data[['Year', 'Rate']], rural_data[['Year', 'Rate']], on='Year', suffixes=['_Urban', '_Rural'])
+            merged['Ratio'] = merged['Rate_Rural'] / merged['Rate_Urban']
+            
+            fig = go.Figure()
+            
+            fig.add_trace(go.Scatter(
+                x=merged['Year'],
+                y=merged['Ratio'],
+                mode='lines+markers',
+                name='Rural:Urban Ratio',
+                line=dict(color='#9C27B0', width=3),
+                marker=dict(size=8),
+                hovertemplate='<b>Rural:Urban Ratio</b><br>Year: %{x}<br>Ratio: %{y:.2f}<br><extra></extra>'
+            ))
+            
+            # Add reference line at 1.0
+            fig.add_hline(y=1, line_dash="dash", line_color="gray", line_width=2)
+            
+            title = 'Rural to Urban Hospitalization Rate Ratio'
+            y_title = 'Rural:Urban Ratio'
+            
+        else:  # Percentage Above Urban
+            # Calculate percentage differences
+            urban_data = table11_df[table11_df['Residence_Type'] == 'Urban'].sort_values('Year')
+            rural_data = table11_df[table11_df['Residence_Type'] == 'Rural/remote'].sort_values('Year')
+            
+            merged = pd.merge(urban_data[['Year', 'Rate']], rural_data[['Year', 'Rate']], on='Year', suffixes=['_Urban', '_Rural'])
+            merged['Percentage_Diff'] = ((merged['Rate_Rural'] - merged['Rate_Urban']) / merged['Rate_Urban']) * 100
+            
+            fig = go.Figure()
+            
+            fig.add_trace(go.Scatter(
+                x=merged['Year'],
+                y=merged['Percentage_Diff'],
+                mode='lines+markers',
+                name='Rural Excess (%)',
+                line=dict(color='#FF5722', width=3),
+                marker=dict(size=8),
+                hovertemplate='<b>Rural Excess</b><br>Year: %{x}<br>Percentage: %{y:.1f}%<br><extra></extra>'
+            ))
+            
+            # Add reference line at 0%
+            fig.add_hline(y=0, line_dash="dash", line_color="gray", line_width=2)
+            
+            title = 'Rural Mental Health Hospitalization Excess (% Above Urban)'
+            y_title = 'Percentage Above Urban Rate'
+        
+        # Update layout
+        fig.update_layout(
+            title=title,
+            xaxis_title='Fiscal Year',
+            yaxis_title=y_title,
+            plot_bgcolor='white',
+            paper_bgcolor='white',
+            font=dict(size=12),
+            legend=dict(
+                orientation="v",
+                yanchor="top",
+                y=1,
+                xanchor="left",
+                x=1.02
+            ),
+            margin=dict(r=150),
+            height=500
+        )
+        
+        # Add grid lines
+        fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='lightgray')
+        fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='lightgray')
+        
+        print("✅ Urban/rural chart created successfully")
+        return fig
+        
+    except Exception as e:
+        print(f"❌ ERROR creating urban/rural chart: {str(e)}")
+        import traceback
+        print(f"🔍 Full error traceback:")
+        traceback.print_exc()
         return create_placeholder_chart(f"Error creating chart: {str(e)}")

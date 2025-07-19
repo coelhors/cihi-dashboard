@@ -9,7 +9,7 @@ import sys
 
 # Import our modular components
 from utils.config import STYLE_CONTENT, STYLE_NAV_BUTTON, COLORS
-from utils.data_loader import load_table3_data, load_table4_data, load_table10_data, combine_mental_health_other_data
+from utils.data_loader import load_table3_data, load_table4_data, load_table10_data, load_table11_data, combine_mental_health_other_data
 from components.sidebar import create_sidebar
 # Import page modules directly to avoid circular imports
 from components.pages.provincial_overview import create_layout as provincial_layout, register_callbacks as provincial_callbacks
@@ -41,6 +41,7 @@ except Exception as e:
 TABLE3_DF = load_table3_data()
 TABLE4_DF = load_table4_data()
 TABLE10_DF = load_table10_data()
+TABLE11_DF = load_table11_data()
 
 if not TABLE3_DF.empty:
     print(f"✅ Loaded Table 3: {len(TABLE3_DF)} records")
@@ -58,6 +59,12 @@ if not TABLE10_DF.empty:
     print(f"✅ Age groups available: {sorted(TABLE10_DF['Age_Group'].unique())}")
 else:
     print("⚠️ WARNING: Table 10 data not loaded")
+
+if not TABLE11_DF.empty:
+    print(f"✅ Loaded Table 11: {len(TABLE11_DF)} records")
+    print(f"✅ Residence types available: {sorted(TABLE11_DF['Residence_Type'].unique())}")
+else:
+    print("⚠️ WARNING: Table 11 data not loaded")
 
 # Combine datasets for comparison
 COMBINED_DF = combine_mental_health_other_data(TABLE3_DF, TABLE4_DF)
@@ -82,7 +89,7 @@ app.layout = html.Div([
 # Register callbacks for all pages
 provincial_callbacks(app, TABLE3_DF, COMBINED_DF)
 demographics_callbacks(app, TABLE10_DF)
-health_equity_callbacks(app)
+health_equity_callbacks(app, TABLE11_DF)
 clinical_patterns_callbacks(app)
 
 # Main page routing callback
@@ -95,7 +102,7 @@ def display_page(pathname):
     if pathname == '/demographics':
         return demographics_layout(TABLE10_DF)
     elif pathname == '/equity':
-        return health_equity_layout()
+        return health_equity_layout(TABLE11_DF)
     elif pathname == '/clinical':
         return clinical_patterns_layout()
     else:  # Default to provincial overview
@@ -136,7 +143,7 @@ if __name__ == '__main__':
     print(f"🧩 Modular architecture: components, utils, pages")
     
     try:
-        app.run(debug=True, dev_tools_hot_reload=False, dev_tools_ui=True)
+        app.run(debug=False, dev_tools_hot_reload=False, dev_tools_ui=True)
     except Exception as e:
         print(f"\n❌ CRITICAL ERROR starting app: {e}")
         import traceback
