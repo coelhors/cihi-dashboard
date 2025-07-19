@@ -11,7 +11,11 @@ import sys
 from utils.config import STYLE_CONTENT, STYLE_NAV_BUTTON, COLORS
 from utils.data_loader import load_table3_data
 from components.sidebar import create_sidebar
-from components.pages import provincial_overview, demographics, health_equity, clinical_patterns
+# Import page modules directly to avoid circular imports
+from components.pages.provincial_overview import create_layout as provincial_layout, register_callbacks as provincial_callbacks
+from components.pages.demographics import create_layout as demographics_layout, register_callbacks as demographics_callbacks
+from components.pages.health_equity import create_layout as health_equity_layout, register_callbacks as health_equity_callbacks
+from components.pages.clinical_patterns import create_layout as clinical_patterns_layout, register_callbacks as clinical_patterns_callbacks
 
 # Initialize the Dash app
 app = dash.Dash(__name__, suppress_callback_exceptions=True)
@@ -54,10 +58,10 @@ app.layout = html.Div([
 ])
 
 # Register callbacks for all pages
-provincial_overview.register_callbacks(app, TABLE3_DF)
-demographics.register_callbacks(app)
-health_equity.register_callbacks(app)
-clinical_patterns.register_callbacks(app)
+provincial_callbacks(app, TABLE3_DF)
+demographics_callbacks(app)
+health_equity_callbacks(app)
+clinical_patterns_callbacks(app)
 
 # Main page routing callback
 @app.callback(
@@ -67,13 +71,13 @@ clinical_patterns.register_callbacks(app)
 def display_page(pathname):
     """Update page content based on URL path"""
     if pathname == '/demographics':
-        return demographics.create_layout()
+        return demographics_layout()
     elif pathname == '/equity':
-        return health_equity.create_layout()
+        return health_equity_layout()
     elif pathname == '/clinical':
-        return clinical_patterns.create_layout()
+        return clinical_patterns_layout()
     else:  # Default to provincial overview
-        return provincial_overview.create_layout(TABLE3_DF)
+        return provincial_layout(TABLE3_DF)
 
 # Navigation highlighting callback
 @app.callback(
