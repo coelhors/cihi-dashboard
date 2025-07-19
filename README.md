@@ -85,7 +85,10 @@ cihi-dashboard/
 │   ├── 📄 table_04.json              # Provincial other conditions hospitalization data (2018-2024)
 │   ├── 📄 table_10.json              # Age and gender demographics data (2018-2024)
 │   ├── 📄 table_11.json              # Urban vs rural residence data (2018-2024)
-│   └── 📄 table_12.json              # Income quintile data (2018-2024)
+│   ├── 📄 table_12.json              # Income quintile data (2018-2024)
+│   ├── 📄 table_13-2021-2022.json    # Clinical diagnostic patterns data (2021-2022)
+│   ├── 📄 table_13-2022-2023.json    # Clinical diagnostic patterns data (2022-2023)
+│   └── 📄 table_13-2023-2024.json    # Clinical diagnostic patterns data (2023-2024)
 ├── 📂 utils/                          # Utility functions and configuration
 │   ├── 📄 __init__.py                # Package initialization
 │   ├── 📄 config.py                  # Colors, styles, constants, and configuration
@@ -98,8 +101,8 @@ cihi-dashboard/
 │       ├── 📄 __init__.py            # Package initialization
 │       ├── 📄 provincial_overview.py # Provincial trends and comparison charts (3 working visualizations)
 │       ├── 📄 demographics.py        # Age and gender demographics analysis (1 working visualization)
-│       ├── 📄 health_equity.py       # Urban/rural and income disparity analysis (2 working visualizations)
-│       └── 📄 clinical_patterns.py   # Clinical patterns page (placeholder)
+│       ├── 📄 health_equity.py       # Urban/rural and income disparity analysis (3 working visualizations)
+│       └── 📄 clinical_patterns.py   # Clinical diagnostic patterns analysis (1 working visualization)
 └── 📂 docs/                           # Documentation and methodology - empty
 ```
 
