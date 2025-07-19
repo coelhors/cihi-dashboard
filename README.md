@@ -68,6 +68,24 @@ The interactive visualizations guide users through a comprehensive analysis, fro
 - **Socioeconomic Insights** - Clear visualization of income inequality in mental health outcomes
 - **Teaching Focus** - Shows persistent income gradient with Q1 consistently higher rates than Q5
 
+#### **Visual Element 7: Income Quintile Contributions**
+- **Interactive pie chart** showing how different income quintiles contribute to mental health hospitalization burden
+- **Year Selection** - Dropdown to explore contributions across 2018-2024 fiscal years
+- **Rate-Based Analysis** - Shows proportional contributions based on rates per 100,000 population
+- **Expressive Labels** - Clear income hierarchy from Q1 (Lowest Income) to Q5 (Highest Income)
+- **Consistent Design** - Same red-to-green color gradient as Visual Element 6
+- **Health Equity Focus** - Visualizes disproportionate burden on lower-income populations
+
+#### **Visual Element 8: Clinical Diagnostic Patterns**
+- **Interactive heat map** showing mental health hospitalization rates by diagnosis, age group, and gender
+- **Sex Selection** - Toggle between Female, Male, and Both Combined to reveal gender differences
+- **Year Comparison** - Dropdown to explore patterns across 2021-2024 fiscal years
+- **Diagnosis Filter** - Multi-select checklist for 7 diagnostic categories
+- **Color Scale Options** - Linear, Log, Percentile Ranking, and Z-Score normalization modes
+- **Clinical Insights** - Visual identification of highest-risk age-diagnosis combinations
+- **Teaching Value** - Demonstrates developmental psychiatry patterns and gender-specific vulnerabilities
+
+
 ## 📁 Project Structure
 
 ```
@@ -131,30 +149,6 @@ This dashboard demonstrates:
 - **Data Processing**: Pandas, NumPy
 - **Styling**: CSS3, Dash Bootstrap Components
 - **Version Control**: Git & GitHub
-
-## 📈 Implementation Status
-
-**Current Progress: 7/8 Visualizations Complete (87.5%)**
-
-### ✅ **Completed Visualizations**
-- **Provincial Overview Page**: 3 visualizations
-  - Provincial Hospitalization Trends
-  - Mental Health vs Other Conditions
-  - Provincial Contribution Analysis
-- **Demographics Page**: 1 visualization
-  - Age and Gender Patterns
-- **Health Equity Page**: 3 visualizations
-  - Urban vs Rural Disparities
-  - Income Gradient Analysis  
-  - Income Quintile Contributions
-
-#### **Visual Element 7: Income Quintile Contributions**
-- **Interactive pie chart** showing how different income quintiles contribute to mental health hospitalization burden
-- **Year Selection** - Dropdown to explore contributions across 2018-2024 fiscal years
-- **Rate-Based Analysis** - Shows proportional contributions based on rates per 100,000 population
-- **Expressive Labels** - Clear income hierarchy from Q1 (Lowest Income) to Q5 (Highest Income)
-- **Consistent Design** - Same red-to-green color gradient as Visual Element 6
-- **Health Equity Focus** - Visualizes disproportionate burden on lower-income populations
 
 ---
 
