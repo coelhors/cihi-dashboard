@@ -37,6 +37,15 @@ The interactive visualizations guide users through a comprehensive analysis, fro
 - **Interactive Tooltips** - Show detailed breakdown with percentages
 - **Data Integration** - Combines Table 3 and Table 4 datasets
 
+#### **Visual Element 3: Provincial Contribution Analysis**
+- **Interactive pie chart** showing each province's share of total hospitalizations
+- **Year Selection** - Dropdown to explore contributions across 2018-2024
+- **Metric Toggle** - Switch between absolute cases and rates per 100,000
+- **Visual Emphasis** - Alberta slice highlighted with pull-out effect
+- **Rich Tooltips** - Province details with cases, rates, and percentages
+- **Colorblind-friendly** - Distinct colors for all provinces/territories
+- **Excludes Canada Total** - Shows only provincial/territorial breakdowns
+
 ## 📁 Project Structure
 
 ```
@@ -62,7 +71,7 @@ cihi-dashboard/
 │   ├── 📄 sidebar.py                 # Navigation sidebar component
 │   └── 📂 pages/                     # Individual page modules
 │       ├── 📄 __init__.py            # Package initialization
-│       ├── 📄 provincial_overview.py # Provincial trends and comparison charts (2 working visualizations)
+│       ├── 📄 provincial_overview.py # Provincial trends and comparison charts (3 working visualizations)
 │       ├── 📄 demographics.py        # Demographics analysis page (placeholder)
 │       ├── 📄 health_equity.py       # Health equity analysis page (placeholder)
 │       └── 📄 clinical_patterns.py   # Clinical patterns page (placeholder)
