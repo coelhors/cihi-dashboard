@@ -7,9 +7,14 @@ import dash
 from dash import dcc, html, callback, Input, Output
 import plotly.express as px
 import plotly.graph_objects as go
+import pandas as pd
+import json
+import os
+import traceback
+import sys
 
 # Initialize the Dash app
-app = dash.Dash(__name__)
+app = dash.Dash(__name__, suppress_callback_exceptions=True)
 app.title = "CIHI Mental Health Dashboard"
 
 # Color scheme
@@ -65,6 +70,9 @@ STYLE_CARD = {
     'boxShadow': '0 2px 4px rgba(0,0,0,0.1)'
 }
 
+# Global variable to store data
+TABLE3_DF = pd.DataFrame()
+
 def create_placeholder_chart(title, height=400):
     """Create a placeholder chart"""
     fig = go.Figure()
@@ -86,6 +94,168 @@ def create_placeholder_chart(title, height=400):
     )
     return fig
 
+def load_table3_data():
+    """Load and process Table 3 data for provincial trends"""
+    print("🔄 Attempting to load Table 3 data...")
+    
+    try:
+        # Check if file exists
+        file_path = 'data/table_03.json'
+        if not os.path.exists(file_path):
+            print(f"❌ ERROR: File not found: {file_path}")
+            print(f"📁 Current working directory: {os.getcwd()}")
+            print(f"📁 Files in current directory: {os.listdir('.')}")
+            if os.path.exists('data'):
+                print(f"📁 Files in data directory: {os.listdir('data')}")
+            else:
+                print("📁 Data directory does not exist!")
+            return pd.DataFrame()
+        
+        print(f"✅ File found: {file_path}")
+        
+        with open(file_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        
+        print(f"✅ JSON loaded successfully")
+        print(f"📊 Data keys: {list(data.keys())}")
+        
+        # Extract data and create DataFrame
+        records = []
+        years = ["2018-2019", "2019-2020", "2020-2021", "2021-2022", "2022-2023", "2023-2024"]
+        
+        print(f"📅 Processing years: {years}")
+        
+        for i, province_data in enumerate(data['data']):
+            province = province_data['province']
+            print(f"🔄 Processing province {i+1}: {province}")
+            
+            for year in years:
+                if year in province_data:
+                    # Clean year format for display
+                    year_clean = year.replace('2018-2019', '2018-19').replace('2019-2020', '2019-20').replace('2020-2021', '2020-21').replace('2021-2022', '2021-22').replace('2022-2023', '2022-23').replace('2023-2024', '2023-24')
+                    
+                    records.append({
+                        'Province': province,
+                        'Year': year_clean,
+                        'N': province_data[year]['N'],
+                        'Rate': province_data[year]['Rate']
+                    })
+        
+        df = pd.DataFrame(records)
+        print(f"✅ DataFrame created successfully")
+        print(f"📊 Shape: {df.shape}")
+        print(f"📊 Columns: {list(df.columns)}")
+        print(f"📊 Sample data:")
+        print(df.head())
+        
+        return df
+    
+    except Exception as e:
+        print(f"❌ ERROR loading Table 3 data: {str(e)}")
+        print(f"🔍 Full error traceback:")
+        traceback.print_exc()
+        return pd.DataFrame()
+
+def create_provincial_trends_chart(selected_provinces, selected_metric, df):
+    """Create the provincial trends line chart"""
+    print(f"🔄 Creating chart for provinces: {selected_provinces}, metric: {selected_metric}")
+    
+    try:
+        if df.empty:
+            print("❌ DataFrame is empty")
+            return create_placeholder_chart("Provincial Hospitalization Trends - Data not available")
+        
+        print(f"✅ DataFrame has {len(df)} records")
+        
+        # Filter data for selected provinces
+        filtered_df = df[df['Province'].isin(selected_provinces)]
+        print(f"🔍 Filtered to {len(filtered_df)} records for selected provinces")
+        
+        if filtered_df.empty:
+            print("❌ No data after filtering")
+            return create_placeholder_chart("Please select at least one province")
+        
+        # Determine y-axis column based on metric selection
+        y_column = 'Rate' if selected_metric == 'Rate per 100,000' else 'N'
+        y_title = 'Rate per 100,000 population' if selected_metric == 'Rate per 100,000' else 'Number of Cases'
+        
+        print(f"📊 Using column: {y_column}, title: {y_title}")
+        
+        # Create line chart
+        fig = px.line(
+            filtered_df, 
+            x='Year', 
+            y=y_column,
+            color='Province',
+            title=f'Mental Health Hospitalizations by Province ({selected_metric})',
+            markers=True,
+            line_shape='linear'
+        )
+        
+        # Customize layout
+        fig.update_layout(
+            xaxis_title='Fiscal Year',
+            yaxis_title=y_title,
+            hovermode='x unified',
+            plot_bgcolor='white',
+            paper_bgcolor='white',
+            font=dict(size=12),
+            legend=dict(
+                orientation="v",
+                yanchor="top",
+                y=1,
+                xanchor="left",
+                x=1.02
+            ),
+            margin=dict(r=150)  # Add right margin for legend
+        )
+        
+        # Add grid lines
+        fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='lightgray')
+        fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='lightgray')
+        
+        print("✅ Chart created successfully")
+        return fig
+        
+    except Exception as e:
+        print(f"❌ ERROR creating chart: {str(e)}")
+        print(f"🔍 Full error traceback:")
+        traceback.print_exc()
+        return create_placeholder_chart(f"Error creating chart: {str(e)}")
+
+# Load data on startup
+print("=" * 60)
+print("🚀 STARTING CIHI MENTAL HEALTH DASHBOARD")
+print("=" * 60)
+print("Loading CIHI Mental Health Data...")
+
+# Test basic functionality first
+try:
+    print("🔧 Testing basic imports...")
+    import pandas as pd
+    import plotly.express as px
+    print("✅ All imports successful")
+except Exception as e:
+    print(f"❌ Import error: {e}")
+    sys.exit(1)
+
+TABLE3_DF = load_table3_data()
+if not TABLE3_DF.empty:
+    print(f"✅ Loaded Table 3: {len(TABLE3_DF)} records")
+    print(f"✅ Provinces available: {sorted(TABLE3_DF['Province'].unique())}")
+    
+    # Test chart creation
+    try:
+        print("🔧 Testing chart creation...")
+        test_chart = create_provincial_trends_chart(['Canada'], 'Rate per 100,000', TABLE3_DF)
+        print("✅ Chart creation test successful")
+    except Exception as e:
+        print(f"❌ Chart creation test failed: {e}")
+        traceback.print_exc()
+else:
+    print("⚠️ WARNING: Table 3 data not loaded - chart will show placeholder")
+print("=" * 60)
+
 # Define page layouts
 def provincial_overview_layout():
     """Page 1: Provincial Overview"""
@@ -99,9 +269,38 @@ def provincial_overview_layout():
         html.Div([
             html.H3("Provincial Hospitalization Trends"),
             html.P("Interactive line chart showing hospitalization rates by province over time."),
+            
+            # Controls
+            html.Div([
+                html.Div([
+                    html.Label("Select Provinces/Territories:", style={'fontWeight': 'bold', 'marginBottom': '5px'}),
+                    dcc.Dropdown(
+                        id='province-selector',
+                        options=[{'label': province, 'value': province} for province in sorted(TABLE3_DF['Province'].unique())] if not TABLE3_DF.empty else [{'label': 'No data available', 'value': 'none'}],
+                        value=['Canada', 'Ontario', 'Alberta'] if not TABLE3_DF.empty else ['none'],
+                        multi=True,
+                        placeholder="Select provinces to compare"
+                    )
+                ], style={'width': '60%', 'display': 'inline-block', 'marginRight': '5%'}),
+                
+                html.Div([
+                    html.Label("Metric:", style={'fontWeight': 'bold', 'marginBottom': '5px'}),
+                    dcc.RadioItems(
+                        id='metric-selector',
+                        options=[
+                            {'label': 'Rate per 100,000', 'value': 'Rate per 100,000'},
+                            {'label': 'Number of Cases (N)', 'value': 'Number of Cases (N)'}
+                        ],
+                        value='Rate per 100,000',
+                        inline=True
+                    )
+                ], style={'width': '35%', 'display': 'inline-block'})
+                
+            ], style={'marginBottom': '20px'}),
+            
             dcc.Graph(
                 id='provincial-trends-chart',
-                figure=create_placeholder_chart("Provincial Hospitalization Trends")
+                figure=create_provincial_trends_chart(['Canada', 'Ontario', 'Alberta'], 'Rate per 100,000', TABLE3_DF) if not TABLE3_DF.empty else create_placeholder_chart("Provincial Hospitalization Trends - Data not available")
             )
         ], style=STYLE_CARD),
         
@@ -254,6 +453,35 @@ app.layout = html.Div([
     html.Div(id='page-content', style=STYLE_CONTENT)
 ])
 
+# Callback for provincial trends chart
+@app.callback(
+    Output('provincial-trends-chart', 'figure'),
+    [Input('province-selector', 'value'),
+     Input('metric-selector', 'value')]
+)
+def update_provincial_trends_chart(selected_provinces, selected_metric):
+    """Update provincial trends chart based on selections"""
+    print(f"🔄 Callback triggered with provinces: {selected_provinces}, metric: {selected_metric}")
+    
+    try:
+        if not selected_provinces or 'none' in selected_provinces:
+            selected_provinces = ['Canada'] if not TABLE3_DF.empty else []
+            print(f"⚠️ No valid provinces selected, defaulting to: {selected_provinces}")
+        
+        if TABLE3_DF.empty:
+            print("⚠️ TABLE3_DF is empty, showing placeholder")
+            return create_placeholder_chart("Data not available - please check data/table_03.json file")
+        
+        result = create_provincial_trends_chart(selected_provinces, selected_metric, TABLE3_DF)
+        print("✅ Callback completed successfully")
+        return result
+        
+    except Exception as e:
+        print(f"❌ ERROR in callback: {str(e)}")
+        print(f"🔍 Full error traceback:")
+        traceback.print_exc()
+        return create_placeholder_chart(f"Callback error: {str(e)}")
+
 # Callback to update page content based on URL
 @app.callback(
     Output('page-content', 'children'),
@@ -299,7 +527,16 @@ def update_nav_styles(pathname):
 
 # Run the app
 if __name__ == '__main__':
-    print("🚀 Starting CIHI Mental Health Dashboard...")
-    print("📊 Dashboard available at: http://localhost:8050")
-    print("📄 Pages: Provincial Overview, Demographics, Health Equity, Clinical Patterns")
-    app.run(debug=True)
+    print(f"\n🚀 Starting CIHI Mental Health Dashboard...")
+    print(f"📊 Dashboard will be available at: http://localhost:8050")
+    print(f"📄 Pages: Provincial Overview, Demographics, Health Equity, Clinical Patterns")
+    print(f"🐛 Debug mode: Enabled - errors will show in terminal")
+    print(f"⚠️  If you see errors in browser console, check terminal output above")
+    
+    # Force error output to terminal
+    try:
+        app.run(debug=True, dev_tools_hot_reload=False, dev_tools_ui=True)
+    except Exception as e:
+        print(f"\n❌ CRITICAL ERROR starting app: {e}")
+        traceback.print_exc()
+        sys.exit(1)
