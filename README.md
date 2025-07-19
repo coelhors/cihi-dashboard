@@ -12,11 +12,25 @@ This dashboard enables users to:
 
 The interactive visualizations guide users through a comprehensive analysis, from broad provincial trends to specific clinical diagnostic patterns, ultimately empowering evidence-based decision making in youth mental health.
 
+## 📊 Current Features
+
+### 🏠 Multi-Page Navigation
+- **Provincial Overview** - Interactive provincial hospitalization trends line chart
+- **Demographics** - Age and gender analysis (placeholder)
+- **Health Equity** - Urban/rural and income disparities (placeholder)
+- **Clinical Patterns** - Diagnostic pattern analysis (placeholder)
+
+### 📈 Interactive Visualizations
+- **Provincial Trends Chart** - Multi-province comparison with metric toggle
+- **Province Selection** - Multi-select dropdown for comparing 2-4 provinces
+- **Metric Toggle** - Switch between rates per 100,000 and absolute case numbers
+- **Real-time Updates** - Chart updates based on user selections
+
 ## 📁 Project Structure
 
 ```
 cihi-mental-health-dashboard/
-├── 📄 app.py                          # Main Dash application (minimal working version)
+├── 📄 app.py                          # Main Dash application (multi-page with working provincial chart)
 ├── 📄 requirements.txt                # Python dependencies (dash, plotly, pandas)
 ├── 📄 README.md                       # Project documentation (this file)
 ├── 📄 dashboard_overview.md           # Detailed visualization specifications
@@ -24,7 +38,8 @@ cihi-mental-health-dashboard/
 │
 ├── 📂 assets/                         # Static files and styling
 │   └── 📄 style.css                  # Basic CSS styling for dashboard
-├── 📂 data/                           # Raw data files (JSON format) - empty
+├── 📂 data/                           # Raw data files (JSON format)
+│   └── 📄 table_03.json              # Provincial hospitalization data (2018-2024)
 ├── 📂 components/                     # Dashboard visualization components - empty
 ├── 📂 utils/                          # Helper functions and data processing - empty
 └── 📂 docs/                           # Documentation and methodology - empty
