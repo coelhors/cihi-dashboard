@@ -584,6 +584,102 @@ def create_urban_rural_disparity_chart(display_mode, show_ci, highlight_gap, sho
         import traceback
         print(f"🔍 Full error traceback:")
         traceback.print_exc()
+def create_income_quintile_contribution_pie(selected_year, table12_df):
+    """Create simplified income quintile contribution pie chart"""
+    print(f"🔄 Creating income quintile contribution pie chart for year: {selected_year}")
+    
+    try:
+        if table12_df.empty:
+            print("❌ Table 12 DataFrame is empty")
+            return create_placeholder_chart("Income Quintile Contributions - Data not available")
+        
+        # Filter data for selected year
+        filtered_df = table12_df[table12_df['Year'] == selected_year].copy()
+        
+        print(f"🔍 Filtered to {len(filtered_df)} quintiles for year {selected_year}")
+        
+        if filtered_df.empty:
+            print("❌ No data after filtering")
+            return create_placeholder_chart(f"No income quintile data available for {selected_year}")
+        
+        # Color mapping consistent with Visual Element 6
+        quintile_colors = {
+            'Q1': '#E74C3C',  # Red (highest rates)
+            'Q2': '#FF8C00',  # Orange
+            'Q3': '#FFD700',  # Yellow/Gold
+            'Q4': '#90EE90',  # Light Green
+            'Q5': '#228B22'   # Green (lowest rates)
+        }
+        
+        # Create color list in correct order
+        colors = [quintile_colors[q] for q in filtered_df['Income_Quintile']]
+        
+        # Always use Rate per 100,000 as values
+        values = filtered_df['Rate']
+        title_suffix = 'by Rate per 100,000'
+        hover_template = (
+            "<b>%{label}</b><br>"
+            f"Year: {selected_year}<br>"
+            "Rate per 100k: %{value:.0f}<br>"
+            "Percentage: %{percent}"
+            "<extra></extra>"
+        )
+        
+        # Create quintile labels with more expressive names
+        quintile_labels = []
+        for q in filtered_df['Income_Quintile']:
+            if q == 'Q1':
+                quintile_labels.append('Q1 (Lowest Income)')
+            elif q == 'Q2':
+                quintile_labels.append('Q2 (Lower-Middle Income)')
+            elif q == 'Q3':
+                quintile_labels.append('Q3 (Middle Income)')
+            elif q == 'Q4':
+                quintile_labels.append('Q4 (Upper-Middle Income)')
+            elif q == 'Q5':
+                quintile_labels.append('Q5 (Highest Income)')
+            else:
+                quintile_labels.append(f'{q}')  # fallback
+        
+        # Create pie chart
+        fig = px.pie(
+            values=values,
+            names=quintile_labels,
+            title=f'Income Quintile Mental Health Hospitalization Contributions - {selected_year}<br><sub>{title_suffix}</sub>',
+            color_discrete_sequence=colors
+        )
+        
+        # Customize the pie chart
+        fig.update_traces(
+            textposition='inside',
+            textinfo='percent+label',
+            hovertemplate=hover_template
+        )
+        
+        # Update layout
+        fig.update_layout(
+            font=dict(size=12),
+            legend=dict(
+                orientation="v",
+                yanchor="middle",
+                y=0.5,
+                xanchor="left",
+                x=1.02
+            ),
+            margin=dict(r=200, l=50, t=100, b=50),
+            showlegend=True,
+            height=600,
+            width=1000
+        )
+        
+        print("✅ Income quintile contribution pie chart created successfully")
+        return fig
+        
+    except Exception as e:
+        print(f"❌ ERROR creating income quintile contribution pie chart: {str(e)}")
+        import traceback
+        print(f"🔍 Full error traceback:")
+        traceback.print_exc()
         return create_placeholder_chart(f"Error creating chart: {str(e)}")
 
 def create_income_gradient_chart(table12_df):

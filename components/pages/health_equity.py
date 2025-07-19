@@ -5,7 +5,7 @@ Health Equity page layout and callbacks
 from dash import html, dcc, callback, Input, Output
 import traceback
 from utils.config import COLORS, STYLE_CARD
-from utils.chart_helpers import create_placeholder_chart, create_urban_rural_disparity_chart, create_income_gradient_chart
+from utils.chart_helpers import create_placeholder_chart, create_urban_rural_disparity_chart, create_income_gradient_chart, create_income_quintile_contribution_pie
 
 def create_layout(table11_df=None, table12_df=None):
     """Create Health Equity page layout"""
@@ -40,13 +40,59 @@ def create_layout(table11_df=None, table12_df=None):
         html.Div([
             html.H3("Income Quintile Contributions"),
             html.P("How different income groups contribute to overall mental health hospitalization burden."),
+            
+            # Controls
+            html.Div([
+                html.Label("Select Fiscal Year:", style={'fontWeight': 'bold', 'marginBottom': '5px'}),
+                dcc.Dropdown(
+                    id='income-pie-year-selector',
+                    options=[
+                        {'label': '2018-19', 'value': '2018-19'},
+                        {'label': '2019-20', 'value': '2019-20'},
+                        {'label': '2020-21', 'value': '2020-21'},
+                        {'label': '2021-22', 'value': '2021-22'},
+                        {'label': '2022-23', 'value': '2022-23'},
+                        {'label': '2023-24', 'value': '2023-24'}
+                    ],
+                    value='2023-24',
+                    clearable=False,
+                    placeholder="Select year"
+                )
+            ], style={'width': '45%', 'marginBottom': '20px'}),
+            
             dcc.Graph(
-                figure=create_placeholder_chart("Income Quintile Contribution Analysis")
+                id='income-contribution-pie-chart',
+                figure=create_income_quintile_contribution_pie('2023-24', table12_df) if table12_df is not None and not table12_df.empty else create_placeholder_chart("Income Quintile Contribution Analysis")
             )
         ], style=STYLE_CARD)
     ])
 
 def register_callbacks(app, table11_df=None, table12_df=None):
     """Register callbacks for Health Equity page"""
-    # No callbacks needed - all charts are now static
-    pass
+    
+    @app.callback(
+        Output('income-contribution-pie-chart', 'figure'),
+        [Input('income-pie-year-selector', 'value')]
+    )
+    def update_income_contribution_pie_chart(selected_year):
+        """Update income contribution pie chart based on year selection"""
+        print(f"🔄 Income contribution pie callback triggered with year: {selected_year}")
+        
+        try:
+            if not selected_year:
+                selected_year = '2023-24'
+                print(f"⚠️ No year selected, defaulting to: {selected_year}")
+            
+            if table12_df is None or table12_df.empty:
+                print("⚠️ Table 12 DataFrame is empty, showing placeholder")
+                return create_placeholder_chart("Income quintile data not available - please check data files")
+            
+            result = create_income_quintile_contribution_pie(selected_year, table12_df)
+            print("✅ Income contribution pie callback completed successfully")
+            return result
+            
+        except Exception as e:
+            print(f"❌ ERROR in income contribution pie callback: {str(e)}")
+            print(f"🔍 Full error traceback:")
+            traceback.print_exc()
+            return create_placeholder_chart(f"Income contribution pie callback error: {str(e)}")
