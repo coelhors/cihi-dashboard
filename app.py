@@ -9,7 +9,7 @@ import sys
 
 # Import our modular components
 from utils.config import STYLE_CONTENT, STYLE_NAV_BUTTON, COLORS
-from utils.data_loader import load_table3_data
+from utils.data_loader import load_table3_data, load_table4_data, combine_mental_health_other_data
 from components.sidebar import create_sidebar
 # Import page modules directly to avoid circular imports
 from components.pages.provincial_overview import create_layout as provincial_layout, register_callbacks as provincial_callbacks
@@ -39,11 +39,26 @@ except Exception as e:
 
 # Load data
 TABLE3_DF = load_table3_data()
+TABLE4_DF = load_table4_data()
+
 if not TABLE3_DF.empty:
     print(f"✅ Loaded Table 3: {len(TABLE3_DF)} records")
     print(f"✅ Provinces available: {sorted(TABLE3_DF['Province'].unique())}")
 else:
-    print("⚠️ WARNING: Table 3 data not loaded - chart will show placeholder")
+    print("⚠️ WARNING: Table 3 data not loaded")
+
+if not TABLE4_DF.empty:
+    print(f"✅ Loaded Table 4: {len(TABLE4_DF)} records")
+else:
+    print("⚠️ WARNING: Table 4 data not loaded")
+
+# Combine datasets for comparison
+COMBINED_DF = combine_mental_health_other_data(TABLE3_DF, TABLE4_DF)
+if not COMBINED_DF.empty:
+    print(f"✅ Combined dataset created: {len(COMBINED_DF)} records")
+else:
+    print("⚠️ WARNING: Combined dataset not created")
+
 print("=" * 60)
 
 # Main app layout
@@ -58,7 +73,7 @@ app.layout = html.Div([
 ])
 
 # Register callbacks for all pages
-provincial_callbacks(app, TABLE3_DF)
+provincial_callbacks(app, TABLE3_DF, COMBINED_DF)
 demographics_callbacks(app)
 health_equity_callbacks(app)
 clinical_patterns_callbacks(app)
@@ -77,7 +92,7 @@ def display_page(pathname):
     elif pathname == '/clinical':
         return clinical_patterns_layout()
     else:  # Default to provincial overview
-        return provincial_layout(TABLE3_DF)
+        return provincial_layout(TABLE3_DF, COMBINED_DF)
 
 # Navigation highlighting callback
 @app.callback(

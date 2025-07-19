@@ -66,6 +66,91 @@ def load_table3_data():
         traceback.print_exc()
         return pd.DataFrame()
 
+def load_table4_data():
+    """Load and process Table 4 data for other conditions"""
+    print("🔄 Attempting to load Table 4 data...")
+    
+    try:
+        # Check if file exists
+        file_path = DATA_FILES['table4']
+        if not os.path.exists(file_path):
+            print(f"❌ ERROR: File not found: {file_path}")
+            return pd.DataFrame()
+        
+        print(f"✅ File found: {file_path}")
+        
+        with open(file_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        
+        print(f"✅ JSON loaded successfully")
+        
+        # Extract data and create DataFrame
+        records = []
+        
+        for i, province_data in enumerate(data['data']):
+            province = province_data['province']
+            print(f"🔄 Processing province {i+1}: {province}")
+            
+            for year, year_display in zip(FISCAL_YEARS, FISCAL_YEARS_DISPLAY):
+                if year in province_data:
+                    records.append({
+                        'Province': province,
+                        'Year': year_display,
+                        'N': province_data[year]['N'],
+                        'Rate': province_data[year]['Rate']
+                    })
+        
+        df = pd.DataFrame(records)
+        print(f"✅ Table 4 DataFrame created successfully")
+        print(f"📊 Shape: {df.shape}")
+        
+        return df
+    
+    except Exception as e:
+        print(f"❌ ERROR loading Table 4 data: {str(e)}")
+        print(f"🔍 Full error traceback:")
+        traceback.print_exc()
+        return pd.DataFrame()
+
+def combine_mental_health_other_data(table3_df, table4_df):
+    """Combine mental health and other conditions data for comparison"""
+    try:
+        if table3_df.empty or table4_df.empty:
+            print("❌ One or both dataframes are empty")
+            return pd.DataFrame()
+        
+        # Merge the dataframes
+        mental_health = table3_df.copy()
+        mental_health['Condition_Type'] = 'Mental Health'
+        mental_health = mental_health.rename(columns={'N': 'MH_N', 'Rate': 'MH_Rate'})
+        
+        other_conditions = table4_df.copy()
+        other_conditions['Condition_Type'] = 'Other Conditions'
+        other_conditions = other_conditions.rename(columns={'N': 'Other_N', 'Rate': 'Other_Rate'})
+        
+        # Merge on Province and Year
+        combined = pd.merge(
+            mental_health[['Province', 'Year', 'MH_N', 'MH_Rate']], 
+            other_conditions[['Province', 'Year', 'Other_N', 'Other_Rate']], 
+            on=['Province', 'Year'], 
+            how='inner'
+        )
+        
+        # Calculate totals and percentages
+        combined['Total_N'] = combined['MH_N'] + combined['Other_N']
+        combined['Total_Rate'] = combined['MH_Rate'] + combined['Other_Rate']
+        combined['MH_Percentage'] = (combined['MH_N'] / combined['Total_N'] * 100).round(1)
+        
+        print(f"✅ Combined data created successfully")
+        print(f"📊 Combined shape: {combined.shape}")
+        
+        return combined
+    
+    except Exception as e:
+        print(f"❌ ERROR combining data: {str(e)}")
+        traceback.print_exc()
+        return pd.DataFrame()
+
 def get_province_options(df):
     """Get province options for dropdown"""
     if df.empty:
