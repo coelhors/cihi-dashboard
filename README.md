@@ -16,17 +16,18 @@ The interactive visualizations guide users through a comprehensive analysis, fro
 
 ```
 cihi-mental-health-dashboard/
-├── 📄 app.py                          # Main Dash application entry point
-├── 📄 requirements.txt                # Python package dependencies
+├── 📄 app.py                          # Main Dash application (minimal working version)
+├── 📄 requirements.txt                # Python dependencies (dash, plotly, pandas)
 ├── 📄 README.md                       # Project documentation (this file)
+├── 📄 dashboard_overview.md           # Detailed visualization specifications
 ├── 📄 .gitignore                      # Git ignore rules
-├── 📄 run_demo.sh                     # Quick demo startup script
 │
-├── 📂 data/                           # Raw data files (JSON format)
-├── 📂 components/                     # Dashboard visualization components
-├── 📂 utils/                          # Helper functions and data processing
 ├── 📂 assets/                         # Static files and styling
-└── 📂 docs/                           # Documentation and methodology
+│   └── 📄 style.css                  # Basic CSS styling for dashboard
+├── 📂 data/                           # Raw data files (JSON format) - empty
+├── 📂 components/                     # Dashboard visualization components - empty
+├── 📂 utils/                          # Helper functions and data processing - empty
+└── 📂 docs/                           # Documentation and methodology - empty
 ```
 
 
@@ -37,14 +38,6 @@ cihi-mental-health-dashboard/
 *Care for Children and Youth With Mental Disorders (2018-2024)*
 
 **Dataset Download**: [CIHI Mental Health Data Tables](https://www.cihi.ca/sites/default/files/document/care-children-youth-with-mental-disorders-data-tables-en.xlsx)
-
-This comprehensive dataset includes:
-- Emergency department visits
-- Hospitalizations  
-- Physician visits
-- Medication patterns
-- Ages 5-24 years
-- Mental health disorder classifications
 
 ## 🎓 Educational Value
 
