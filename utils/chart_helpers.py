@@ -316,7 +316,7 @@ def create_age_gender_chart(selected_year, display_option, show_ci, table10_df):
                 color='Sex',
                 title=f'Mental Health Hospitalizations by Age and Gender - {selected_year}',
                 labels={'Rate': 'Rate per 100,000 population', 'Age_Group': 'Age Group'},
-                color_discrete_map={'Female': '#E91E63', 'Male': '#2196F3'},
+                color_discrete_map={'Female': '#4CAF50', 'Male': '#2196F3'},  # Green for Female, Blue for Male
                 barmode='group'
             )
             
@@ -357,8 +357,7 @@ def create_age_gender_chart(selected_year, display_option, show_ci, table10_df):
             )
             
             # Add horizontal line at ratio = 1
-            fig.add_hline(y=1, line_dash="dash", line_color="gray", 
-                         annotation_text="Equal rates (1:1)")
+            fig.add_hline(y=1, line_dash="dash", line_color="#FF9800", line_width=3)
             
         else:  # Both Sexes Combined
             # Combine sexes using 'Total' category
