@@ -4,6 +4,7 @@ Chart helper functions for CIHI Mental Health Dashboard
 
 import plotly.express as px
 import plotly.graph_objects as go
+import pandas as pd
 from utils.config import COLORS
 
 def create_placeholder_chart(title, height=400):
@@ -580,6 +581,204 @@ def create_urban_rural_disparity_chart(display_mode, show_ci, highlight_gap, sho
         
     except Exception as e:
         print(f"❌ ERROR creating urban/rural chart: {str(e)}")
+        import traceback
+        print(f"🔍 Full error traceback:")
+        traceback.print_exc()
+        return create_placeholder_chart(f"Error creating chart: {str(e)}")
+
+def create_income_gradient_chart(display_mode, show_ci, show_ratio, show_shading, table12_df):
+    """Create income gradient multi-line chart"""
+    print(f"🔄 Creating income gradient chart - mode: {display_mode}, CI: {show_ci}, ratio: {show_ratio}, shading: {show_shading}")
+    
+    try:
+        if table12_df.empty:
+            print("❌ Table 12 DataFrame is empty")
+            return create_placeholder_chart("Income Gradient Analysis - Data not available")
+        
+        print(f"✅ Table 12 has {len(table12_df)} records")
+        
+        # Color mapping for income quintiles (red to green gradient)
+        quintile_colors = {
+            'Q1': '#E74C3C',  # Red (highest rates, lowest income)
+            'Q2': '#FF8C00',  # Orange
+            'Q3': '#FFD700',  # Yellow/Gold
+            'Q4': '#90EE90',  # Light Green
+            'Q5': '#228B22'   # Green (lowest rates, highest income)
+        }
+        
+        if display_mode == "Absolute Rates":
+            # Create multi-line chart
+            fig = go.Figure()
+            
+            for quintile in ['Q1', 'Q2', 'Q3', 'Q4', 'Q5']:
+                quintile_data = table12_df[table12_df['Income_Quintile'] == quintile].sort_values('Year')
+                
+                if not quintile_data.empty:
+                    # Determine line width - make Q1 and Q5 thicker to emphasize endpoints
+                    line_width = 4 if quintile in ['Q1', 'Q5'] else 3
+                    
+                    fig.add_trace(go.Scatter(
+                        x=quintile_data['Year'],
+                        y=quintile_data['Rate'],
+                        mode='lines+markers',
+                        name=f'{quintile} ({"Lowest" if quintile=="Q1" else "Highest" if quintile=="Q5" else "Middle"} Income)',
+                        line=dict(color=quintile_colors[quintile], width=line_width),
+                        marker=dict(size=8),
+                        hovertemplate=f'<b>Income {quintile}</b><br>Year: %{{x}}<br>Rate: %{{y:.0f}} per 100k<br>95% CI: [%{{customdata[0]:.0f}}-%{{customdata[1]:.0f}}]<extra></extra>',
+                        customdata=quintile_data[['CI_Lower', 'CI_Upper']].values
+                    ))
+                    
+                    # Add confidence intervals if requested
+                    if show_ci:
+                        fig.add_trace(go.Scatter(
+                            x=quintile_data['Year'].tolist() + quintile_data['Year'].tolist()[::-1],
+                            y=quintile_data['CI_Upper'].tolist() + quintile_data['CI_Lower'].tolist()[::-1],
+                            fill='toself',
+                            fillcolor=f'rgba({int(quintile_colors[quintile][1:3], 16)}, {int(quintile_colors[quintile][3:5], 16)}, {int(quintile_colors[quintile][5:7], 16)}, 0.2)',
+                            line=dict(color='rgba(255,255,255,0)'),
+                            name=f'{quintile} 95% CI',
+                            showlegend=False,
+                            hoverinfo='skip'
+                        ))
+            
+            # Add gradient shading between Q1 and Q5 if requested
+            if show_shading:
+                q1_data = table12_df[table12_df['Income_Quintile'] == 'Q1'].sort_values('Year')
+                q5_data = table12_df[table12_df['Income_Quintile'] == 'Q5'].sort_values('Year')
+                
+                if not q1_data.empty and not q5_data.empty:
+                    fig.add_trace(go.Scatter(
+                        x=q5_data['Year'].tolist() + q1_data['Year'].tolist()[::-1],
+                        y=q5_data['Rate'].tolist() + q1_data['Rate'].tolist()[::-1],
+                        fill='toself',
+                        fillcolor='rgba(231, 76, 60, 0.15)',
+                        line=dict(color='rgba(255,255,255,0)'),
+                        name='Income Inequality Gap',
+                        showlegend=True,
+                        hoverinfo='skip'
+                    ))
+            
+            title = 'Mental Health Hospitalizations by Income Quintile (Canada)'
+            y_title = 'Rate per 100,000 population'
+            
+        elif display_mode == "Relative to Q5":
+            # Calculate ratios relative to Q5 (highest income)
+            fig = go.Figure()
+            
+            q5_data = table12_df[table12_df['Income_Quintile'] == 'Q5'].set_index('Year')['Rate']
+            
+            for quintile in ['Q1', 'Q2', 'Q3', 'Q4', 'Q5']:
+                quintile_data = table12_df[table12_df['Income_Quintile'] == quintile].sort_values('Year')
+                
+                if not quintile_data.empty:
+                    # Calculate ratio to Q5
+                    quintile_rates = quintile_data.set_index('Year')['Rate']
+                    ratios = quintile_rates / q5_data
+                    ratio_df = ratios.reset_index()
+                    ratio_df.columns = ['Year', 'Ratio']
+                    
+                    line_width = 4 if quintile in ['Q1', 'Q5'] else 3
+                    
+                    fig.add_trace(go.Scatter(
+                        x=ratio_df['Year'],
+                        y=ratio_df['Ratio'],
+                        mode='lines+markers',
+                        name=f'{quintile} ({"Lowest" if quintile=="Q1" else "Highest" if quintile=="Q5" else "Middle"} Income)',
+                        line=dict(color=quintile_colors[quintile], width=line_width),
+                        marker=dict(size=8),
+                        hovertemplate=f'<b>Income {quintile}</b><br>Year: %{{x}}<br>Ratio to Q5: %{{y:.2f}}x<extra></extra>'
+                    ))
+            
+            # Add reference line at 1.0 (Q5 baseline)
+            fig.add_hline(y=1, line_dash="dash", line_color="gray", line_width=2)
+            
+            title = 'Income Quintile Rates Relative to Q5 (Highest Income)'
+            y_title = 'Ratio to Q5 (Highest Income Quintile)'
+            
+        else:  # Percentage Above National Average
+            # Calculate percentage differences from national average
+            # First calculate national average across all quintiles (weighted)
+            national_avg = table12_df.groupby('Year')['Rate'].mean().reset_index()
+            national_avg.columns = ['Year', 'National_Avg']
+            
+            fig = go.Figure()
+            
+            for quintile in ['Q1', 'Q2', 'Q3', 'Q4', 'Q5']:
+                quintile_data = table12_df[table12_df['Income_Quintile'] == quintile].sort_values('Year')
+                
+                if not quintile_data.empty:
+                    # Merge with national average
+                    merged = pd.merge(quintile_data, national_avg, on='Year')
+                    merged['Percentage_Diff'] = ((merged['Rate'] - merged['National_Avg']) / merged['National_Avg']) * 100
+                    
+                    line_width = 4 if quintile in ['Q1', 'Q5'] else 3
+                    
+                    fig.add_trace(go.Scatter(
+                        x=merged['Year'],
+                        y=merged['Percentage_Diff'],
+                        mode='lines+markers',
+                        name=f'{quintile} ({"Lowest" if quintile=="Q1" else "Highest" if quintile=="Q5" else "Middle"} Income)',
+                        line=dict(color=quintile_colors[quintile], width=line_width),
+                        marker=dict(size=8),
+                        hovertemplate=f'<b>Income {quintile}</b><br>Year: %{{x}}<br>% Above/Below Avg: %{{y:.1f}}%<extra></extra>'
+                    ))
+            
+            # Add reference line at 0% (national average)
+            fig.add_hline(y=0, line_dash="dash", line_color="gray", line_width=2)
+            
+            title = 'Income Quintile Rates as % Above/Below National Average'
+            y_title = 'Percentage Above/Below National Average'
+        
+        # Add ratio annotations if requested
+        if show_ratio and display_mode == "Absolute Rates":
+            # Calculate Q1:Q5 ratios for each year
+            q1_data = table12_df[table12_df['Income_Quintile'] == 'Q1'].set_index('Year')['Rate']
+            q5_data = table12_df[table12_df['Income_Quintile'] == 'Q5'].set_index('Year')['Rate']
+            
+            # Add annotation for latest year
+            latest_year = q1_data.index[-1]
+            latest_ratio = q1_data[latest_year] / q5_data[latest_year]
+            
+            fig.add_annotation(
+                x=latest_year,
+                y=q1_data[latest_year],
+                text=f"Q1 is {latest_ratio:.1f}x higher than Q5",
+                showarrow=True,
+                arrowhead=2,
+                arrowcolor=quintile_colors['Q1'],
+                bgcolor="white",
+                bordercolor=quintile_colors['Q1'],
+                borderwidth=2
+            )
+        
+        # Update layout
+        fig.update_layout(
+            title=title,
+            xaxis_title='Fiscal Year',
+            yaxis_title=y_title,
+            plot_bgcolor='white',
+            paper_bgcolor='white',
+            font=dict(size=12),
+            legend=dict(
+                orientation="v",
+                yanchor="top",
+                y=1,
+                xanchor="left",
+                x=1.02
+            ),
+            margin=dict(r=200),
+            height=600
+        )
+        
+        # Add grid lines
+        fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='lightgray')
+        fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='lightgray')
+        
+        print("✅ Income gradient chart created successfully")
+        return fig
+        
+    except Exception as e:
+        print(f"❌ ERROR creating income gradient chart: {str(e)}")
         import traceback
         print(f"🔍 Full error traceback:")
         traceback.print_exc()

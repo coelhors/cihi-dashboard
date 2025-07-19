@@ -265,6 +265,54 @@ def load_table11_data():
         traceback.print_exc()
         return pd.DataFrame()
 
+def load_table12_data():
+    """Load and process Table 12 data for income quintile analysis"""
+    print("🔄 Attempting to load Table 12 data...")
+    
+    try:
+        # Check if file exists
+        file_path = DATA_FILES['table12']
+        if not os.path.exists(file_path):
+            print(f"❌ ERROR: File not found: {file_path}")
+            return pd.DataFrame()
+        
+        print(f"✅ File found: {file_path}")
+        
+        with open(file_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        
+        print(f"✅ JSON loaded successfully")
+        
+        # Extract data and create DataFrame
+        records = []
+        
+        for entry in data['data']:
+            income_quintile = f"Q{entry['income_quintile']}"
+            
+            for year, year_display in zip(FISCAL_YEARS, FISCAL_YEARS_DISPLAY):
+                if year in entry:
+                    year_data = entry[year]
+                    records.append({
+                        'Income_Quintile': income_quintile,
+                        'Year': year_display,
+                        'Rate': year_data['Rate'],
+                        'CI_Lower': year_data['CI_lower'],
+                        'CI_Upper': year_data['CI_upper']
+                    })
+        
+        df = pd.DataFrame(records)
+        print(f"✅ Table 12 DataFrame created successfully")
+        print(f"📊 Shape: {df.shape}")
+        print(f"📊 Income quintiles: {sorted(df['Income_Quintile'].unique())}")
+        
+        return df
+    
+    except Exception as e:
+        print(f"❌ ERROR loading Table 12 data: {str(e)}")
+        print(f"🔍 Full error traceback:")
+        traceback.print_exc()
+        return pd.DataFrame()
+
 def get_default_provinces(df):
     """Get default province selection"""
     if df.empty:

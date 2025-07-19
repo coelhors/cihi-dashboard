@@ -1,0 +1,199 @@
+{
+  "metadata": {
+    "title": "Children and youth hospitalized for mental disorders, by income quintile, Canada, 2018–2019 to 2023–2024",
+    "description": "Hospitalizations for mental disorders among children and youth aged 5-24, stratified by neighborhood income quintile",
+    "source": "CIHI - Canadian Institute for Health Information",
+    "years": [
+      "2018-2019",
+      "2019-2020",
+      "2020-2021",
+      "2021-2022",
+      "2022-2023",
+      "2023-2024"
+    ],
+    "metrics": [
+      "Rate",
+      "95% CI"
+    ],
+    "notes": {
+      "rate_definition": "Rate: Crude rate per 100,000 children and youth age 5 to 24",
+      "confidence_interval": "95% CI: 95% confidence interval",
+      "income_definition": "Income is defined at the neighbourhood level using the patient's residential postal code and Statistics Canada's Postal Code Conversion File+ (PCCF+) tool",
+      "exclusions": "Patients with invalid or missing postal codes were excluded",
+      "selection_criteria": "Inpatient hospitalizations were selected if the most responsible diagnosis (MRDx) was defined as mental health–related based on a list of ICD-10-CA codes (refer to the Methodology tab)",
+      "counting_method": "Patients with more than one mental health–related hospitalization were counted once per fiscal year"
+    },
+    "sources": {
+      "primary": "Discharge Abstract Database and Ontario Mental Health Reporting System, 2018–2019 to 2023–2024, Canadian Institute for Health Information",
+      "postal_code_data": "Statistics Canada. Postal Code Conversion File Plus (PCCF+)",
+      "population_data": "Population estimates: Statistics Canada, Demography Division"
+    }
+  },
+  "data": [
+    {
+      "income_quintile": "1",
+      "2018-2019": {
+        "Rate": 638,
+        "CI_lower": 626,
+        "CI_upper": 651
+      },
+      "2019-2020": {
+        "Rate": 641,
+        "CI_lower": 629,
+        "CI_upper": 653
+      },
+      "2020-2021": {
+        "Rate": 577,
+        "CI_lower": 565,
+        "CI_upper": 588
+      },
+      "2021-2022": {
+        "Rate": 609,
+        "CI_lower": 597,
+        "CI_upper": 621
+      },
+      "2022-2023": {
+        "Rate": 555,
+        "CI_lower": 544,
+        "CI_upper": 567
+      },
+      "2023-2024": {
+        "Rate": 529,
+        "CI_lower": 518,
+        "CI_upper": 540
+      }
+    },
+    {
+      "income_quintile": "2",
+      "2018-2019": {
+        "Rate": 533,
+        "CI_lower": 521,
+        "CI_upper": 544
+      },
+      "2019-2020": {
+        "Rate": 511,
+        "CI_lower": 500,
+        "CI_upper": 522
+      },
+      "2020-2021": {
+        "Rate": 465,
+        "CI_lower": 455,
+        "CI_upper": 476
+      },
+      "2021-2022": {
+        "Rate": 504,
+        "CI_lower": 493,
+        "CI_upper": 515
+      },
+      "2022-2023": {
+        "Rate": 450,
+        "CI_lower": 439,
+        "CI_upper": 460
+      },
+      "2023-2024": {
+        "Rate": 421,
+        "CI_lower": 410,
+        "CI_upper": 431
+      }
+    },
+    {
+      "income_quintile": "3",
+      "2018-2019": {
+        "Rate": 450,
+        "CI_lower": 440,
+        "CI_upper": 461
+      },
+      "2019-2020": {
+        "Rate": 434,
+        "CI_lower": 424,
+        "CI_upper": 444
+      },
+      "2020-2021": {
+        "Rate": 409,
+        "CI_lower": 399,
+        "CI_upper": 419
+      },
+      "2021-2022": {
+        "Rate": 440,
+        "CI_lower": 430,
+        "CI_upper": 450
+      },
+      "2022-2023": {
+        "Rate": 397,
+        "CI_lower": 388,
+        "CI_upper": 407
+      },
+      "2023-2024": {
+        "Rate": 361,
+        "CI_lower": 352,
+        "CI_upper": 371
+      }
+    },
+    {
+      "income_quintile": "4",
+      "2018-2019": {
+        "Rate": 416,
+        "CI_lower": 406,
+        "CI_upper": 425
+      },
+      "2019-2020": {
+        "Rate": 395,
+        "CI_lower": 386,
+        "CI_upper": 404
+      },
+      "2020-2021": {
+        "Rate": 362,
+        "CI_lower": 353,
+        "CI_upper": 371
+      },
+      "2021-2022": {
+        "Rate": 407,
+        "CI_lower": 398,
+        "CI_upper": 417
+      },
+      "2022-2023": {
+        "Rate": 361,
+        "CI_lower": 352,
+        "CI_upper": 370
+      },
+      "2023-2024": {
+        "Rate": 329,
+        "CI_lower": 321,
+        "CI_upper": 338
+      }
+    },
+    {
+      "income_quintile": "5",
+      "2018-2019": {
+        "Rate": 384,
+        "CI_lower": 375,
+        "CI_upper": 393
+      },
+      "2019-2020": {
+        "Rate": 369,
+        "CI_lower": 360,
+        "CI_upper": 378
+      },
+      "2020-2021": {
+        "Rate": 351,
+        "CI_lower": 343,
+        "CI_upper": 360
+      },
+      "2021-2022": {
+        "Rate": 386,
+        "CI_lower": 377,
+        "CI_upper": 395
+      },
+      "2022-2023": {
+        "Rate": 327,
+        "CI_lower": 319,
+        "CI_upper": 335
+      },
+      "2023-2024": {
+        "Rate": 296,
+        "CI_lower": 288,
+        "CI_upper": 304
+      }
+    }
+  ]
+}

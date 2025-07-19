@@ -9,7 +9,7 @@ import sys
 
 # Import our modular components
 from utils.config import STYLE_CONTENT, STYLE_NAV_BUTTON, COLORS
-from utils.data_loader import load_table3_data, load_table4_data, load_table10_data, load_table11_data, combine_mental_health_other_data
+from utils.data_loader import load_table3_data, load_table4_data, load_table10_data, load_table11_data, load_table12_data, combine_mental_health_other_data
 from components.sidebar import create_sidebar
 # Import page modules directly to avoid circular imports
 from components.pages.provincial_overview import create_layout as provincial_layout, register_callbacks as provincial_callbacks
@@ -42,6 +42,7 @@ TABLE3_DF = load_table3_data()
 TABLE4_DF = load_table4_data()
 TABLE10_DF = load_table10_data()
 TABLE11_DF = load_table11_data()
+TABLE12_DF = load_table12_data()
 
 if not TABLE3_DF.empty:
     print(f"✅ Loaded Table 3: {len(TABLE3_DF)} records")
@@ -66,6 +67,12 @@ if not TABLE11_DF.empty:
 else:
     print("⚠️ WARNING: Table 11 data not loaded")
 
+if not TABLE12_DF.empty:
+    print(f"✅ Loaded Table 12: {len(TABLE12_DF)} records")
+    print(f"✅ Income quintiles available: {sorted(TABLE12_DF['Income_Quintile'].unique())}")
+else:
+    print("⚠️ WARNING: Table 12 data not loaded")
+
 # Combine datasets for comparison
 COMBINED_DF = combine_mental_health_other_data(TABLE3_DF, TABLE4_DF)
 if not COMBINED_DF.empty:
@@ -89,7 +96,7 @@ app.layout = html.Div([
 # Register callbacks for all pages
 provincial_callbacks(app, TABLE3_DF, COMBINED_DF)
 demographics_callbacks(app, TABLE10_DF)
-health_equity_callbacks(app, TABLE11_DF)
+health_equity_callbacks(app, TABLE11_DF, TABLE12_DF)
 clinical_patterns_callbacks(app)
 
 # Main page routing callback
@@ -102,7 +109,7 @@ def display_page(pathname):
     if pathname == '/demographics':
         return demographics_layout(TABLE10_DF)
     elif pathname == '/equity':
-        return health_equity_layout(TABLE11_DF)
+        return health_equity_layout(TABLE11_DF, TABLE12_DF)
     elif pathname == '/clinical':
         return clinical_patterns_layout()
     else:  # Default to provincial overview

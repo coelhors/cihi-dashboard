@@ -276,7 +276,7 @@
 
 ### **Data Source**
 - **Table**: Table 12 - Children and youth hospitalized for mental disorders, by income quintile, Canada, 2018–2019 to 2023–2024
-- **Metrics**: Rate per 100,000 population with 95% confidence intervals
+- **Metrics**: Rate per 100,000 population
 - **Geographic Coverage**: Canada (national aggregate)
 - **Demographics**: 5 income quintiles (Q1=lowest income to Q5=highest income)
 - **Time Period**: 6 fiscal years (2018-19 to 2023-24)
