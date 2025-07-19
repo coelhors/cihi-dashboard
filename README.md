@@ -17,7 +17,7 @@ The interactive visualizations guide users through a comprehensive analysis, fro
 ### 🏠 Multi-Page Navigation
 - **Provincial Overview** - Interactive provincial trends and comparison charts
 - **Demographics** - Age and gender analysis with interactive year selection
-- **Health Equity** - Urban/rural and income disparities (placeholder)
+- **Health Equity** - Urban/rural disparity analysis with gap visualization
 - **Clinical Patterns** - Diagnostic pattern analysis (placeholder)
 
 ### 📈 Interactive Visualizations
@@ -50,7 +50,13 @@ The interactive visualizations guide users through a comprehensive analysis, fro
 - **Display Modes** - Switch between absolute rates and female-to-male ratios
 - **Age Progression** - Clear visualization of increasing rates from childhood to adolescence
 - **Gender Differences** - Side-by-side comparison of female (pink) vs male (blue) rates
-- **Streamlined Controls** - Simplified interface focusing on essential features
+#### **Visual Element 5: Urban vs Rural Health Equity**
+- **Dual-line disparity chart** showing persistent rural disadvantage in mental health
+- **Multiple Display Modes** - Absolute rates, rural:urban ratios, percentage differences
+- **Gap Visualization** - Highlighted area between lines showing equity disparity
+- **Interactive Options** - Toggle confidence intervals and disparity highlighting
+- **Equity Insights** - Rural youth consistently 20-30% higher hospitalization rates
+- **Temporal Analysis** - Shows disparity persistence even through COVID disruption
 
 ## 📁 Project Structure
 
@@ -67,7 +73,8 @@ cihi-dashboard/
 ├── 📂 data/                           # Raw data files (JSON format)
 │   ├── 📄 table_03.json              # Provincial mental health hospitalization data (2018-2024)
 │   ├── 📄 table_04.json              # Provincial other conditions hospitalization data (2018-2024)
-│   └── 📄 table_10.json              # Age and gender demographics data (2018-2024)
+│   ├── 📄 table_10.json              # Age and gender demographics data (2018-2024)
+│   └── 📄 table_11.json              # Urban vs rural residence data (2018-2024)
 ├── 📂 utils/                          # Utility functions and configuration
 │   ├── 📄 __init__.py                # Package initialization
 │   ├── 📄 config.py                  # Colors, styles, constants, and configuration
@@ -80,7 +87,7 @@ cihi-dashboard/
 │       ├── 📄 __init__.py            # Package initialization
 │       ├── 📄 provincial_overview.py # Provincial trends and comparison charts (3 working visualizations)
 │       ├── 📄 demographics.py        # Age and gender demographics analysis (1 working visualization)
-│       ├── 📄 health_equity.py       # Health equity analysis page (placeholder)
+│       ├── 📄 health_equity.py       # Urban/rural disparity analysis (1 working visualization)
 │       └── 📄 clinical_patterns.py   # Clinical patterns page (placeholder)
 └── 📂 docs/                           # Documentation and methodology - empty
 ```
