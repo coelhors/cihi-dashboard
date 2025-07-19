@@ -1,0 +1,410 @@
+{
+  "metadata": {
+    "title": "Children and youth hospitalized for mental disorders, by province/territory, 2018–2019 to 2023–2024",
+    "description": "Hospitalizations for mental disorders among children and youth aged 5-24",
+    "source": "CIHI - Canadian Institute for Health Information",
+    "years": [
+      "2018-2019",
+      "2019-2020",
+      "2020-2021",
+      "2021-2022",
+      "2022-2023",
+      "2023-2024"
+    ],
+    "metrics": [
+      "N",
+      "Rate"
+    ],
+    "notes": {
+      "population_scope": "Whose province/territory of residence can be determined",
+      "age_range": "N: Number of children and youth age 5 to 24",
+      "rate_definition": "Rate: Crude rate per 100,000 children and youth age 5 to 24",
+      "selection_criteria": "Inpatient hospitalizations were selected if the most responsible diagnosis (MRDx) was defined as mental health–related based on a list of ICD-10-CA codes (refer to the Methodology tab)",
+      "counting_method": "Patients with more than one mental health–related hospitalization were counted once per fiscal year"
+    },
+    "sources": {
+      "primary": "Discharge Abstract Database and Ontario Mental Health Reporting System, 2018–2019 to 2023–2024, Canadian Institute for Health Information",
+      "population_data": "Population estimates: Statistics Canada, Demography Division"
+    }
+  },
+  "data": [
+    {
+      "province": "Newfoundland and Labrador",
+      "2018-2019": {
+        "N": 513,
+        "Rate": 482
+      },
+      "2019-2020": {
+        "N": 489,
+        "Rate": 463
+      },
+      "2020-2021": {
+        "N": 423,
+        "Rate": 404
+      },
+      "2021-2022": {
+        "N": 454,
+        "Rate": 438
+      },
+      "2022-2023": {
+        "N": 387,
+        "Rate": 369
+      },
+      "2023-2024": {
+        "N": 293,
+        "Rate": 276
+      }
+    },
+    {
+      "province": "Prince Edward Island",
+      "2018-2019": {
+        "N": 291,
+        "Rate": 833
+      },
+      "2019-2020": {
+        "N": 275,
+        "Rate": 757
+      },
+      "2020-2021": {
+        "N": 217,
+        "Rate": 575
+      },
+      "2021-2022": {
+        "N": 301,
+        "Rate": 787
+      },
+      "2022-2023": {
+        "N": 236,
+        "Rate": 591
+      },
+      "2023-2024": {
+        "N": 242,
+        "Rate": 583
+      }
+    },
+    {
+      "province": "Nova Scotia",
+      "2018-2019": {
+        "N": 639,
+        "Rate": 312
+      },
+      "2019-2020": {
+        "N": 707,
+        "Rate": 341
+      },
+      "2020-2021": {
+        "N": 615,
+        "Rate": 294
+      },
+      "2021-2022": {
+        "N": 670,
+        "Rate": 321
+      },
+      "2022-2023": {
+        "N": 536,
+        "Rate": 249
+      },
+      "2023-2024": {
+        "N": 483,
+        "Rate": 217
+      }
+    },
+    {
+      "province": "New Brunswick",
+      "2018-2019": {
+        "N": 1025,
+        "Rate": 641
+      },
+      "2019-2020": {
+        "N": 911,
+        "Rate": 567
+      },
+      "2020-2021": {
+        "N": 907,
+        "Rate": 561
+      },
+      "2021-2022": {
+        "N": 968,
+        "Rate": 597
+      },
+      "2022-2023": {
+        "N": 806,
+        "Rate": 479
+      },
+      "2023-2024": {
+        "N": 815,
+        "Rate": 465
+      }
+    },
+    {
+      "province": "Quebec",
+      "2018-2019": {
+        "N": 7355,
+        "Rate": 405
+      },
+      "2019-2020": {
+        "N": 6952,
+        "Rate": 377
+      },
+      "2020-2021": {
+        "N": 6190,
+        "Rate": 333
+      },
+      "2021-2022": {
+        "N": 6811,
+        "Rate": 368
+      },
+      "2022-2023": {
+        "N": 6138,
+        "Rate": 327
+      },
+      "2023-2024": {
+        "N": 5707,
+        "Rate": 296
+      }
+    },
+    {
+      "province": "Ontario",
+      "2018-2019": {
+        "N": 16958,
+        "Rate": 497
+      },
+      "2019-2020": {
+        "N": 15983,
+        "Rate": 464
+      },
+      "2020-2021": {
+        "N": 14718,
+        "Rate": 427
+      },
+      "2021-2022": {
+        "N": 16031,
+        "Rate": 471
+      },
+      "2022-2023": {
+        "N": 14584,
+        "Rate": 417
+      },
+      "2023-2024": {
+        "N": 13647,
+        "Rate": 378
+      }
+    },
+    {
+      "province": "Manitoba",
+      "2018-2019": {
+        "N": 1260,
+        "Rate": 357
+      },
+      "2019-2020": {
+        "N": 1281,
+        "Rate": 360
+      },
+      "2020-2021": {
+        "N": 1162,
+        "Rate": 326
+      },
+      "2021-2022": {
+        "N": 1283,
+        "Rate": 357
+      },
+      "2022-2023": {
+        "N": 1180,
+        "Rate": 321
+      },
+      "2023-2024": {
+        "N": 1156,
+        "Rate": 304
+      }
+    },
+    {
+      "province": "Saskatchewan",
+      "2018-2019": {
+        "N": 2027,
+        "Rate": 693
+      },
+      "2019-2020": {
+        "N": 1900,
+        "Rate": 644
+      },
+      "2020-2021": {
+        "N": 1570,
+        "Rate": 531
+      },
+      "2021-2022": {
+        "N": 1735,
+        "Rate": 586
+      },
+      "2022-2023": {
+        "N": 1758,
+        "Rate": 585
+      },
+      "2023-2024": {
+        "N": 1464,
+        "Rate": 470
+      }
+    },
+    {
+      "province": "Alberta",
+      "2018-2019": {
+        "N": 4944,
+        "Rate": 466
+      },
+      "2019-2020": {
+        "N": 4970,
+        "Rate": 462
+      },
+      "2020-2021": {
+        "N": 4886,
+        "Rate": 449
+      },
+      "2021-2022": {
+        "N": 5150,
+        "Rate": 472
+      },
+      "2022-2023": {
+        "N": 4610,
+        "Rate": 413
+      },
+      "2023-2024": {
+        "N": 4396,
+        "Rate": 378
+      }
+    },
+    {
+      "province": "British Columbia",
+      "2018-2019": {
+        "N": 5645,
+        "Rate": 511
+      },
+      "2019-2020": {
+        "N": 5871,
+        "Rate": 523
+      },
+      "2020-2021": {
+        "N": 5604,
+        "Rate": 500
+      },
+      "2021-2022": {
+        "N": 6135,
+        "Rate": 555
+      },
+      "2022-2023": {
+        "N": 5423,
+        "Rate": 474
+      },
+      "2023-2024": {
+        "N": 5103,
+        "Rate": 432
+      }
+    },
+    {
+      "province": "Yukon",
+      "2018-2019": {
+        "N": 75,
+        "Rate": 847
+      },
+      "2019-2020": {
+        "N": 75,
+        "Rate": 840
+      },
+      "2020-2021": {
+        "N": 66,
+        "Rate": 724
+      },
+      "2021-2022": {
+        "N": 63,
+        "Rate": 672
+      },
+      "2022-2023": {
+        "N": 62,
+        "Rate": 638
+      },
+      "2023-2024": {
+        "N": 41,
+        "Rate": 412
+      }
+    },
+    {
+      "province": "Northwest Territories",
+      "2018-2019": {
+        "N": 138,
+        "Rate": 1172
+      },
+      "2019-2020": {
+        "N": 155,
+        "Rate": 1335
+      },
+      "2020-2021": {
+        "N": 142,
+        "Rate": 1229
+      },
+      "2021-2022": {
+        "N": 156,
+        "Rate": 1354
+      },
+      "2022-2023": {
+        "N": 124,
+        "Rate": 1076
+      },
+      "2023-2024": {
+        "N": 107,
+        "Rate": 926
+      }
+    },
+    {
+      "province": "Nunavut",
+      "2018-2019": {
+        "N": 130,
+        "Rate": 914
+      },
+      "2019-2020": {
+        "N": 137,
+        "Rate": 947
+      },
+      "2020-2021": {
+        "N": 123,
+        "Rate": 841
+      },
+      "2021-2022": {
+        "N": 147,
+        "Rate": 1003
+      },
+      "2022-2023": {
+        "N": 143,
+        "Rate": 954
+      },
+      "2023-2024": {
+        "N": 157,
+        "Rate": 1036
+      }
+    },
+    {
+      "province": "Canada",
+      "2018-2019": {
+        "N": 41114,
+        "Rate": 479
+      },
+      "2019-2020": {
+        "N": 39800,
+        "Rate": 458
+      },
+      "2020-2021": {
+        "N": 36722,
+        "Rate": 421
+      },
+      "2021-2022": {
+        "N": 40023,
+        "Rate": 463
+      },
+      "2022-2023": {
+        "N": 36086,
+        "Rate": 407
+      },
+      "2023-2024": {
+        "N": 33692,
+        "Rate": 368
+      }
+    }
+  ]
+}
