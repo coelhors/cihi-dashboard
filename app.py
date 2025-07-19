@@ -45,6 +45,6 @@ app.layout = html.Div([
 
 # Run the app
 if __name__ == '__main__':
-    print("🚀 Starting CIHI Mental Health Dashboard...")
-    print("📊 Dashboard available at: http://localhost:8050")
-    app.run_server(debug=True)
+    print("Starting CIHI Mental Health Dashboard...")
+    print("Dashboard available at: http://localhost:8050")
+    app.run(debug=True)
