@@ -1,0 +1,71 @@
+# CIHI Mental Health Dashboard
+
+An interactive web dashboard analyzing the Canadian youth mental health crisis using data from the Canadian Institute for Health Information (CIHI). This is a personal project exploring youth mental health trends and disparities across Canada.
+
+## 🎯 Project Purpose
+
+This dashboard enables users to:
+- **Explore trends** in youth mental health hospitalizations across Canada (2018-2024)
+- **Identify disparities** by geography, income, and demographics
+- **Understand clinical patterns** across different mental health conditions
+- **Develop actionable recommendations** for policy and intervention strategies
+
+The interactive visualizations guide users through a comprehensive analysis, from broad provincial trends to specific clinical diagnostic patterns, ultimately empowering evidence-based decision making in youth mental health.
+
+## 📁 Project Structure
+
+```
+cihi-mental-health-dashboard/
+├── 📄 app.py                          # Main Dash application entry point
+├── 📄 requirements.txt                # Python package dependencies
+├── 📄 README.md                       # Project documentation (this file)
+├── 📄 .gitignore                      # Git ignore rules
+├── 📄 run_demo.sh                     # Quick demo startup script
+│
+├── 📂 data/                           # Raw data files (JSON format)
+├── 📂 components/                     # Dashboard visualization components
+├── 📂 utils/                          # Helper functions and data processing
+├── 📂 assets/                         # Static files and styling
+└── 📂 docs/                           # Documentation and methodology
+```
+
+
+
+## 📚 Data Source
+
+**Canadian Institute for Health Information (CIHI)**  
+*Care for Children and Youth With Mental Disorders (2018-2024)*
+
+**Dataset Download**: [CIHI Mental Health Data Tables](https://www.cihi.ca/sites/default/files/document/care-children-youth-with-mental-disorders-data-tables-en.xlsx)
+
+This comprehensive dataset includes:
+- Emergency department visits
+- Hospitalizations  
+- Physician visits
+- Medication patterns
+- Ages 5-24 years
+- Mental health disorder classifications
+
+## 🎓 Educational Value
+
+This dashboard demonstrates:
+1. **Data visualization** best practices for health analytics
+2. **Interactive design** principles for exploratory data analysis
+3. **Health equity analysis** methods and interpretation
+4. **Evidence-based insights** for public health decision making
+5. **Full-stack development** with Python and modern web technologies
+
+## 🛠️ Technical Stack
+
+- **Backend**: Python 3.8+
+- **Web Framework**: Dash (Plotly)
+- **Data Visualization**: Plotly Express & Graph Objects
+- **Data Processing**: Pandas, NumPy
+- **Styling**: CSS3, Dash Bootstrap Components
+- **Version Control**: Git & GitHub
+
+
+
+---
+
+*Last updated: July 2025*
