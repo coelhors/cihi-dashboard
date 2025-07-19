@@ -63,10 +63,10 @@ The interactive visualizations guide users through a comprehensive analysis, fro
 #### **Visual Element 6: Income Gradient Analysis**
 - **Multi-line chart** showing mental health hospitalization rates across income quintiles (Q1-Q5)
 - **Color Gradient** - Red (Q1, lowest income, highest rates) to green (Q5, highest income, lowest rates)
-- **Display Modes** - Switch between absolute rates, relative to Q5, and percentage above national average
-- **Interactive Options** - Toggle confidence intervals, Q1:Q5 ratio annotations, gradient shading
+- **Static Display** - Clean presentation focusing on absolute rates for clear teaching demonstration
+- **Emphasized Lines** - Q1 and Q5 lines are thicker to highlight income inequality endpoints
 - **Socioeconomic Insights** - Clear visualization of income inequality in mental health outcomes
-- **Teaching Focus** - Shows Q1 consistently 1.6-2.0x higher rates than Q5 across all years
+- **Teaching Focus** - Shows persistent income gradient with Q1 consistently higher rates than Q5
 
 ## 📁 Project Structure
 
