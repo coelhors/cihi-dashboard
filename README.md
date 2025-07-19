@@ -51,10 +51,9 @@ The interactive visualizations guide users through a comprehensive analysis, fro
 - **Age Progression** - Clear visualization of increasing rates from childhood to adolescence
 - **Gender Differences** - Side-by-side comparison of female (pink) vs male (blue) rates
 #### **Visual Element 5: Urban vs Rural Health Equity**
-- **Dual-line disparity chart** showing persistent rural disadvantage in mental health
-- **Multiple Display Modes** - Absolute rates, rural:urban ratios, percentage differences
+- **Static dual-line disparity chart** showing persistent rural disadvantage in mental health
 - **Gap Visualization** - Highlighted area between lines showing equity disparity
-- **Interactive Options** - Toggle confidence intervals and disparity highlighting
+- **Clean Interface** - Streamlined presentation focusing on core equity insights
 - **Equity Insights** - Rural youth consistently 20-30% higher hospitalization rates
 - **Temporal Analysis** - Shows disparity persistence even through COVID disruption
 
