@@ -286,4 +286,133 @@ def create_provincial_contribution_pie_chart(selected_year, selected_metric, tab
         import traceback
         print(f"🔍 Full error traceback:")
         traceback.print_exc()
-        return create_placeholder_chart(f"Error creating pie chart: {str(e)}")
+def create_age_gender_chart(selected_year, display_option, show_ci, table10_df):
+    """Create age and gender patterns bar chart"""
+    print(f"🔄 Creating age/gender chart for year: {selected_year}, option: {display_option}, CI: {show_ci}")
+    
+    try:
+        if table10_df.empty:
+            print("❌ Table 10 DataFrame is empty")
+            return create_placeholder_chart("Age and Gender Analysis - Data not available")
+        
+        # Filter data for selected year and exclude 'Total' sex category
+        filtered_df = table10_df[
+            (table10_df['Year'] == selected_year) & 
+            (table10_df['Sex'] != 'Total')
+        ].copy()
+        
+        print(f"🔍 Filtered to {len(filtered_df)} records for year {selected_year}")
+        
+        if filtered_df.empty:
+            print("❌ No data after filtering")
+            return create_placeholder_chart(f"No age/gender data available for {selected_year}")
+        
+        if display_option == "Absolute Rates":
+            # Create grouped bar chart
+            fig = px.bar(
+                filtered_df,
+                x='Age_Group',
+                y='Rate',
+                color='Sex',
+                title=f'Mental Health Hospitalizations by Age and Gender - {selected_year}',
+                labels={'Rate': 'Rate per 100,000 population', 'Age_Group': 'Age Group'},
+                color_discrete_map={'Female': '#E91E63', 'Male': '#2196F3'},
+                barmode='group'
+            )
+            
+            # Add error bars if requested
+            if show_ci:
+                # Add error bars manually
+                for sex in ['Female', 'Male']:
+                    sex_data = filtered_df[filtered_df['Sex'] == sex]
+                    fig.add_bar(
+                        x=sex_data['Age_Group'],
+                        y=sex_data['Rate'],
+                        error_y=dict(
+                            type='data',
+                            symmetric=False,
+                            array=sex_data['CI_Upper'] - sex_data['Rate'],
+                            arrayminus=sex_data['Rate'] - sex_data['CI_Lower'],
+                            visible=True
+                        ),
+                        showlegend=False,
+                        marker_color='rgba(0,0,0,0)',
+                        hoverinfo='skip'
+                    )
+            
+        elif display_option == "Gender Ratio (F:M)":
+            # Calculate gender ratios
+            female_data = filtered_df[filtered_df['Sex'] == 'Female'].set_index('Age_Group')['Rate']
+            male_data = filtered_df[filtered_df['Sex'] == 'Male'].set_index('Age_Group')['Rate']
+            ratio_data = (female_data / male_data).reset_index()
+            ratio_data.columns = ['Age_Group', 'Ratio']
+            
+            fig = px.bar(
+                ratio_data,
+                x='Age_Group',
+                y='Ratio',
+                title=f'Female to Male Hospitalization Ratio by Age - {selected_year}',
+                labels={'Ratio': 'Female:Male Ratio', 'Age_Group': 'Age Group'},
+                color_discrete_sequence=['#9C27B0']
+            )
+            
+            # Add horizontal line at ratio = 1
+            fig.add_hline(y=1, line_dash="dash", line_color="gray", 
+                         annotation_text="Equal rates (1:1)")
+            
+        else:  # Both Sexes Combined
+            # Combine sexes using 'Total' category
+            total_data = table10_df[
+                (table10_df['Year'] == selected_year) & 
+                (table10_df['Sex'] == 'Total')
+            ].copy()
+            
+            fig = px.bar(
+                total_data,
+                x='Age_Group',
+                y='Rate',
+                title=f'Mental Health Hospitalizations by Age (Both Sexes) - {selected_year}',
+                labels={'Rate': 'Rate per 100,000 population', 'Age_Group': 'Age Group'},
+                color_discrete_sequence=['#607D8B']
+            )
+        
+        # Update layout
+        fig.update_layout(
+            xaxis_title='Age Group',
+            yaxis_title='Rate per 100,000 population',
+            plot_bgcolor='white',
+            paper_bgcolor='white',
+            font=dict(size=12),
+            legend=dict(
+                orientation="h",
+                yanchor="bottom",
+                y=1.02,
+                xanchor="right",
+                x=1
+            ),
+            height=500
+        )
+        
+        # Add grid lines
+        fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='lightgray')
+        fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='lightgray')
+        
+        # Custom hover template
+        if display_option == "Absolute Rates":
+            hover_template = (
+                "<b>%{fullData.name}</b><br>"
+                "Age Group: %{x}<br>"
+                "Rate: %{y:,.0f} per 100k<br>"
+                "<extra></extra>"
+            )
+            fig.update_traces(hovertemplate=hover_template)
+        
+        print("✅ Age/gender chart created successfully")
+        return fig
+        
+    except Exception as e:
+        print(f"❌ ERROR creating age/gender chart: {str(e)}")
+        import traceback
+        print(f"🔍 Full error traceback:")
+        traceback.print_exc()
+        return create_placeholder_chart(f"Error creating chart: {str(e)}")

@@ -159,6 +159,64 @@ def get_province_options(df):
     provinces = sorted(df['Province'].unique())
     return [{'label': province, 'value': province} for province in provinces]
 
+def load_table10_data():
+    """Load and process Table 10 data for age and gender analysis"""
+    print("🔄 Attempting to load Table 10 data...")
+    
+    try:
+        # Check if file exists
+        file_path = DATA_FILES['table10']
+        if not os.path.exists(file_path):
+            print(f"❌ ERROR: File not found: {file_path}")
+            return pd.DataFrame()
+        
+        print(f"✅ File found: {file_path}")
+        
+        with open(file_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        
+        print(f"✅ JSON loaded successfully")
+        
+        # Extract data and create DataFrame
+        records = []
+        
+        for entry in data['data']:
+            age_group = entry['age_group']
+            sex = entry['sex']
+            
+            # Skip total age group for now (we'll focus on specific age groups)
+            if 'Total age' in age_group:
+                continue
+                
+            # Clean age group names
+            age_clean = age_group.replace('Age ', '').replace(' years', '')
+            
+            for year, year_display in zip(FISCAL_YEARS, FISCAL_YEARS_DISPLAY):
+                if year in entry:
+                    year_data = entry[year]
+                    records.append({
+                        'Age_Group': age_clean,
+                        'Sex': sex,
+                        'Year': year_display,
+                        'Rate': year_data['Rate'],
+                        'CI_Lower': year_data['CI_lower'],
+                        'CI_Upper': year_data['CI_upper']
+                    })
+        
+        df = pd.DataFrame(records)
+        print(f"✅ Table 10 DataFrame created successfully")
+        print(f"📊 Shape: {df.shape}")
+        print(f"📊 Age groups: {sorted(df['Age_Group'].unique())}")
+        print(f"📊 Sex categories: {sorted(df['Sex'].unique())}")
+        
+        return df
+    
+    except Exception as e:
+        print(f"❌ ERROR loading Table 10 data: {str(e)}")
+        print(f"🔍 Full error traceback:")
+        traceback.print_exc()
+        return pd.DataFrame()
+
 def get_default_provinces(df):
     """Get default province selection"""
     if df.empty:

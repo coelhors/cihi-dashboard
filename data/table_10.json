@@ -1,0 +1,180 @@
+{
+  "metadata": {
+    "title": "Children and youth hospitalized for mental disorders, by age group and sex, Canada, 2018–2019 to 2023–2024",
+    "description": "Hospitalizations for mental disorders among children and youth aged 5-24, stratified by age group and sex",
+    "source": "CIHI - Canadian Institute for Health Information",
+    "geographic_scope": "Canada",
+    "years": [
+      "2018-2019",
+      "2019-2020",
+      "2020-2021",
+      "2021-2022",
+      "2022-2023",
+      "2023-2024"
+    ],
+    "age_groups": ["5-9 years", "10-14 years", "15-17 years", "18-24 years", "5-24 years"],
+    "metrics": ["Rate", "95% CI"],
+    "notes": {
+      "rate_definition": "Rate: Crude rate per 100,000 children and youth age 5 to 24",
+      "confidence_interval": "95% CI: 95% confidence interval",
+      "selection_criteria": "Inpatient hospitalizations were selected if the most responsible diagnosis (MRDx) was defined as mental health–related based on a list of ICD-10-CA codes (refer to the Methodology tab)",
+      "counting_method": "Patients with more than one mental health–related hospitalization were counted once per fiscal year"
+    },
+    "sources": {
+      "primary": "Discharge Abstract Database and Ontario Mental Health Reporting System, 2018–2019 to 2023–2024, Canadian Institute for Health Information",
+      "population_data": "Population estimates: Statistics Canada, Demography Division"
+    }
+  },
+  "data": [
+    {
+      "age_group": "Age 5-9",
+      "sex": "Female",
+      "2018-2019": { "Rate": 24, "CI_lower": 21, "CI_upper": 27 },
+      "2019-2020": { "Rate": 22, "CI_lower": 19, "CI_upper": 25 },
+      "2020-2021": { "Rate": 14, "CI_lower": 12, "CI_upper": 17 },
+      "2021-2022": { "Rate": 15, "CI_lower": 13, "CI_upper": 17 },
+      "2022-2023": { "Rate": 14, "CI_lower": 11, "CI_upper": 16 },
+      "2023-2024": { "Rate": 16, "CI_lower": 14, "CI_upper": 19 }
+    },
+    {
+      "age_group": "Age 5-9",
+      "sex": "Male",
+      "2018-2019": { "Rate": 52, "CI_lower": 48, "CI_upper": 56 },
+      "2019-2020": { "Rate": 48, "CI_lower": 44, "CI_upper": 52 },
+      "2020-2021": { "Rate": 29, "CI_lower": 25, "CI_upper": 32 },
+      "2021-2022": { "Rate": 31, "CI_lower": 28, "CI_upper": 35 },
+      "2022-2023": { "Rate": 28, "CI_lower": 25, "CI_upper": 31 },
+      "2023-2024": { "Rate": 30, "CI_lower": 26, "CI_upper": 33 }
+    },
+    {
+      "age_group": "Age 5-9",
+      "sex": "Total",
+      "2018-2019": { "Rate": 38, "CI_lower": 35, "CI_upper": 41 },
+      "2019-2020": { "Rate": 35, "CI_lower": 33, "CI_upper": 38 },
+      "2020-2021": { "Rate": 22, "CI_lower": 20, "CI_upper": 24 },
+      "2021-2022": { "Rate": 23, "CI_lower": 21, "CI_upper": 26 },
+      "2022-2023": { "Rate": 21, "CI_lower": 19, "CI_upper": 23 },
+      "2023-2024": { "Rate": 23, "CI_lower": 21, "CI_upper": 25 }
+    },
+    {
+      "age_group": "Age 10-14",
+      "sex": "Female",
+      "2018-2019": { "Rate": 432, "CI_lower": 418, "CI_upper": 445 },
+      "2019-2020": { "Rate": 422, "CI_lower": 409, "CI_upper": 435 },
+      "2020-2021": { "Rate": 443, "CI_lower": 430, "CI_upper": 456 },
+      "2021-2022": { "Rate": 576, "CI_lower": 561, "CI_upper": 591 },
+      "2022-2023": { "Rate": 460, "CI_lower": 447, "CI_upper": 473 },
+      "2023-2024": { "Rate": 408, "CI_lower": 396, "CI_upper": 420 }
+    },
+    {
+      "age_group": "Age 10-14",
+      "sex": "Male",
+      "2018-2019": { "Rate": 204, "CI_lower": 195, "CI_upper": 213 },
+      "2019-2020": { "Rate": 195, "CI_lower": 187, "CI_upper": 203 },
+      "2020-2021": { "Rate": 136, "CI_lower": 129, "CI_upper": 143 },
+      "2021-2022": { "Rate": 160, "CI_lower": 153, "CI_upper": 168 },
+      "2022-2023": { "Rate": 148, "CI_lower": 141, "CI_upper": 156 },
+      "2023-2024": { "Rate": 151, "CI_lower": 144, "CI_upper": 158 }
+    },
+    {
+      "age_group": "Age 10-14",
+      "sex": "Total",
+      "2018-2019": { "Rate": 315, "CI_lower": 307, "CI_upper": 323 },
+      "2019-2020": { "Rate": 305, "CI_lower": 298, "CI_upper": 313 },
+      "2020-2021": { "Rate": 285, "CI_lower": 278, "CI_upper": 293 },
+      "2021-2022": { "Rate": 362, "CI_lower": 354, "CI_upper": 370 },
+      "2022-2023": { "Rate": 300, "CI_lower": 292, "CI_upper": 307 },
+      "2023-2024": { "Rate": 276, "CI_lower": 269, "CI_upper": 283 }
+    },
+    {
+      "age_group": "Age 15-17",
+      "sex": "Female",
+      "2018-2019": { "Rate": 1229, "CI_lower": 1201, "CI_upper": 1258 },
+      "2019-2020": { "Rate": 1134, "CI_lower": 1107, "CI_upper": 1161 },
+      "2020-2021": { "Rate": 1013, "CI_lower": 988, "CI_upper": 1039 },
+      "2021-2022": { "Rate": 1180, "CI_lower": 1152, "CI_upper": 1207 },
+      "2022-2023": { "Rate": 1018, "CI_lower": 993, "CI_upper": 1043 },
+      "2023-2024": { "Rate": 887, "CI_lower": 864, "CI_upper": 911 }
+    },
+    {
+      "age_group": "Age 15-17",
+      "sex": "Male",
+      "2018-2019": { "Rate": 620, "CI_lower": 600, "CI_upper": 640 },
+      "2019-2020": { "Rate": 583, "CI_lower": 564, "CI_upper": 602 },
+      "2020-2021": { "Rate": 459, "CI_lower": 443, "CI_upper": 476 },
+      "2021-2022": { "Rate": 478, "CI_lower": 461, "CI_upper": 495 },
+      "2022-2023": { "Rate": 440, "CI_lower": 423, "CI_upper": 456 },
+      "2023-2024": { "Rate": 423, "CI_lower": 408, "CI_upper": 439 }
+    },
+    {
+      "age_group": "Age 15-17",
+      "sex": "Total",
+      "2018-2019": { "Rate": 918, "CI_lower": 901, "CI_upper": 935 },
+      "2019-2020": { "Rate": 852, "CI_lower": 836, "CI_upper": 869 },
+      "2020-2021": { "Rate": 729, "CI_lower": 714, "CI_upper": 744 },
+      "2021-2022": { "Rate": 818, "CI_lower": 802, "CI_upper": 834 },
+      "2022-2023": { "Rate": 720, "CI_lower": 706, "CI_upper": 735 },
+      "2023-2024": { "Rate": 649, "CI_lower": 635, "CI_upper": 662 }
+    },
+    {
+      "age_group": "Age 18-24",
+      "sex": "Female",
+      "2018-2019": { "Rate": 697, "CI_lower": 684, "CI_upper": 710 },
+      "2019-2020": { "Rate": 675, "CI_lower": 662, "CI_upper": 687 },
+      "2020-2021": { "Rate": 661, "CI_lower": 649, "CI_upper": 674 },
+      "2021-2022": { "Rate": 730, "CI_lower": 717, "CI_upper": 744 },
+      "2022-2023": { "Rate": 642, "CI_lower": 630, "CI_upper": 655 },
+      "2023-2024": { "Rate": 565, "CI_lower": 554, "CI_upper": 576 }
+    },
+    {
+      "age_group": "Age 18-24",
+      "sex": "Male",
+      "2018-2019": { "Rate": 681, "CI_lower": 669, "CI_upper": 693 },
+      "2019-2020": { "Rate": 660, "CI_lower": 648, "CI_upper": 672 },
+      "2020-2021": { "Rate": 621, "CI_lower": 610, "CI_upper": 633 },
+      "2021-2022": { "Rate": 619, "CI_lower": 607, "CI_upper": 631 },
+      "2022-2023": { "Rate": 554, "CI_lower": 543, "CI_upper": 565 },
+      "2023-2024": { "Rate": 489, "CI_lower": 479, "CI_upper": 499 }
+    },
+    {
+      "age_group": "Age 18-24",
+      "sex": "Total",
+      "2018-2019": { "Rate": 688, "CI_lower": 680, "CI_upper": 697 },
+      "2019-2020": { "Rate": 667, "CI_lower": 658, "CI_upper": 676 },
+      "2020-2021": { "Rate": 641, "CI_lower": 632, "CI_upper": 649 },
+      "2021-2022": { "Rate": 673, "CI_lower": 664, "CI_upper": 682 },
+      "2022-2023": { "Rate": 596, "CI_lower": 588, "CI_upper": 605 },
+      "2023-2024": { "Rate": 525, "CI_lower": 518, "CI_upper": 533 }
+    },
+    {
+      "age_group": "Total age 5-24",
+      "sex": "Female",
+      "2018-2019": { "Rate": 548, "CI_lower": 541, "CI_upper": 555 },
+      "2019-2020": { "Rate": 524, "CI_lower": 517, "CI_upper": 531 },
+      "2020-2021": { "Rate": 504, "CI_lower": 497, "CI_upper": 511 },
+      "2021-2022": { "Rate": 584, "CI_lower": 577, "CI_upper": 591 },
+      "2022-2023": { "Rate": 502, "CI_lower": 496, "CI_upper": 509 },
+      "2023-2024": { "Rate": 445, "CI_lower": 439, "CI_upper": 452 }
+    },
+    {
+      "age_group": "Total age 5-24",
+      "sex": "Male",
+      "2018-2019": { "Rate": 413, "CI_lower": 407, "CI_upper": 419 },
+      "2019-2020": { "Rate": 396, "CI_lower": 390, "CI_upper": 402 },
+      "2020-2021": { "Rate": 343, "CI_lower": 337, "CI_upper": 348 },
+      "2021-2022": { "Rate": 347, "CI_lower": 341, "CI_upper": 352 },
+      "2022-2023": { "Rate": 316, "CI_lower": 311, "CI_upper": 321 },
+      "2023-2024": { "Rate": 294, "CI_lower": 289, "CI_upper": 299 }
+    },
+    {
+      "age_group": "Total age 5-24",
+      "sex": "Total",
+      "2018-2019": { "Rate": 478, "CI_lower": 474, "CI_upper": 483 },
+      "2019-2020": { "Rate": 458, "CI_lower": 453, "CI_upper": 462 },
+      "2020-2021": { "Rate": 421, "CI_lower": 417, "CI_upper": 425 },
+      "2021-2022": { "Rate": 462, "CI_lower": 457, "CI_upper": 466 },
+      "2022-2023": { "Rate": 406, "CI_lower": 402, "CI_upper": 411 },
+      "2023-2024": { "Rate": 367, "CI_lower": 363, "CI_upper": 371 }
+    }
+  ]
+}

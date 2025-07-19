@@ -9,7 +9,7 @@ import sys
 
 # Import our modular components
 from utils.config import STYLE_CONTENT, STYLE_NAV_BUTTON, COLORS
-from utils.data_loader import load_table3_data, load_table4_data, combine_mental_health_other_data
+from utils.data_loader import load_table3_data, load_table4_data, load_table10_data, combine_mental_health_other_data
 from components.sidebar import create_sidebar
 # Import page modules directly to avoid circular imports
 from components.pages.provincial_overview import create_layout as provincial_layout, register_callbacks as provincial_callbacks
@@ -40,6 +40,7 @@ except Exception as e:
 # Load data
 TABLE3_DF = load_table3_data()
 TABLE4_DF = load_table4_data()
+TABLE10_DF = load_table10_data()
 
 if not TABLE3_DF.empty:
     print(f"✅ Loaded Table 3: {len(TABLE3_DF)} records")
@@ -51,6 +52,12 @@ if not TABLE4_DF.empty:
     print(f"✅ Loaded Table 4: {len(TABLE4_DF)} records")
 else:
     print("⚠️ WARNING: Table 4 data not loaded")
+
+if not TABLE10_DF.empty:
+    print(f"✅ Loaded Table 10: {len(TABLE10_DF)} records")
+    print(f"✅ Age groups available: {sorted(TABLE10_DF['Age_Group'].unique())}")
+else:
+    print("⚠️ WARNING: Table 10 data not loaded")
 
 # Combine datasets for comparison
 COMBINED_DF = combine_mental_health_other_data(TABLE3_DF, TABLE4_DF)
@@ -74,7 +81,7 @@ app.layout = html.Div([
 
 # Register callbacks for all pages
 provincial_callbacks(app, TABLE3_DF, COMBINED_DF)
-demographics_callbacks(app)
+demographics_callbacks(app, TABLE10_DF)
 health_equity_callbacks(app)
 clinical_patterns_callbacks(app)
 
@@ -86,7 +93,7 @@ clinical_patterns_callbacks(app)
 def display_page(pathname):
     """Update page content based on URL path"""
     if pathname == '/demographics':
-        return demographics_layout()
+        return demographics_layout(TABLE10_DF)
     elif pathname == '/equity':
         return health_equity_layout()
     elif pathname == '/clinical':
