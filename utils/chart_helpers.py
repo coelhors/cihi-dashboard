@@ -78,7 +78,8 @@ def create_provincial_trends_chart(selected_provinces, selected_metric, df):
                 yanchor="top",
                 y=1,
                 xanchor="left",
-                x=1.02
+                x=1.02,
+                font=dict(size=14)
             ),
             margin=dict(r=150)  # Add right margin for legend
         )
@@ -95,6 +96,7 @@ def create_provincial_trends_chart(selected_provinces, selected_metric, df):
         import traceback
         print(f"🔍 Full error traceback:")
         traceback.print_exc()
+
 def create_mental_health_vs_other_chart(selected_province, selected_metric, combined_df):
     """Create mental health vs other conditions stacked area chart"""
     print(f"🔄 Creating comparison chart for province: {selected_province}, metric: {selected_metric}")
@@ -179,7 +181,8 @@ def create_mental_health_vs_other_chart(selected_province, selected_metric, comb
                 yanchor="top",
                 y=1,
                 xanchor="left",
-                x=1.02
+                x=1.02,
+                font=dict(size=14)
             ),
             margin=dict(r=150)
         )
@@ -196,6 +199,7 @@ def create_mental_health_vs_other_chart(selected_province, selected_metric, comb
         import traceback
         print(f"🔍 Full error traceback:")
         traceback.print_exc()
+
 def create_provincial_contribution_pie_chart(selected_year, selected_metric, table3_df):
     """Create provincial contribution pie chart"""
     print(f"🔄 Creating pie chart for year: {selected_year}, metric: {selected_metric}")
@@ -272,7 +276,8 @@ def create_provincial_contribution_pie_chart(selected_year, selected_metric, tab
                 yanchor="middle",
                 y=0.5,
                 xanchor="left",
-                x=1.02
+                x=1.02,
+                font=dict(size=14)
             ),
             margin=dict(r=150, l=50, t=80, b=50),
             showlegend=True,
@@ -288,6 +293,7 @@ def create_provincial_contribution_pie_chart(selected_year, selected_metric, tab
         import traceback
         print(f"🔍 Full error traceback:")
         traceback.print_exc()
+
 def create_age_gender_chart(selected_year, display_option, show_ci, table10_df):
     """Create age and gender patterns bar chart"""
     print(f"🔄 Creating age/gender chart for year: {selected_year}, option: {display_option}, CI: {show_ci}")
@@ -389,7 +395,8 @@ def create_age_gender_chart(selected_year, display_option, show_ci, table10_df):
                 yanchor="bottom",
                 y=1.02,
                 xanchor="right",
-                x=1
+                x=1,
+                font=dict(size=14)
             ),
             height=500
         )
@@ -416,6 +423,7 @@ def create_age_gender_chart(selected_year, display_option, show_ci, table10_df):
         import traceback
         print(f"🔍 Full error traceback:")
         traceback.print_exc()
+
 def create_urban_rural_disparity_chart(display_mode, show_ci, highlight_gap, show_percentage, table11_df):
     """Create urban vs rural disparity line chart"""
     print(f"🔄 Creating urban/rural chart - mode: {display_mode}, CI: {show_ci}, gap: {highlight_gap}, %: {show_percentage}")
@@ -465,7 +473,7 @@ def create_urban_rural_disparity_chart(display_mode, show_ci, highlight_gap, sho
                     x=urban_data['Year'].tolist() + rural_data['Year'].tolist()[::-1],
                     y=urban_data['Rate'].tolist() + rural_data['Rate'].tolist()[::-1],
                     fill='toself',
-                    fillcolor='rgba(244, 67, 54, 0.2)',
+                    fillcolor='rgba(156, 39, 176, 0.3)',  # Purple with transparency
                     line=dict(color='rgba(255,255,255,0)'),
                     name='Rural-Urban Gap',
                     showlegend=True,
@@ -567,7 +575,8 @@ def create_urban_rural_disparity_chart(display_mode, show_ci, highlight_gap, sho
                 yanchor="top",
                 y=1,
                 xanchor="left",
-                x=1.02
+                x=1.02,
+                font=dict(size=14)
             ),
             margin=dict(r=150),
             height=500
@@ -585,9 +594,10 @@ def create_urban_rural_disparity_chart(display_mode, show_ci, highlight_gap, sho
         import traceback
         print(f"🔍 Full error traceback:")
         traceback.print_exc()
-def create_income_quintile_contribution_pie(selected_year, table12_df):
-    """Create simplified income quintile contribution pie chart"""
-    print(f"🔄 Creating income quintile contribution pie chart for year: {selected_year}")
+
+def create_income_quintile_contribution_donut(selected_year, table12_df):
+    """Create donut chart for income quintile contributions"""
+    print(f"🔄 Creating income quintile contribution donut chart for year: {selected_year}")
     
     try:
         if table12_df.empty:
@@ -618,13 +628,6 @@ def create_income_quintile_contribution_pie(selected_year, table12_df):
         # Always use Rate per 100,000 as values
         values = filtered_df['Rate']
         title_suffix = 'by Rate per 100,000'
-        hover_template = (
-            "<b>%{label}</b><br>"
-            f"Year: {selected_year}<br>"
-            "Rate per 100k: %{value:.0f}<br>"
-            "Percentage: %{percent}"
-            "<extra></extra>"
-        )
         
         # Create quintile labels with more expressive names
         quintile_labels = []
@@ -642,45 +645,68 @@ def create_income_quintile_contribution_pie(selected_year, table12_df):
             else:
                 quintile_labels.append(f'{q}')  # fallback
         
-        # Create pie chart
-        fig = px.pie(
+        # Create donut chart using plotly graph objects
+        fig = go.Figure(data=[go.Pie(
+            labels=quintile_labels,
             values=values,
-            names=quintile_labels,
-            title=f'Income Quintile Mental Health Hospitalization Contributions - {selected_year}<br><sub>{title_suffix}</sub>',
-            color_discrete_sequence=colors
-        )
-        
-        # Customize the pie chart
-        fig.update_traces(
+            hole=0.4,  # Creates the donut hole (0.4 = 40% hole)
+            marker=dict(
+                colors=colors,
+                line=dict(color='white', width=3)
+            ),
             textposition='inside',
             textinfo='percent+label',
-            hovertemplate=hover_template
+            textfont=dict(size=11, color='white', family='Arial Black'),
+            hovertemplate=(
+                "<b>%{label}</b><br>"
+                f"Year: {selected_year}<br>"
+                "Rate per 100k: %{value:.0f}<br>"
+                "Percentage: %{percent}"
+                "<extra></extra>"
+            ),
+            direction='clockwise',
+            sort=False  # Maintain quintile order Q1-Q5
+        )])
+        
+        # Add center text showing only the year
+        fig.add_annotation(
+            text=f"<b>{selected_year}</b>",
+            x=0.5, y=0.5,
+            font=dict(size=16, color=COLORS['primary'], family='Arial Black'),
+            showarrow=False,
+            align='center'
         )
         
         # Update layout
         fig.update_layout(
+            title=f'Income Quintile Mental Health Hospitalization Contributions - {selected_year}<br><sub>{title_suffix}</sub>',
             font=dict(size=12),
             legend=dict(
                 orientation="v",
                 yanchor="middle",
                 y=0.5,
                 xanchor="left",
-                x=1.02
+                x=1.02,
+                font=dict(size=14)
             ),
             margin=dict(r=200, l=50, t=100, b=50),
             showlegend=True,
             height=600,
-            width=1000
+            width=900,
+            plot_bgcolor='white',
+            paper_bgcolor='white'
         )
         
-        print("✅ Income quintile contribution pie chart created successfully")
+        print("✅ Income quintile contribution donut chart created successfully")
         return fig
         
     except Exception as e:
-        print(f"❌ ERROR creating income quintile contribution pie chart: {str(e)}")
+        print(f"❌ ERROR creating income quintile contribution donut chart: {str(e)}")
         import traceback
         print(f"🔍 Full error traceback:")
         traceback.print_exc()
+        return create_placeholder_chart(f"Error creating donut chart: {str(e)}")
+
 def create_clinical_diagnostic_heatmap(selected_year, selected_sex, selected_diagnoses, table13_df):
     """Create simplified clinical diagnostic patterns heat map"""
     print(f"🔄 Creating clinical diagnostic heatmap for year: {selected_year}, sex: {selected_sex}")
@@ -822,7 +848,7 @@ def create_income_gradient_chart(table12_df):
                     x=quintile_data['Year'],
                     y=quintile_data['Rate'],
                     mode='lines+markers',
-                    name=f'{quintile} ({"Lowest" if quintile=="Q1" else "Highest" if quintile=="Q5" else "Middle"} Income)',
+                    name=f'{quintile} ({"Lowest Income" if quintile=="Q1" else "Lower-Middle Income" if quintile=="Q2" else "Middle Income" if quintile=="Q3" else "Upper-Middle Income" if quintile=="Q4" else "Highest Income"})',
                     line=dict(color=quintile_colors[quintile], width=line_width),
                     marker=dict(size=8),
                     hovertemplate=f'<b>Income {quintile}</b><br>Year: %{{x}}<br>Rate: %{{y:.0f}} per 100k<extra></extra>'
@@ -841,7 +867,8 @@ def create_income_gradient_chart(table12_df):
                 yanchor="top",
                 y=1,
                 xanchor="left",
-                x=1.02
+                x=1.02,
+                font=dict(size=14)
             ),
             margin=dict(r=200),
             height=600
