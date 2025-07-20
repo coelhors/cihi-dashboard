@@ -1,5 +1,5 @@
 """
-Provincial Overview page layout and callbacks
+Provincial Overview page layout and callbacks - Updated with checklist for province selection
 """
 
 from dash import dcc, html, callback, Input, Output
@@ -9,7 +9,7 @@ from utils.chart_helpers import create_placeholder_chart, create_provincial_tren
 from utils.data_loader import get_province_options, get_default_provinces
 
 def create_layout(table3_df, combined_df=None):
-    """Create Provincial Overview page layout"""
+    """Create Provincial Overview page layout with checklist for province selection"""
     return html.Div([
         html.H2("📊 Provincial Overview", style={'color': COLORS['primary'], 'marginBottom': '30px'}),
         
@@ -18,37 +18,47 @@ def create_layout(table3_df, combined_df=None):
             html.H3("Provincial Hospitalization Trends"),
             html.P("Interactive line chart showing hospitalization rates by province over time."),
             
-            # Controls
+            # Controls - Simplified with only province selection
             html.Div([
                 html.Div([
-                    html.Label("Select Provinces/Territories:", style={'fontWeight': 'bold', 'marginBottom': '5px'}),
-                    dcc.Dropdown(
+                    html.Label("Select Provinces/Territories:", style={'fontWeight': 'bold', 'marginBottom': '10px', 'display': 'block'}),
+                    dcc.Checklist(
                         id='province-selector',
-                        options=get_province_options(table3_df),
-                        value=get_default_provinces(table3_df),
-                        multi=True,
-                        placeholder="Select provinces to compare"
-                    )
-                ], style={'width': '60%', 'display': 'inline-block', 'marginRight': '5%'}),
-                
-                html.Div([
-                    html.Label("Metric:", style={'fontWeight': 'bold', 'marginBottom': '5px'}),
-                    dcc.RadioItems(
-                        id='metric-selector',
                         options=[
-                            {'label': 'Rate per 100,000', 'value': 'Rate per 100,000'},
-                            {'label': 'Number of Cases (N)', 'value': 'Number of Cases (N)'}
+                            {'label': 'Alberta', 'value': 'Alberta'},
+                            {'label': 'British Columbia', 'value': 'British Columbia'},
+                            {'label': 'Manitoba', 'value': 'Manitoba'},
+                            {'label': 'New Brunswick', 'value': 'New Brunswick'},
+                            {'label': 'Newfoundland and Labrador', 'value': 'Newfoundland and Labrador'},
+                            {'label': 'Northwest Territories', 'value': 'Northwest Territories'},
+                            {'label': 'Nova Scotia', 'value': 'Nova Scotia'},
+                            {'label': 'Nunavut', 'value': 'Nunavut'},
+                            {'label': 'Ontario', 'value': 'Ontario'},
+                            {'label': 'Prince Edward Island', 'value': 'Prince Edward Island'},
+                            {'label': 'Quebec', 'value': 'Quebec'},
+                            {'label': 'Saskatchewan', 'value': 'Saskatchewan'},
+                            {'label': 'Yukon', 'value': 'Yukon'},
+                            {'label': 'Canada', 'value': 'Canada'}
                         ],
-                        value='Rate per 100,000',
-                        inline=True
+                        value=['Alberta'],  # Default to Alberta only
+                        inline=False,
+                        style={'fontSize': '12px', 'marginBottom': '10px'}
                     )
-                ], style={'width': '35%', 'display': 'inline-block'})
+                ], style={
+                    'width': '45%', 
+                    'display': 'inline-block', 
+                    'verticalAlign': 'top',
+                    'padding': '12px',
+                    'backgroundColor': '#f8f9fa',
+                    'borderRadius': '5px',
+                    'border': '1px solid #dee2e6'
+                })
                 
             ], style={'marginBottom': '20px'}),
             
             dcc.Graph(
                 id='provincial-trends-chart',
-                figure=create_provincial_trends_chart(get_default_provinces(table3_df), 'Rate per 100,000', table3_df) if not table3_df.empty else create_placeholder_chart("Provincial Hospitalization Trends - Data not available")
+                figure=create_provincial_trends_chart(['Alberta'], 'Rate per 100,000', table3_df) if not table3_df.empty else create_placeholder_chart("Provincial Hospitalization Trends - Data not available")
             )
         ], style=STYLE_CARD),
         
@@ -57,31 +67,40 @@ def create_layout(table3_df, combined_df=None):
             html.H3("Mental Health vs Other Conditions"),
             html.P("Comparison of mental health hospitalizations with other medical conditions."),
             
-            # Controls for comparison chart
+            # Controls for comparison chart - Simplified with radio items
             html.Div([
                 html.Div([
-                    html.Label("Select Province/Territory:", style={'fontWeight': 'bold', 'marginBottom': '5px'}),
-                    dcc.Dropdown(
-                        id='comparison-province-selector',
-                        options=get_province_options(table3_df),
-                        value='Canada' if not table3_df.empty and 'Canada' in table3_df['Province'].unique() else (get_default_provinces(table3_df)[0] if not table3_df.empty else 'none'),
-                        clearable=False,
-                        placeholder="Select a province"
-                    )
-                ], style={'width': '60%', 'display': 'inline-block', 'marginRight': '5%'}),
-                
-                html.Div([
-                    html.Label("Metric:", style={'fontWeight': 'bold', 'marginBottom': '5px'}),
+                    html.Label("Select Province/Territory:", style={'fontWeight': 'bold', 'marginBottom': '10px', 'display': 'block'}),
                     dcc.RadioItems(
-                        id='comparison-metric-selector',
+                        id='comparison-province-selector',
                         options=[
-                            {'label': 'Rate per 100,000', 'value': 'Rate per 100,000'},
-                            {'label': 'Number of Cases (N)', 'value': 'Number of Cases (N)'}
+                            {'label': 'Canada', 'value': 'Canada'},
+                            {'label': 'Alberta', 'value': 'Alberta'},
+                            {'label': 'British Columbia', 'value': 'British Columbia'},
+                            {'label': 'Ontario', 'value': 'Ontario'},
+                            {'label': 'Quebec', 'value': 'Quebec'},
+                            {'label': 'Manitoba', 'value': 'Manitoba'},
+                            {'label': 'Saskatchewan', 'value': 'Saskatchewan'},
+                            {'label': 'Nova Scotia', 'value': 'Nova Scotia'},
+                            {'label': 'New Brunswick', 'value': 'New Brunswick'},
+                            {'label': 'Newfoundland and Labrador', 'value': 'Newfoundland and Labrador'},
+                            {'label': 'Prince Edward Island', 'value': 'Prince Edward Island'},
+                            {'label': 'Northwest Territories', 'value': 'Northwest Territories'},
+                            {'label': 'Yukon', 'value': 'Yukon'},
+                            {'label': 'Nunavut', 'value': 'Nunavut'}
                         ],
-                        value='Rate per 100,000',
-                        inline=True
+                        value='Canada',  # Default to Canada
+                        inline=False,
+                        style={'fontSize': '12px'}
                     )
-                ], style={'width': '35%', 'display': 'inline-block'})
+                ], style={
+                    'width': '45%', 
+                    'display': 'inline-block', 
+                    'padding': '12px',
+                    'backgroundColor': '#f8f9fa',
+                    'borderRadius': '5px',
+                    'border': '1px solid #dee2e6'
+                })
                 
             ], style={'marginBottom': '20px'}),
             
@@ -143,23 +162,23 @@ def register_callbacks(app, table3_df, combined_df=None):
     
     @app.callback(
         Output('provincial-trends-chart', 'figure'),
-        [Input('province-selector', 'value'),
-         Input('metric-selector', 'value')]
+        [Input('province-selector', 'value')]
     )
-    def update_provincial_trends_chart(selected_provinces, selected_metric):
-        """Update provincial trends chart based on selections"""
-        print(f"🔄 Callback triggered with provinces: {selected_provinces}, metric: {selected_metric}")
+    def update_provincial_trends_chart(selected_provinces):
+        """Update provincial trends chart based on province selection (fixed to Rate per 100,000)"""
+        print(f"🔄 Callback triggered with provinces: {selected_provinces}")
         
         try:
-            if not selected_provinces or 'none' in selected_provinces:
-                selected_provinces = get_default_provinces(table3_df)
-                print(f"⚠️ No valid provinces selected, defaulting to: {selected_provinces}")
+            if not selected_provinces or len(selected_provinces) == 0:
+                selected_provinces = ['Alberta']
+                print(f"⚠️ No provinces selected, defaulting to: {selected_provinces}")
             
             if table3_df.empty:
                 print("⚠️ TABLE3_DF is empty, showing placeholder")
                 return create_placeholder_chart("Data not available - please check data/table_03.json file")
             
-            result = create_provincial_trends_chart(selected_provinces, selected_metric, table3_df)
+            # Always use "Rate per 100,000" as the metric
+            result = create_provincial_trends_chart(selected_provinces, 'Rate per 100,000', table3_df)
             print("✅ Callback completed successfully")
             return result
             
@@ -172,23 +191,23 @@ def register_callbacks(app, table3_df, combined_df=None):
     # Callback for mental health vs other conditions comparison chart
     @app.callback(
         Output('comparison-chart', 'figure'),
-        [Input('comparison-province-selector', 'value'),
-         Input('comparison-metric-selector', 'value')]
+        [Input('comparison-province-selector', 'value')]
     )
-    def update_comparison_chart(selected_province, selected_metric):
-        """Update comparison chart based on selections"""
-        print(f"🔄 Comparison callback triggered with province: {selected_province}, metric: {selected_metric}")
+    def update_comparison_chart(selected_province):
+        """Update comparison chart based on province selection (fixed to Rate per 100,000)"""
+        print(f"🔄 Comparison callback triggered with province: {selected_province}")
         
         try:
-            if not selected_province or selected_province == 'none':
-                selected_province = 'Canada' if not table3_df.empty and 'Canada' in table3_df['Province'].unique() else get_default_provinces(table3_df)[0]
-                print(f"⚠️ No valid province selected, defaulting to: {selected_province}")
+            if not selected_province:
+                selected_province = 'Canada'
+                print(f"⚠️ No province selected, defaulting to: {selected_province}")
             
             if combined_df is None or combined_df.empty:
                 print("⚠️ Combined DataFrame is empty, showing placeholder")
                 return create_placeholder_chart("Comparison data not available - please check data files")
             
-            result = create_mental_health_vs_other_chart(selected_province, selected_metric, combined_df)
+            # Always use "Rate per 100,000" as the metric
+            result = create_mental_health_vs_other_chart(selected_province, 'Rate per 100,000', combined_df)
             print("✅ Comparison callback completed successfully")
             return result
             
