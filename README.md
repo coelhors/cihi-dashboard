@@ -43,11 +43,13 @@ This dashboard features 8 comprehensive interactive visualizations across 4 page
 
 #### **Visual Element 3: Provincial Contribution Analysis**
 - **Interactive pie chart** showing each province's share of total hospitalizations
-- **Year Selection** - Dropdown to explore contributions across 2018-2024
-- **Metric Toggle** - Switch between absolute cases and rates per 100,000
+- **Year Selection** - Radio items to explore contributions across 2018-2024 (enhanced visibility)
+- **Fixed Metric** - Rate per 100,000 population for meaningful cross-provincial comparison
 - **Visual Emphasis** - Alberta slice highlighted with pull-out effect
 - **Rich Tooltips** - Province details with cases, rates, and percentages
 - **Colorblind-friendly** - Distinct colors for all provinces/territories
+- **Compact Control** - Optimized 25% width for efficient space utilization
+- **Simplified Interface** - Clean single-control design consistent with other visualizations
 
 #### **Visual Element 4: Age and Gender Demographics**
 - **Interactive grouped bar chart** showing hospitalization rates by age and gender
@@ -180,7 +182,7 @@ This dashboard demonstrates:
 - **Provincial Overview Page**: 3 visualizations
   - Provincial Hospitalization Trends (✨ Enhanced with checklist selection)
   - Mental Health vs Other Conditions (✨ Simplified with radio items)
-  - Provincial Contribution Analysis
+  - Provincial Contribution Analysis (✨ Streamlined with radio items and fixed metric)
 - **Demographics Page**: 1 visualization
   - Age and Gender Patterns
 - **Health Equity Page**: 3 visualizations
@@ -192,10 +194,13 @@ This dashboard demonstrates:
 
 ### 🎯 **Recent UI Improvements**
 - **Enhanced Province Selection** - Checklist interface for multi-province comparison
-- **Simplified Metric Controls** - Standardized on Rate per 100,000 for consistency
+- **Simplified Metric Controls** - Standardized on Rate per 100,000 across all Provincial Overview charts
+- **Radio Items Integration** - Replaced dropdowns with radio items for better visibility
 - **Horizontal Control Layouts** - Better space utilization across all pages
+- **Optimized Control Widths** - Compact sizing (25%-45% widths) for efficient space usage
 - **Professional Styling** - Consistent visual design with styled control boxes
 - **Teaching Demo Optimization** - Cleaner, more focused interfaces for presentations
+- **Provincial Overview Standardization** - Unified control patterns across all three visualizations
 
 ---
 
