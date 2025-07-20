@@ -115,11 +115,11 @@ def create_layout(table3_df, combined_df=None):
             html.H3("Provincial Contribution Analysis"),
             html.P("Each province's share of total mental health hospitalizations."),
             
-            # Controls for pie chart
+            # Controls for pie chart - Simplified with radio items (reduced width)
             html.Div([
                 html.Div([
-                    html.Label("Select Fiscal Year:", style={'fontWeight': 'bold', 'marginBottom': '5px'}),
-                    dcc.Dropdown(
+                    html.Label("Select Fiscal Year:", style={'fontWeight': 'bold', 'marginBottom': '10px', 'display': 'block'}),
+                    dcc.RadioItems(
                         id='pie-year-selector',
                         options=[
                             {'label': '2018-19', 'value': '2018-19'},
@@ -129,30 +129,24 @@ def create_layout(table3_df, combined_df=None):
                             {'label': '2022-23', 'value': '2022-23'},
                             {'label': '2023-24', 'value': '2023-24'}
                         ],
-                        value='2023-24',
-                        clearable=False,
-                        placeholder="Select year"
+                        value='2023-24',  # Default to most recent year
+                        inline=False,
+                        style={'fontSize': '12px'}
                     )
-                ], style={'width': '60%', 'display': 'inline-block', 'marginRight': '5%'}),
-                
-                html.Div([
-                    html.Label("Metric:", style={'fontWeight': 'bold', 'marginBottom': '5px'}),
-                    dcc.RadioItems(
-                        id='pie-metric-selector',
-                        options=[
-                            {'label': 'Number of Cases (N)', 'value': 'Number of Cases (N)'},
-                            {'label': 'Rate per 100,000', 'value': 'Rate per 100,000'}
-                        ],
-                        value='Number of Cases (N)',
-                        inline=True
-                    )
-                ], style={'width': '35%', 'display': 'inline-block'})
+                ], style={
+                    'width': '25%', 
+                    'display': 'inline-block', 
+                    'padding': '12px',
+                    'backgroundColor': '#f8f9fa',
+                    'borderRadius': '5px',
+                    'border': '1px solid #dee2e6'
+                })
                 
             ], style={'marginBottom': '20px'}),
             
             dcc.Graph(
                 id='provincial-pie-chart',
-                figure=create_provincial_contribution_pie_chart('2023-24', 'Number of Cases (N)', table3_df) if not table3_df.empty else create_placeholder_chart("Provincial Contribution Pie Chart - Data not available")
+                figure=create_provincial_contribution_pie_chart('2023-24', 'Rate per 100,000', table3_df) if not table3_df.empty else create_placeholder_chart("Provincial Contribution Pie Chart - Data not available")
             )
         ], style=STYLE_CARD)
     ])
@@ -220,12 +214,11 @@ def register_callbacks(app, table3_df, combined_df=None):
     # Callback for provincial contribution pie chart
     @app.callback(
         Output('provincial-pie-chart', 'figure'),
-        [Input('pie-year-selector', 'value'),
-         Input('pie-metric-selector', 'value')]
+        [Input('pie-year-selector', 'value')]
     )
-    def update_pie_chart(selected_year, selected_metric):
-        """Update pie chart based on selections"""
-        print(f"🔄 Pie chart callback triggered with year: {selected_year}, metric: {selected_metric}")
+    def update_pie_chart(selected_year):
+        """Update pie chart based on year selection (fixed to Rate per 100,000)"""
+        print(f"🔄 Pie chart callback triggered with year: {selected_year}")
         
         try:
             if not selected_year:
@@ -236,7 +229,8 @@ def register_callbacks(app, table3_df, combined_df=None):
                 print("⚠️ Table 3 DataFrame is empty, showing placeholder")
                 return create_placeholder_chart("Provincial data not available - please check data files")
             
-            result = create_provincial_contribution_pie_chart(selected_year, selected_metric, table3_df)
+            # Always use "Rate per 100,000" as the metric
+            result = create_provincial_contribution_pie_chart(selected_year, 'Rate per 100,000', table3_df)
             print("✅ Pie chart callback completed successfully")
             return result
             
