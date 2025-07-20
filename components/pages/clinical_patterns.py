@@ -1,5 +1,5 @@
 """
-Clinical Patterns page layout and callbacks
+Clinical Patterns page layout and callbacks - Updated with horizontal controls
 """
 
 from dash import html, dcc, callback, Input, Output
@@ -8,7 +8,7 @@ from utils.config import COLORS, STYLE_CARD
 from utils.chart_helpers import create_placeholder_chart, create_clinical_diagnostic_heatmap
 
 def create_layout(table13_df=None):
-    """Create Clinical Patterns page layout"""
+    """Create Clinical Patterns page layout with horizontal controls"""
     return html.Div([
         html.H2("🏥 Clinical Patterns", style={'color': COLORS['success'], 'marginBottom': '30px'}),
         
@@ -20,10 +20,11 @@ def create_layout(table13_df=None):
             html.H3("Clinical Diagnostic Patterns"),
             html.P("Interactive heat map showing how different mental health diagnoses affect various age groups and genders."),
             
-            # Controls
+            # Controls - Arranged horizontally with reduced widths
             html.Div([
+                # Sex Selection - Left column (reduced width)
                 html.Div([
-                    html.Label("Select Sex:", style={'fontWeight': 'bold', 'marginBottom': '5px'}),
+                    html.Label("Select Sex:", style={'fontWeight': 'bold', 'marginBottom': '10px', 'display': 'block'}),
                     dcc.RadioItems(
                         id='clinical-sex-selector',
                         options=[
@@ -32,12 +33,23 @@ def create_layout(table13_df=None):
                             {'label': 'Both Combined', 'value': 'Total'}
                         ],
                         value='Female',
-                        inline=False
+                        inline=False,
+                        style={'marginBottom': '10px'}
                     )
-                ], style={'width': '45%', 'display': 'inline-block', 'marginRight': '10%'}),
+                ], style={
+                    'width': '22%', 
+                    'display': 'inline-block', 
+                    'verticalAlign': 'top',
+                    'marginRight': '2%',
+                    'padding': '10px',
+                    'backgroundColor': '#f8f9fa',
+                    'borderRadius': '5px',
+                    'border': '1px solid #dee2e6'
+                }),
                 
+                # Year Selection - Middle column (reduced width)
                 html.Div([
-                    html.Label("Select Year:", style={'fontWeight': 'bold', 'marginBottom': '5px'}),
+                    html.Label("Select Year:", style={'fontWeight': 'bold', 'marginBottom': '10px', 'display': 'block'}),
                     dcc.RadioItems(
                         id='clinical-year-selector',
                         options=[
@@ -46,31 +58,55 @@ def create_layout(table13_df=None):
                             {'label': '2021-22', 'value': '2021-22'}
                         ],
                         value='2023-24',
-                        inline=False
+                        inline=False,
+                        style={'marginBottom': '10px'}
                     )
-                ], style={'width': '45%', 'display': 'inline-block'})
+                ], style={
+                    'width': '22%', 
+                    'display': 'inline-block', 
+                    'verticalAlign': 'top',
+                    'marginRight': '2%',
+                    'padding': '10px',
+                    'backgroundColor': '#f8f9fa',
+                    'borderRadius': '5px',
+                    'border': '1px solid #dee2e6'
+                }),
                 
-            ], style={'marginBottom': '20px'}),
+                # Diagnosis Selection - Right column (much smaller width)
+                html.Div([
+                    html.Label("Select Diagnosis Categories:", style={'fontWeight': 'bold', 'marginBottom': '10px', 'display': 'block'}),
+                    dcc.Checklist(
+                        id='clinical-diagnosis-filter',
+                        options=[
+                            {'label': 'Neurocognitive disorders', 'value': 'Neurocognitive disorders'},
+                            {'label': 'Substance-related disorders', 'value': 'Substance-related disorders'},
+                            {'label': 'Schizophrenic and psychotic disorders', 'value': 'Schizophrenic and psychotic disorders'},
+                            {'label': 'Mood disorders', 'value': 'Mood disorders'},
+                            {'label': 'Anxiety disorders', 'value': 'Anxiety disorders'},
+                            {'label': 'Personality disorders', 'value': 'Personality disorders'}
+                        ],
+                        value=['Neurocognitive disorders', 'Substance-related disorders', 'Schizophrenic and psychotic disorders', 'Mood disorders', 'Anxiety disorders', 'Personality disorders'],
+                        inline=False,
+                        style={'fontSize': '12px'}  # Smaller font for better fit
+                    )
+                ], style={
+                    'width': '32%', 
+                    'display': 'inline-block', 
+                    'verticalAlign': 'top',
+                    'padding': '8px',
+                    'backgroundColor': '#f8f9fa',
+                    'borderRadius': '5px',
+                    'border': '1px solid #dee2e6'
+                })
+                
+            ], style={
+                'marginBottom': '30px',
+                'display': 'flex',
+                'flexWrap': 'wrap',
+                'gap': '2%'
+            }),  # Added flexbox properties for better horizontal layout
             
-            # Diagnosis filter (without "Other disorders")
-            html.Div([
-                html.Label("Select Diagnosis Categories:", style={'fontWeight': 'bold', 'marginBottom': '5px'}),
-                dcc.Checklist(
-                    id='clinical-diagnosis-filter',
-                    options=[
-                        {'label': 'Neurocognitive disorders', 'value': 'Neurocognitive disorders'},
-                        {'label': 'Substance-related disorders', 'value': 'Substance-related disorders'},
-                        {'label': 'Schizophrenic and psychotic disorders', 'value': 'Schizophrenic and psychotic disorders'},
-                        {'label': 'Mood disorders', 'value': 'Mood disorders'},
-                        {'label': 'Anxiety disorders', 'value': 'Anxiety disorders'},
-                        {'label': 'Personality disorders', 'value': 'Personality disorders'}
-                    ],
-                    value=['Neurocognitive disorders', 'Substance-related disorders', 'Schizophrenic and psychotic disorders', 'Mood disorders', 'Anxiety disorders', 'Personality disorders'],
-                    inline=False,
-                    style={'marginBottom': '20px'}
-                )
-            ]),
-            
+            # Heatmap visualization
             dcc.Graph(
                 id='clinical-heatmap',
                 figure=create_clinical_diagnostic_heatmap('2023-24', 'Female', ['Neurocognitive disorders', 'Substance-related disorders', 'Schizophrenic and psychotic disorders', 'Mood disorders', 'Anxiety disorders', 'Personality disorders'], table13_df) if table13_df is not None and not table13_df.empty else create_placeholder_chart("Clinical Diagnostic Heat Map", height=600)
