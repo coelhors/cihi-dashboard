@@ -681,20 +681,21 @@ def create_income_quintile_contribution_pie(selected_year, table12_df):
         import traceback
         print(f"🔍 Full error traceback:")
         traceback.print_exc()
-def create_clinical_diagnostic_heatmap(selected_year, selected_sex, selected_diagnoses, color_scale, table13_df):
-    """Create clinical diagnostic patterns heat map"""
-    print(f"🔄 Creating clinical diagnostic heatmap for year: {selected_year}, sex: {selected_sex}, scale: {color_scale}")
+def create_clinical_diagnostic_heatmap(selected_year, selected_sex, selected_diagnoses, table13_df):
+    """Create simplified clinical diagnostic patterns heat map"""
+    print(f"🔄 Creating clinical diagnostic heatmap for year: {selected_year}, sex: {selected_sex}")
     
     try:
         if table13_df.empty:
             print("❌ Table 13 DataFrame is empty")
             return create_placeholder_chart("Clinical Diagnostic Patterns - Data not available")
         
-        # Filter data for selected year, sex, and diagnoses
+        # Filter out "Other disorders" from the data
         filtered_df = table13_df[
             (table13_df['Year'] == selected_year) & 
             (table13_df['Sex'] == selected_sex) &
             (table13_df['Diagnosis'].isin(selected_diagnoses)) &
+            (table13_df['Diagnosis'] != 'Other disorders') &  # Exclude "Other disorders"
             (table13_df['Age_Group'] != '5-24')  # Exclude total age group for cleaner heat map
         ].copy()
         
@@ -711,37 +712,17 @@ def create_clinical_diagnostic_heatmap(selected_year, selected_sex, selected_dia
         age_order = ['5-9', '10-14', '15-17', '18-24']
         heatmap_data = heatmap_data.reindex(columns=age_order)
         
-        # Apply color scale transformation if needed
+        # Always use linear scale (simplified)
         display_values = heatmap_data.copy()
-        if color_scale == "Log Scale":
-            # Add small value to avoid log(0)
-            display_values = np.log(heatmap_data + 1)
-            scale_title = "Log(Rate + 1)"
-        elif color_scale == "Percentile Ranking":
-            # Convert to percentile rankings
-            display_values = heatmap_data.rank(pct=True) * 100
-            scale_title = "Percentile Rank"
-        elif color_scale == "Z-Score Normalization":
-            # Standardize across all values
-            flat_values = heatmap_data.values.flatten()
-            flat_values = flat_values[~np.isnan(flat_values)]
-            mean_val = np.mean(flat_values)
-            std_val = np.std(flat_values)
-            display_values = (heatmap_data - mean_val) / std_val
-            scale_title = "Z-Score"
-        else:  # Linear Scale
-            scale_title = "Rate per 100,000"
+        scale_title = "Rate per 100,000"
         
-        # Create custom color scale
-        if color_scale == "Z-Score Normalization":
-            colorscale = 'RdBu_r'  # Diverging scale for z-scores
-        else:
-            colorscale = [[0, '#E3F2FD'],    # Light blue (low)
-                         [0.2, '#81D4FA'],   # Blue
-                         [0.4, '#FFF59D'],   # Yellow
-                         [0.6, '#FFB74D'],   # Orange
-                         [0.8, '#FF7043'],   # Red-orange
-                         [1.0, '#D32F2F']]   # Dark red (high)
+        # Create custom color scale (blue to red)
+        colorscale = [[0, '#E3F2FD'],    # Light blue (low)
+                     [0.2, '#81D4FA'],   # Blue
+                     [0.4, '#FFF59D'],   # Yellow
+                     [0.6, '#FFB74D'],   # Orange
+                     [0.8, '#FF7043'],   # Red-orange
+                     [1.0, '#D32F2F']]   # Dark red (high)
         
         # Create heat map
         fig = go.Figure(data=go.Heatmap(

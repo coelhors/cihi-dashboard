@@ -34,7 +34,7 @@ def create_layout(table13_df=None):
                         value='Female',
                         inline=True
                     )
-                ], style={'width': '30%', 'display': 'inline-block', 'marginRight': '5%'}),
+                ], style={'width': '40%', 'display': 'inline-block', 'marginRight': '5%'}),
                 
                 html.Div([
                     html.Label("Select Year:", style={'fontWeight': 'bold', 'marginBottom': '5px'}),
@@ -49,27 +49,11 @@ def create_layout(table13_df=None):
                         clearable=False,
                         placeholder="Select year"
                     )
-                ], style={'width': '25%', 'display': 'inline-block', 'marginRight': '5%'}),
-                
-                html.Div([
-                    html.Label("Color Scale:", style={'fontWeight': 'bold', 'marginBottom': '5px'}),
-                    dcc.Dropdown(
-                        id='clinical-color-scale',
-                        options=[
-                            {'label': 'Linear Scale', 'value': 'Linear Scale'},
-                            {'label': 'Log Scale', 'value': 'Log Scale'},
-                            {'label': 'Percentile Ranking', 'value': 'Percentile Ranking'},
-                            {'label': 'Z-Score Normalization', 'value': 'Z-Score Normalization'}
-                        ],
-                        value='Linear Scale',
-                        clearable=False,
-                        placeholder="Select scale"
-                    )
-                ], style={'width': '35%', 'display': 'inline-block'})
+                ], style={'width': '55%', 'display': 'inline-block'})
                 
             ], style={'marginBottom': '20px'}),
             
-            # Diagnosis filter
+            # Diagnosis filter (without "Other disorders")
             html.Div([
                 html.Label("Select Diagnosis Categories:", style={'fontWeight': 'bold', 'marginBottom': '5px'}),
                 dcc.Checklist(
@@ -80,10 +64,9 @@ def create_layout(table13_df=None):
                         {'label': 'Schizophrenic and psychotic disorders', 'value': 'Schizophrenic and psychotic disorders'},
                         {'label': 'Mood disorders', 'value': 'Mood disorders'},
                         {'label': 'Anxiety disorders', 'value': 'Anxiety disorders'},
-                        {'label': 'Personality disorders', 'value': 'Personality disorders'},
-                        {'label': 'Other disorders', 'value': 'Other disorders'}
+                        {'label': 'Personality disorders', 'value': 'Personality disorders'}
                     ],
-                    value=['Mood disorders', 'Anxiety disorders', 'Substance-related disorders', 'Personality disorders', 'Other disorders'],
+                    value=['Neurocognitive disorders', 'Substance-related disorders', 'Schizophrenic and psychotic disorders', 'Mood disorders', 'Anxiety disorders', 'Personality disorders'],
                     inline=True,
                     style={'marginBottom': '20px'}
                 )
@@ -91,20 +74,8 @@ def create_layout(table13_df=None):
             
             dcc.Graph(
                 id='clinical-heatmap',
-                figure=create_clinical_diagnostic_heatmap('2023-24', 'Female', ['Mood disorders', 'Anxiety disorders', 'Substance-related disorders', 'Personality disorders', 'Other disorders'], 'Linear Scale', table13_df) if table13_df is not None and not table13_df.empty else create_placeholder_chart("Clinical Diagnostic Heat Map", height=600)
+                figure=create_clinical_diagnostic_heatmap('2023-24', 'Female', ['Neurocognitive disorders', 'Substance-related disorders', 'Schizophrenic and psychotic disorders', 'Mood disorders', 'Anxiety disorders', 'Personality disorders'], table13_df) if table13_df is not None and not table13_df.empty else create_placeholder_chart("Clinical Diagnostic Heat Map", height=600)
             )
-        ], style=STYLE_CARD),
-        
-        # Clinical insights section
-        html.Div([
-            html.H4("Clinical Pattern Insights"),
-            html.Ul([
-                html.Li("Eating disorders (in Other disorders) peak dramatically in adolescent females"),
-                html.Li("Substance-related disorders more common in young adults, especially males"),
-                html.Li("Mood disorders show consistent gender differences across all age groups"),
-                html.Li("Different conditions emerge at different developmental stages"),
-                html.Li("Gender toggle reveals striking male-female differences in diagnostic patterns")
-            ])
         ], style=STYLE_CARD)
     ])
 
@@ -115,12 +86,11 @@ def register_callbacks(app, table13_df=None):
         Output('clinical-heatmap', 'figure'),
         [Input('clinical-year-selector', 'value'),
          Input('clinical-sex-selector', 'value'),
-         Input('clinical-diagnosis-filter', 'value'),
-         Input('clinical-color-scale', 'value')]
+         Input('clinical-diagnosis-filter', 'value')]
     )
-    def update_clinical_heatmap(selected_year, selected_sex, selected_diagnoses, color_scale):
+    def update_clinical_heatmap(selected_year, selected_sex, selected_diagnoses):
         """Update clinical heatmap based on selections"""
-        print(f"🔄 Clinical heatmap callback triggered with year: {selected_year}, sex: {selected_sex}, diagnoses: {len(selected_diagnoses) if selected_diagnoses else 0}, scale: {color_scale}")
+        print(f"🔄 Clinical heatmap callback triggered with year: {selected_year}, sex: {selected_sex}, diagnoses: {len(selected_diagnoses) if selected_diagnoses else 0}")
         
         try:
             if not selected_year:
@@ -135,15 +105,11 @@ def register_callbacks(app, table13_df=None):
                 selected_diagnoses = ['Mood disorders', 'Anxiety disorders', 'Substance-related disorders']
                 print(f"⚠️ No diagnoses selected, defaulting to: {selected_diagnoses}")
             
-            if not color_scale:
-                color_scale = 'Linear Scale'
-                print(f"⚠️ No color scale selected, defaulting to: {color_scale}")
-            
             if table13_df is None or table13_df.empty:
                 print("⚠️ Table 13 DataFrame is empty, showing placeholder")
                 return create_placeholder_chart("Clinical diagnostic data not available - please check data files")
             
-            result = create_clinical_diagnostic_heatmap(selected_year, selected_sex, selected_diagnoses, color_scale, table13_df)
+            result = create_clinical_diagnostic_heatmap(selected_year, selected_sex, selected_diagnoses, table13_df)
             print("✅ Clinical heatmap callback completed successfully")
             return result
             
