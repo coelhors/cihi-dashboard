@@ -13,38 +13,12 @@ COLORS = {
     'text': '#212529'
 }
 
-# Styling configurations
-STYLE_SIDEBAR = {
-    'position': 'fixed',
-    'top': 0,
-    'left': 0,
-    'bottom': 0,
-    'width': '250px',
-    'padding': '20px',
-    'backgroundColor': COLORS['primary'],
-    'color': 'white'
-}
-
+# Enhanced styling configurations
 STYLE_CONTENT = {
-    'marginLeft': '270px',
+    'marginLeft': '300px',  # Increased for wider sidebar
     'padding': '20px',
     'backgroundColor': COLORS['background'],
     'minHeight': '100vh'
-}
-
-STYLE_NAV_BUTTON = {
-    'display': 'block',
-    'width': '100%',
-    'padding': '20px',
-    'margin': '8px 0',
-    'backgroundColor': 'transparent',
-    'color': 'white',
-    'border': '1px solid white',
-    'borderRadius': '5px',
-    'textDecoration': 'none',
-    'textAlign': 'center',
-    'fontSize': '18px',
-    'cursor': 'pointer'
 }
 
 STYLE_CARD = {
@@ -55,6 +29,41 @@ STYLE_CARD = {
     'margin': '20px 0',
     'boxShadow': '0 2px 4px rgba(0,0,0,0.1)'
 }
+
+# Enhanced navigation button styles with better contrast
+STYLE_NAV_BUTTON_BASE = {
+    'display': 'flex',
+    'alignItems': 'center',
+    'padding': '16px 24px',
+    'borderRadius': '12px',
+    'transition': 'all 0.3s ease',
+    'margin': '0 16px 8px 16px',
+    'backgroundColor': 'transparent',
+    'border': '2px solid transparent',
+    'color': 'white',
+    'textDecoration': 'none',
+    'fontSize': '15px',
+    'fontWeight': '600'
+}
+
+STYLE_NAV_BUTTON_ACTIVE = {
+    'display': 'flex',
+    'alignItems': 'center',
+    'padding': '16px 24px',
+    'borderRadius': '12px',
+    'transition': 'all 0.3s ease',
+    'margin': '0 16px 8px 16px',
+    'backgroundColor': 'white',
+    'border': '2px solid #FFD700',
+    'color': COLORS['primary'],
+    'textDecoration': 'none',
+    'fontSize': '15px',
+    'fontWeight': '700',
+    'boxShadow': '0 4px 12px rgba(0, 0, 0, 0.2)'
+}
+
+# Legacy style for backward compatibility
+STYLE_NAV_BUTTON = STYLE_NAV_BUTTON_BASE
 
 # Data configuration
 DATA_FILES = {

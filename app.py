@@ -1,6 +1,6 @@
 """
 CIHI Mental Health Dashboard
-Main application entry point - modular version
+Main application entry point - modular version with enhanced sidebar
 """
 
 import dash
@@ -8,7 +8,7 @@ from dash import dcc, html, callback, Input, Output
 import sys
 
 # Import our modular components
-from utils.config import STYLE_CONTENT, STYLE_NAV_BUTTON, COLORS
+from utils.config import STYLE_CONTENT, STYLE_NAV_BUTTON_BASE, STYLE_NAV_BUTTON_ACTIVE, COLORS
 from utils.data_loader import load_table3_data, load_table4_data, load_table10_data, load_table11_data, load_table12_data, load_table13_data, combine_mental_health_other_data
 from components.sidebar import create_sidebar
 # Import page modules directly to avoid circular imports
@@ -86,14 +86,14 @@ else:
 
 print("=" * 60)
 
-# Main app layout
+# Main app layout with enhanced sidebar
 app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
     
-    # Sidebar navigation
+    # Enhanced sidebar navigation
     create_sidebar(),
     
-    # Main content area
+    # Main content area with updated margin
     html.Div(id='page-content', style=STYLE_CONTENT)
 ])
 
@@ -119,32 +119,60 @@ def display_page(pathname):
     else:  # Default to provincial overview
         return provincial_layout(TABLE3_DF, COMBINED_DF)
 
-# Navigation highlighting callback
+# Enhanced navigation highlighting callback
 @app.callback(
-    [Output('nav-provincial', 'style'),
-     Output('nav-demographics', 'style'),
-     Output('nav-equity', 'style'),
-     Output('nav-clinical', 'style')],
+    [Output('nav-provincial', 'children'),
+     Output('nav-demographics', 'children'),
+     Output('nav-equity', 'children'),
+     Output('nav-clinical', 'children')],
     [Input('url', 'pathname')]
 )
 def update_nav_styles(pathname):
     """Update navigation button styles based on active page"""
-    base_style = STYLE_NAV_BUTTON.copy()
-    active_style = STYLE_NAV_BUTTON.copy()
-    active_style.update({
-        'backgroundColor': 'white',
-        'color': COLORS['primary'],
-        'fontWeight': 'bold'
-    })
     
+    def create_nav_item(icon_class, text, is_active=False):
+        """Helper function to create navigation item with proper styling"""
+        style = STYLE_NAV_BUTTON_ACTIVE if is_active else STYLE_NAV_BUTTON_BASE
+        
+        return html.Div([
+            html.I(className=icon_class, style={
+                'fontSize': '16px',
+                'marginRight': '12px',
+                'width': '20px',
+                'textAlign': 'center'
+            }),
+            html.Span(text, style={'fontSize': '14px', 'fontWeight': '500'})
+        ], style=style)
+    
+    # Determine which page is active and style accordingly
     if pathname == '/demographics':
-        return base_style, active_style, base_style, base_style
+        return (
+            create_nav_item("fas fa-chart-line", "Provincial Overview", False),
+            create_nav_item("fas fa-users", "Demographics", True),
+            create_nav_item("fas fa-balance-scale", "Health Equity", False),
+            create_nav_item("fas fa-th", "Clinical Patterns", False)
+        )
     elif pathname == '/equity':
-        return base_style, base_style, active_style, base_style
+        return (
+            create_nav_item("fas fa-chart-line", "Provincial Overview", False),
+            create_nav_item("fas fa-users", "Demographics", False),
+            create_nav_item("fas fa-balance-scale", "Health Equity", True),
+            create_nav_item("fas fa-th", "Clinical Patterns", False)
+        )
     elif pathname == '/clinical':
-        return base_style, base_style, base_style, active_style
+        return (
+            create_nav_item("fas fa-chart-line", "Provincial Overview", False),
+            create_nav_item("fas fa-users", "Demographics", False),
+            create_nav_item("fas fa-balance-scale", "Health Equity", False),
+            create_nav_item("fas fa-th", "Clinical Patterns", True)
+        )
     else:  # Provincial overview (default)
-        return active_style, base_style, base_style, base_style
+        return (
+            create_nav_item("fas fa-chart-line", "Provincial Overview", True),
+            create_nav_item("fas fa-users", "Demographics", False),
+            create_nav_item("fas fa-balance-scale", "Health Equity", False),
+            create_nav_item("fas fa-th", "Clinical Patterns", False)
+        )
 
 # Run the app
 if __name__ == '__main__':
@@ -152,6 +180,7 @@ if __name__ == '__main__':
     print(f"📊 Dashboard will be available at: http://localhost:8050")
     print(f"📄 Pages: Provincial Overview, Demographics, Health Equity, Clinical Patterns")
     print(f"🧩 Modular architecture: components, utils, pages")
+    print(f"✨ Enhanced UI: Modern sidebar with professional styling")
     
     try:
         app.run(debug=True, dev_tools_hot_reload=False, dev_tools_ui=True)
