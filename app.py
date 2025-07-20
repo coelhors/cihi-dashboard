@@ -154,7 +154,7 @@ if __name__ == '__main__':
     print(f"🧩 Modular architecture: components, utils, pages")
     
     try:
-        app.run(debug=False, dev_tools_hot_reload=False, dev_tools_ui=True)
+        app.run(debug=True, dev_tools_hot_reload=False, dev_tools_ui=True)
     except Exception as e:
         print(f"\n❌ CRITICAL ERROR starting app: {e}")
         import traceback

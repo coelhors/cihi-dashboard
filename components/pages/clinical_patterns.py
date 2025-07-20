@@ -32,13 +32,13 @@ def create_layout(table13_df=None):
                             {'label': 'Both Combined', 'value': 'Total'}
                         ],
                         value='Female',
-                        inline=True
+                        inline=False
                     )
-                ], style={'width': '40%', 'display': 'inline-block', 'marginRight': '5%'}),
+                ], style={'width': '45%', 'display': 'inline-block', 'marginRight': '10%'}),
                 
                 html.Div([
                     html.Label("Select Year:", style={'fontWeight': 'bold', 'marginBottom': '5px'}),
-                    dcc.Dropdown(
+                    dcc.RadioItems(
                         id='clinical-year-selector',
                         options=[
                             {'label': '2023-24', 'value': '2023-24'},
@@ -46,10 +46,9 @@ def create_layout(table13_df=None):
                             {'label': '2021-22', 'value': '2021-22'}
                         ],
                         value='2023-24',
-                        clearable=False,
-                        placeholder="Select year"
+                        inline=False
                     )
-                ], style={'width': '55%', 'display': 'inline-block'})
+                ], style={'width': '45%', 'display': 'inline-block'})
                 
             ], style={'marginBottom': '20px'}),
             
@@ -67,7 +66,7 @@ def create_layout(table13_df=None):
                         {'label': 'Personality disorders', 'value': 'Personality disorders'}
                     ],
                     value=['Neurocognitive disorders', 'Substance-related disorders', 'Schizophrenic and psychotic disorders', 'Mood disorders', 'Anxiety disorders', 'Personality disorders'],
-                    inline=True,
+                    inline=False,
                     style={'marginBottom': '20px'}
                 )
             ]),
