@@ -12,6 +12,9 @@ def create_layout(table10_df=None):
     return html.Div([
         html.H2("👥 Demographics", style={'color': COLORS['secondary'], 'marginBottom': '30px'}),
         
+        html.P("Analyze age and gender patterns in youth mental health hospitalizations to understand demographic vulnerabilities and trends.", 
+               style={'fontSize': '18px', 'marginBottom': '30px'}),
+        
         # Visual Element 4: Age and Gender Patterns
         html.Div([
             html.H3("Age and Gender Patterns"),
